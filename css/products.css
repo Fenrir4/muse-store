@@ -1,0 +1,21 @@
+.products-section { padding: 80px 5%; background: var(--bg-white); }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 30px; }
+.product-card { background: #fff; padding: 20px; transition: 0.3s; border: 1px solid transparent; }
+.product-card:hover { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+.product-img { width: 100%; height: 320px; object-fit: cover; margin-bottom: 15px; background-color: var(--bg-light); }
+.brand-name { font-size: 11px; color: var(--text-gray); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; margin-bottom: 5px;}
+.product-title { font-size: 18px; margin-bottom: 15px; font-weight: 500; color: var(--primary-color); }
+
+/* Кнопки об'єму */
+.volume-selector { display: flex; gap: 6px; margin-bottom: 15px; flex-wrap: wrap;}
+.vol-btn {
+    border: 1px solid #eee; background: transparent;
+    padding: 6px 10px; font-size: 11px; cursor: pointer; transition: 0.2s;
+    color: var(--text-gray);
+}
+.vol-btn:hover, .vol-btn.active { border-color: var(--accent-color); background: var(--accent-color); color: #fff; }
+
+.price-row { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--bg-light); }
+.price { font-size: 20px; font-weight: 600; color: var(--primary-color); }
+.add-btn { font-size: 24px; cursor: pointer; color: var(--accent-color); transition: 0.3s;}
+.add-btn:hover { color: var(--primary-color); }

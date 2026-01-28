@@ -1,0 +1,44 @@
+:root {
+    /* ПАЛІТРА (Темний верх/низ + Світла середина) */
+    --primary-color: #222222; 
+    --dark-blue: #050a14;     
+    --accent-color: #D4AF37;  
+    --bg-white: #ffffff;      
+    --bg-light: #f8f9fa;      
+    --text-gray: #666666;     
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--bg-white);
+    line-height: 1.6;
+    padding-top: 80px; /* Відступ під фіксовану шапку */
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* ЗАГАЛЬНА КНОПКА (використовується всюди) */
+.btn {
+    display: inline-block; padding: 16px 40px;
+    background: var(--accent-color); color: #fff;
+    text-transform: uppercase; font-size: 13px; letter-spacing: 2px; font-weight: 600;
+    cursor: pointer; border: none; border-radius: 2px; transition: 0.3s;
+    margin-top: 10px;
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+}
+.btn:hover { 
+    background: var(--dark-blue);
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ЗАГОЛОВКИ СЕКЦІЙ */
+.section-title { 
+    text-align: center; margin-bottom: 40px; 
+    font-size: 30px; font-weight: 400; 
+    color: var(--primary-color); letter-spacing: -0.5px; 
+}

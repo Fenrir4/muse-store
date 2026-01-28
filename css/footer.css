@@ -1,0 +1,24 @@
+.site-footer {
+    background-color: var(--dark-blue);
+    color: #fff;
+    padding-top: 60px; font-size: 13px;
+    border-top: 3px solid var(--accent-color);
+}
+.footer-container {
+    max-width: 1200px; margin: 0 auto; padding: 0 5%;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-bottom: 40px;
+}
+.footer-logo { font-size: 20px; font-weight: 700; color: var(--accent-color); margin-bottom: 15px; text-transform: uppercase; }
+.footer-col h4 { font-size: 14px; text-transform: uppercase; margin-bottom: 20px; color: var(--accent-color); letter-spacing: 1px; font-weight: 600; }
+.footer-desc { color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 20px; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul li a { color: rgba(255,255,255,0.7); transition: 0.3s; }
+.footer-col ul li a:hover { color: var(--accent-color); padding-left: 3px; }
+.social-links a { color: #fff; font-weight: 600; margin-right: 15px; }
+.social-links a:hover { color: var(--accent-color); }
+
+.footer-bottom {
+    background-color: #02040a;
+    padding: 20px 5%; text-align: center;
+    color: rgba(255,255,255,0.4); font-size: 11px;
+}
