@@ -3,16 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 MILLILITER | Niche Perfumery</title>
+    <title>Доставка та оплата | 1 MILLILITER</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/hero.css">
-    <link rel="stylesheet" href="css/sections.css"> 
-    <link rel="stylesheet" href="css/products.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/pages.css">
 </head>
 <body>
 
@@ -21,71 +18,72 @@
         <nav>
             <ul class="nav-links">
                 <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="catalog.html">Бренди</a></li> 
+                <li><a href="catalog.html">Бренди</a></li>
                 <li><a href="delivery.html">Доставка</a></li>
                 <li><a href="about.html">Про нас</a></li>
             </ul>
         </nav>
         <div class="burger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
+            <div class="line1"></div><div class="line2"></div><div class="line3"></div>
         </div>
         <div class="user-actions">
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Пошук аромату..." autocomplete="off">
-                <div class="search-icon-small">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"/>
-                    </svg>
-                </div>
-                <div id="search-dropdown" class="search-dropdown"></div>
-            </div>
-
             <div class="cart-btn">
-                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="cart-count">0</span>
             </div>
         </div>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Мистецтво аромату</h1>
-                <p>Оригінальна нішева парфумерія. Розпив від 1 мл. Знайди своє "Я" без зайвих витрат.</p>
-                <a href="catalog.html" class="btn">ПЕРЕЙТИ ДО КАТАЛОГУ</a>
-            </div>
-        
-            <div class="hero-carousel">
-                <div class="carousel-slides">
-                    <img src="https://images.unsplash.com/photo-1592914610354-fd354ea45e48?q=80&w=1200&auto=format&fit=crop" alt="Parfum 1" class="carousel-slide active">
-                    <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=1200&auto=format&fit=crop" alt="Parfum 2" class="carousel-slide">
-                    <img src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?q=80&w=1200&auto=format&fit=crop" alt="Parfum 3" class="carousel-slide">
-                </div>
-            </div>
-        </section>
-        
-        <div class="brands-section">
-            <div class="brands-title">Тільки оригінальні бренди</div>
-            <div class="brands-row">
-                <span class="brand-logo">Tom Ford</span>
-                <span class="brand-logo">Kilian</span>
-                <span class="brand-logo">Creed</span>
-                <span class="brand-logo">Roja</span>
-                <span class="brand-logo">Ex Nihilo</span>
-                <span class="brand-logo">Dior</span>
-            </div>
+    <main class="page-container">
+        <div class="page-hero">
+            <h1 class="page-title">Сервіс та Логістика</h1>
         </div>
         
-        <section class="products-section">
-          <h2 class="section-title">Бестселери</h2>
-          <div class="products-grid" id="catalog-grid"></div>
-        </section>
+        <div class="lead-text">
+             <p>Ми розуміємо ваше бажання. Шлях від замовлення до першого "пшику" має бути максимально коротким, безпечним та приємним.</p>
+        </div>
+
+        <div class="page-content">
+            
+            <h3>Способи Оплати</h3>
+            <div class="icon-grid">
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" /></svg>
+                    <h4>Онлайн-оплата</h4>
+                    <p>Миттєво та безпечно через WayForPay (Visa/Mastercard, Apple Pay, Google Pay). Без прихованих комісій.</p>
+                </div>
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" /></svg>
+                    <h4>Переказ на карту</h4>
+                    <p>Прямий переказ на реквізити Monobank або ПриватБанк. Реквізити надійшле менеджер після підтвердження.</p>
+                </div>
+                <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <h4>Накладений платіж</h4>
+                    <p>Оплата при отриманні на Новій Пошті. <em>(Потрібна мінімальна передоплата 150 грн як гарантія).</em></p>
+                </div>
+            </div>
+
+            <h3>Доставка Новою Поштою</h3>
+            <div class="icon-grid">
+                 <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0" /></svg>
+                    <h4>Швидкість</h4>
+                    <p>Відправка протягом 24 годин. Зазвичай ви отримуєте посилку вже наступного дня у своєму місті.</p>
+                </div>
+                 <div class="icon-box">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
+                    <h4>Надійне пакування</h4>
+                    <p>Багатошаровий захист: пухирчаста плівка, ущільнювач та фірмова жорстка коробка. Скло доїде цілим.</p>
+                </div>
+            </div>
+            
+            <div class="quote-block" style="text-align: center; font-style: normal; font-weight: 500;">
+                🎁 <strong>Безкоштовна доставка</strong> для всіх замовлень на суму від 2500 грн.
+            </div>
+        </div>
     </main>
-    
+
     <footer class="site-footer">
         <div class="footer-container">
             
@@ -157,51 +155,13 @@
             <p>Created by Fenrir Dev</p>
         </div>
     </footer>
+
+    <div class="cart-overlay"><div class="cart-modal"><div class="cart-header"><h3>Твій кошик</h3><span class="close-cart">&times;</span></div><div class="cart-items"></div><div class="cart-footer"><div class="cart-total"><h3>Разом: <span class="total-price">0 ₴</span></h3></div><button class="btn checkout-btn">Оформити замовлення</button></div></div></div>
     
-    <div class="cart-overlay">
-        <div class="cart-modal">
-            
-            <div class="cart-header">
-                <h3>Твій кошик</h3>
-                <span class="close-cart">&times;</span>
-            </div>
-
-            <div class="cart-items">
-                <p class="empty-msg">Кошик поки що порожній...</p>
-            </div>
-
-            <div class="cart-footer">
-                <div class="cart-total">
-                    <h3>Разом: <span class="total-price">0 ₴</span></h3>
-                </div>
-                <button class="btn checkout-btn">Оформити замовлення</button>
-            </div>
-
-        </div>
-    </div>
-
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-<script>
-  // Твоя конфігурація
-  const firebaseConfig = {
-    apiKey: "AIzaSyCn8FeDaouYV-tXRn9RNG2os-2A89OXscY",
-    authDomain: "milliliter-shop.firebaseapp.com",
-    databaseURL: "https://milliliter-shop-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "milliliter-shop",
-    storageBucket: "milliliter-shop.firebasestorage.app",
-    messagingSenderId: "799244023149",
-    appId: "1:799244023149:web:cfbafca4f1c2c028205664"
-  };
-
-  // Ініціалізація
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
-
-<script src="js/config.js"></script>
-<script src="js/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>

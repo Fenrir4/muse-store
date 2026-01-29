@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оформлення замовлення | 1 MILLILITER</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <style>
+        /* Стилі спеціально для чекауту */
+        .checkout-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr; /* Ліва частина ширша, права вужча */
+            gap: 60px;
+            margin-top: 40px;
+        }
+        .checkout-form-block h3, .order-summary h3 {
+            font-size: 20px; text-transform: uppercase; margin-bottom: 25px;
+            border-bottom: 1px solid #eee; padding-bottom: 15px; color: var(--primary-color);
+        }
+        
+        /* Форма */
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; text-transform: uppercase; color: #555; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 14px; border: 1px solid #ddd; border-radius: 4px;
+            font-family: 'Montserrat', sans-serif; font-size: 14px; transition: 0.3s;
+        }
+        .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-color); outline: none; }
+        
+        /* Права колонка (Чек) */
+        .order-summary {
+            background: #f9f9f9; padding: 30px; border-radius: 4px; height: fit-content;
+            border: 1px solid #eee;
+        }
+        .summary-item {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        .summary-item img { width: 50px; height: 60px; object-fit: cover; border-radius: 3px; margin-right: 15px; }
+        .summary-info { flex: 1; }
+        .summary-title { font-weight: 600; margin-bottom: 4px; }
+        .summary-vol { font-size: 12px; color: #777; }
+        .summary-price { font-weight: 600; }
+        
+        .total-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 20px; font-size: 22px; font-weight: 700; color: var(--primary-color);
+        }
+        .submit-order-btn { width: 100%; margin-top: 25px; padding: 18px; font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .checkout-container { grid-template-columns: 1fr; gap: 40px; }
+            .order-summary { order: -1; /* На мобільному чек показуємо зверху або знизу, як хочеш */ }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">1 MILLILITER</a></div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="catalog.html">Каталог</a></li>
+                <li><a href="catalog.html">Бренди</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="about.html">Про нас</a></li>
+            </ul>
+        </nav>
+        <div class="burger">
+            <div class="line1"></div><div class="line2"></div><div class="line3"></div>
+        </div>
+        <div class="user-actions">
+            <div class="cart-btn">
+                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-container">
+        <div class="page-hero">
+            <h1 class="page-title">Оформлення замовлення</h1>
+        </div>
+
+        <form id="checkout-form" class="checkout-container">
+            
+            <div class="checkout-form-block">
+                <h3>1. Контактні дані</h3>
+                <div class="form-group">
+                    <label>Ваше ім'я та прізвище</label>
+                    <input type="text" id="client-name" placeholder="Іван Петренко" required>
+                </div>
+                <div class="form-group">
+                    <label>Номер телефону</label>
+                    <input type="tel" id="client-phone" placeholder="+38 0XX XXX XX XX" required>
+                </div>
+
+                <h3>2. Доставка та Оплата</h3>
+                <div class="form-group">
+                    <label>Спосіб доставки</label>
+                    <select id="delivery-method">
+                        <option value="nova_poshta">Нова Пошта (на відділення)</option>
+                        </select>
+                </div>
+                <div class="form-group">
+                    <label>Місто та Відділення НП</label>
+                    <input type="text" id="client-city" placeholder="Київ, відділення №15" required>
+                </div>
+                <div class="form-group">
+                    <label>Коментар до замовлення</label>
+                    <textarea id="client-comment" rows="3" placeholder="Додаткові побажання..."></textarea>
+                </div>
+            </div>
+
+            <div class="order-summary">
+                <h3>Ваше замовлення</h3>
+                
+                <div id="checkout-items-list">
+                    </div>
+
+                <div class="total-row">
+                    <span>Разом:</span>
+                    <span id="checkout-total">0 ₴</span>
+                </div>
+
+                <button type="submit" class="btn submit-order-btn">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
+                <p style="font-size: 11px; color: #888; margin-top: 15px; text-align: center;">
+                    Натискаючи кнопку, ви погоджуєтесь з умовами <a href="offer.html" style="text-decoration: underline;">публічної оферти</a>.
+                </p>
+            </div>
+
+        </form>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            
+            <div class="footer-col">
+                <div class="footer-logo">1 MILLILITER</div>
+                <p class="footer-desc">
+                    Твій провідник у світ нішевої парфумерії. 
+                    Оригінали. Розпив від 1 мл. 
+                    Ми робимо розкіш доступною.
+                </p>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="Telegram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
+                            <path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/>
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="TikTok">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+                            <path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Магазин</h4>
+                <ul>
+                    <li><a href="catalog.html">Каталог</a></li>
+                    <li><a href="#">Новинки</a></li>
+                    <li><a href="#">Бренди</a></li>
+                    <li><a href="#">Подарункові сертифікати</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Клієнтам</h4>
+                <ul>
+                   <li><a href="about.html">Про нас</a></li>
+                    <li><a href="delivery.html">Доставка та оплата</a></li>
+                    <li><a href="return.html">Повернення товару</a></li>
+                    <li><a href="faq.html">Питання (FAQ)</a></li>
+                    <li><a href="offer.html">Договір оферти</a></li> </ul>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Контакти</h4>
+                <ul>
+                    <li><a href="tel:+380990000000">+38 (099) 000-00-00</a></li>
+                    <li><a href="mailto:info@1milliliter.com">info@1milliliter.com</a></li>
+                    <li class="work-hours">Пн-Нд: 10:00 - 20:00</li>
+                </ul>
+                <div class="payment-icons">
+                    <span>Visa</span> | <span>Mastercard</span> | <span>Mono</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 1 MILLILITER. Всі права захищено.</p>
+            <p>Created by Fenrir Dev</p>
+        </div>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+
+</body>
+</html>

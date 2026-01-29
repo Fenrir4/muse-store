@@ -58,10 +58,11 @@
     <header>
         <div class="logo"><a href="index.html">1 MILLILITER</a></div>
         <nav>
-            <ul class="nav-links">
+            <ul class="scrolled">
                 <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="#">Бренди</a></li>
-                <li><a href="#">Про нас</a></li>
+                <li><a href="catalog.html">Бренди</a></li> 
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="about.html">Про нас</a></li>
             </ul>
         </nav>
         <div class="burger">
@@ -143,9 +144,12 @@
             <div class="footer-col">
                 <h4>Клієнтам</h4>
                 <ul>
-                    <li><a href="#">Про нас</a></li>
-                    <li><a href="#">Доставка</a></li>
-                    <li><a href="#">Питання (FAQ)</a></li>
+                    <ul>
+                    <li><a href="about.html">Про нас</a></li>
+                    <li><a href="delivery.html">Доставка та оплата</a></li>
+                    <li><a href="return.html">Повернення товару</a></li>
+                    <li><a href="faq.html">Питання (FAQ)</a></li>
+                    <li><a href="offer.html">Договір оферти</a></li> </ul>
                 </ul>
             </div>
 
@@ -175,17 +179,7 @@
         </div>
     </div>
 
-    <div class="checkout-overlay">
-        <div class="checkout-modal">
-            <span class="close-checkout">&times;</span>
-            <form id="order-form">
-                <input type="text" id="client-name" placeholder="Ім'я" required>
-                <input type="tel" id="client-phone" placeholder="Телефон" required>
-                <textarea id="client-comment" placeholder="Коментар"></textarea>
-                <button type="submit" class="btn submit-order-btn">Замовити</button>
-            </form>
-        </div>
-    </div>
+    
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -207,6 +201,7 @@
   const db = firebase.database();
 </script>
 
+<script src="js/config.js"></script>
 <script src="js/main.js"></script>
 
 </body>

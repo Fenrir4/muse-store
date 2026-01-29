@@ -1,17 +1,61 @@
 header {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 15px 5%;
-    background: rgba(5, 10, 20, 0.95); /* Темно-синій */
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 20px 5%;
+    
+    /* СТАРТОВИЙ СТАН: Прозорий фон, але ТЕМНИЙ текст */
+    background: transparent; 
+    border-bottom: 1px solid transparent;
     position: fixed; top: 0; left: 0; width: 100%; z-index: 9999;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    transition: all 0.4s ease;
 }
 
-.logo { 
-    font-size: 22px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; 
-    color: var(--accent-color) !important;
-    text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+/* --- 2. СТАН ПРИ СКРОЛІ (ТЕМНИЙ ФОН + БІЛИЙ ТЕКСТ) --- */
+header.scrolled {
+    padding: 15px 5%;
+    background: rgba(5, 10, 20, 0.95); /* Темний фон */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
 }
+
+/* Колір елементів КОЛИ ХЕДЕР ТЕМНИЙ (Білий) */
+header.scrolled .nav-links a { color: #fff; }
+header.scrolled .icon-search, 
+header.scrolled .icon-bag { color: #fff; }
+header.scrolled .search-icon-small svg { stroke: #fff; }
+header.scrolled #search-input { color: #fff; border-color: rgba(255,255,255,0.2); }
+header.scrolled #search-input::placeholder { color: rgba(255,255,255,0.5); }
+
+/* Колір посилань і іконок КОЛИ ХЕДЕР ПРОЗОРИЙ (Темний) */
+.nav-links a { 
+    color: var(--primary-color); /* Темний колір тексту */
+    font-weight: 600; 
+}
+.icon-search, .icon-bag { 
+    color: var(--primary-color); /* Темні іконки */
+}
+.search-icon-small svg {
+    stroke: var(--primary-color);
+}
+#search-input {
+    color: var(--primary-color);
+    border-color: rgba(0,0,0,0.2);
+}
+#search-input::placeholder { color: rgba(0,0,0,0.5); }
+
+/* --- 3. ЛОГОТИП (АДАПТИВНІСТЬ) --- */
+.logo { 
+    font-size: 22px; 
+    font-weight: 700; 
+    letter-spacing: 2px; 
+    text-transform: uppercase; 
+    color: var(--accent-color) !important; /* Золотий завжди */
+    text-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+    
+    /* Заборона переносу слів */
+    white-space: nowrap; 
+}
+.logo a { text-decoration: none; color: inherit; }
 
 .nav-links { display: flex; gap: 30px; }
 .nav-links a { color: rgba(255, 255, 255, 0.8); font-size: 14px; font-weight: 500; }
@@ -122,3 +166,132 @@ header {
 }
 .form-group input:focus, .form-group textarea:focus { border-color: var(--accent-color); outline: none; }
 .submit-order-btn { width: 100%; margin-top: 10px; }
+
+/* --- user-actions --- */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Відстань між пошуком і кошиком */
+}
+
+/* --- ПОЛЕ ПОШУКУ (INLINE) --- */
+.search-container {
+    position: relative; /* Щоб випадайка рівнялася по цьому блоку */
+    display: flex;
+    align-items: center;
+}
+
+#search-input {
+    background: rgba(255, 255, 255, 0.1); /* Напівпрозорий фон */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px; /* Округлі краї */
+    padding: 8px 15px 8px 35px; /* Місце зліва для іконки */
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    width: 200px; /* Ширина поля */
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+#search-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+
+/* Ефект при кліку: поле стає ширшим і світлішим */
+#search-input:focus {
+    width: 280px;
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--accent-color);
+}
+
+/* Маленька іконка всередині поля */
+.search-icon-small {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* Щоб не заважала клікати */
+}
+.search-icon-small svg {
+    width: 16px;
+    height: 16px;
+    stroke: rgba(255, 255, 255, 0.6);
+}
+
+/* --- ВИПАДАЮЧИЙ СПИСОК (DROPDOWN) --- */
+.search-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 320px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+/* Показуємо список, коли в ньому є контент і клас active */
+.search-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* Елемент результату */
+.search-item {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    transition: 0.2s;
+    text-decoration: none;
+}
+.search-item:last-child { border-bottom: none; }
+.search-item:hover { background: #f9f9f9; }
+
+.search-item img {
+    width: 40px; height: 50px; object-fit: cover;
+    border-radius: 4px; margin-right: 12px;
+}
+.search-item-info h4 {
+    font-size: 14px; font-weight: 600; margin: 0 0 3px; color: #222;
+}
+.search-item-info p {
+    font-size: 11px; color: #777; margin: 0; text-transform: uppercase;
+}
+.search-item-price {
+    margin-left: auto; font-size: 13px; font-weight: 700; color: var(--primary-color);
+}
+
+/* Адаптив для мобільного: ховаємо поле, показуємо тільки якщо треба, або робимо меншим */
+@media (max-width: 768px) {
+    #search-input { width: 140px; }
+    #search-input:focus { width: 180px; }
+    .search-dropdown { width: 280px; }
+}
+
+/* АДАПТИВ ДЛЯ МОБІЛЬНИХ */
+@media (max-width: 480px) {
+    .logo {
+        font-size: 16px; /* Зменшуємо шрифт на маленьких екранах */
+        letter-spacing: 1px;
+    }
+    header {
+        padding: 15px 15px; /* Менші відступи збоку */
+    }
+    .user-actions {
+        gap: 10px; /* Ближче іконки */
+    }
+    #search-input {
+        width: 120px; /* Вужчий пошук */
+        font-size: 12px;
+    }
+    #search-input:focus { width: 150px; }
+}
