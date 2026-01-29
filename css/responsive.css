@@ -1,8 +1,83 @@
+/* Мобільна адаптація (до 768px) */
 @media (max-width: 768px) {
-    .hero { flex-direction: column; padding: 30px 5%; text-align: center; gap: 30px; }
-    .hero-content { order: 1; }
-    .hero-carousel { width: 100%; height: 350px; order: 2; }
-    .hero h1 { font-size: 32px; }
-    .nav-links { display: none; }
+    
+    /* 1. Налаштування шапки */
+    header {
+        padding: 15px 5%;
+    }
+    
+    /* 2. Бургер-кнопка (з'являється тільки на телефоні) */
+    .burger {
+        display: block; /* Показуємо */
+        cursor: pointer;
+        z-index: 10001; /* Поверх усього */
+    }
+    .burger div {
+        width: 25px;
+        height: 2px;
+        background-color: var(--accent-color); /* Золотий */
+        margin: 5px;
+        transition: all 0.3s ease;
+    }
+
+    /* 3. Саме меню (виїжджає справа) */
+    .nav-links {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100vh; /* На всю висоту екрану */
+        background-color: var(--dark-blue); /* Темний фон */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 60%; /* Ширина шторки */
+        transform: translateX(100%); /* Ховаємо за межі екрану */
+        transition: transform 0.4s ease-in;
+        z-index: 10000;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    }
+
+    /* Це посилання всередині меню */
+    .nav-links li {
+        opacity: 0; /* Спочатку невидимі */
+        margin: 20px 0;
+    }
+    .nav-links a {
+        font-size: 18px;
+        letter-spacing: 2px;
+        color: #fff;
+    }
+
+    /* Клас, який додає JS, коли меню відкрите */
+    .nav-active {
+        transform: translateX(0%);
+    }
+
+    /* Анімація появи пунктів меню */
+    @keyframes navLinkFade {
+        from { opacity: 0; transform: translateX(50px); }
+        to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* Перетворення бургера на хрестик */
+    .toggle .line1 {
+        transform: rotate(-45deg) translate(-5px, 5px);
+    }
+    .toggle .line2 {
+        opacity: 0; /* Середня лінія зникає */
+    }
+    .toggle .line3 {
+        transform: rotate(45deg) translate(-5px, -5px);
+    }
+
+    /* Адаптація Hero секції */
+    .hero { flex-direction: column; text-align: center; padding-top: 100px; }
+    .hero-carousel { width: 100%; height: 300px; }
     .info-section { flex-direction: column-reverse; }
+}
+
+/* На комп'ютері бургер ховаємо */
+@media (min-width: 769px) {
+    .burger { display: none; }
 }

@@ -27,3 +27,98 @@ header {
     font-size: 10px; font-weight: 700; width: 18px; height: 18px;
     border-radius: 50%; display: flex; justify-content: center; align-items: center;
 }
+
+/* --- ВИСУВНИЙ КОШИК --- */
+
+/* Затемнений фон на весь екран */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Напівпрозорий чорний */
+    z-index: 10005; /* Вище всього */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+/* Саме вікно (біла панель справа) */
+.cart-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 400px; /* Ширина на комп'ютері */
+    height: 100%;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%); /* Спочатку сховано за межі екрану */
+    transition: all 0.3s ease;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+
+/* Клас, який додає JS, щоб показати кошик */
+.cart-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+.cart-overlay.active .cart-modal {
+    transform: translateX(0); /* Виїжджає на екран */
+}
+
+/* Внутрішні елементи */
+.cart-header {
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    display: flex; justify-content: space-between; align-items: center;
+}
+.cart-header h3 { font-size: 18px; text-transform: uppercase; color: var(--primary-color); }
+
+.close-cart { font-size: 30px; cursor: pointer; color: var(--text-gray); transition: 0.3s; line-height: 1; }
+.close-cart:hover { color: var(--accent-color); transform: rotate(90deg); }
+
+.cart-items { flex: 1; padding: 20px; overflow-y: auto; /* Скрол, якщо багато товарів */ }
+.empty-msg { text-align: center; color: var(--text-gray); margin-top: 50px; }
+
+.cart-footer { padding: 20px; border-top: 1px solid #eee; background: #f9f9f9; }
+.cart-total { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 18px; font-weight: 700; }
+.checkout-btn { width: 100%; text-align: center; }
+
+/* --- ФОРМА ЗАМОВЛЕННЯ --- */
+.checkout-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); z-index: 20000;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; transition: 0.3s;
+}
+.checkout-overlay.active { opacity: 1; visibility: visible; }
+
+.checkout-modal {
+    background: #fff; padding: 40px; width: 90%; max-width: 450px;
+    border-radius: 4px; position: relative; text-align: center;
+    transform: translateY(20px); transition: 0.3s;
+}
+.checkout-overlay.active .checkout-modal { transform: translateY(0); }
+
+.close-checkout {
+    position: absolute; top: 15px; right: 20px;
+    font-size: 28px; cursor: pointer; color: #999;
+}
+.close-checkout:hover { color: var(--accent-color); }
+
+.checkout-modal h3 { margin-bottom: 10px; color: var(--primary-color); text-transform: uppercase; }
+.checkout-modal p { font-size: 13px; color: #666; margin-bottom: 25px; }
+
+/* Поля вводу */
+.form-group { margin-bottom: 15px; text-align: left; }
+.form-group label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 5px; text-transform: uppercase; color: var(--primary-color); }
+.form-group input, .form-group textarea {
+    width: 100%; padding: 12px; border: 1px solid #ddd;
+    font-family: 'Montserrat', sans-serif; font-size: 14px;
+    transition: 0.3s;
+}
+.form-group input:focus, .form-group textarea:focus { border-color: var(--accent-color); outline: none; }
+.submit-order-btn { width: 100%; margin-top: 10px; }

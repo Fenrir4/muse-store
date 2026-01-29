@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Fenrir Admin | Додати товар</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { max-width: 800px; margin: 120px auto; padding: 20px; background: #f9f9f9; border-radius: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .result-area { background: #222; color: #0f0; padding: 15px; margin-top: 20px; border-radius: 5px; display: none; }
+        .copy-btn { background: #b8860b; color: #fff; border: none; padding: 10px 20px; cursor: pointer; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Адмінка Fenrir Dev 🐺</h1>
+        <p>Заповніть форму, щоб згенерувати код для нового товару.</p>
+        
+        <form id="product-form">
+            <div class="form-group">
+                <label>ID товару (наступний по порядку)</label>
+                <input type="number" id="p-id" placeholder="Наприклад: 5" required>
+            </div>
+            <div class="form-group">
+                <label>Бренд</label>
+                <input type="text" id="p-brand" placeholder="Tom Ford" required>
+            </div>
+            <div class="form-group">
+                <label>Назва аромату</label>
+                <input type="text" id="p-title" placeholder="Tobacco Vanille" required>
+            </div>
+            <div class="form-group">
+                <label>Посилання на фото</label>
+                <input type="text" id="p-img" placeholder="img/parfum/tf.jpg" required>
+            </div>
+            <div class="form-group">
+                <label>Опис</label>
+                <textarea id="p-desc" rows="4"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Верхні ноти</label>
+                <input type="text" id="p-top">
+            </div>
+            <div class="form-group">
+                <label>Ціна за повний флакон</label>
+                <input type="number" id="p-price-full" required>
+            </div>
+            
+            <button type="button" class="add-to-cart-big" onclick="saveProduct()">ЗБЕРЕГТИ В БАЗУ</button>
+        </form>
+
+        <div id="result-block" class="result-area">
+            <h4>Скопіюйте цей код і вставте його в кінець масиву у файлі <code>js/products.js</code>:</h4>
+            <pre id="code-output"></pre>
+            <button class="copy-btn" onclick="copyCode()">Скопіювати код</button>
+        </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<script>
+    // 1. ПЕРЕВІР, ЩО ТУТ ТВОЯ КОНФІГУРАЦІЯ (з минулого кроку)
+    const firebaseConfig = {
+        apiKey: "AIzaSyCn8FeDaouYV-tXRn9RNG2os-2A89OXscY",
+        authDomain: "milliliter-shop.firebaseapp.com",
+        databaseURL: "https://milliliter-shop-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "milliliter-shop",
+        storageBucket: "milliliter-shop.firebasestorage.app",
+        messagingSenderId: "799244023149",
+        appId: "1:799244023149:web:cfbafca4f1c2c028205664"
+    };
+
+    // Ініціалізація Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+
+    // 2. ЦЯ ФУНКЦІЯ ТЕПЕР ВІДПРАВЛЯЄ ДАНІ В ХМАРУ
+    function saveProduct() {
+        // Збираємо дані з полів форми
+        const id = document.getElementById('p-id').value;
+        const brand = document.getElementById('p-brand').value;
+        const title = document.getElementById('p-title').value;
+        const img = document.getElementById('p-img').value;
+        const desc = document.getElementById('p-desc').value;
+        const top = document.getElementById('p-top').value;
+        const price = parseInt(document.getElementById('p-price-full').value);
+
+        if (!id || !brand || !title) {
+            alert("Заповніть основні поля (ID, Бренд, Назва)!");
+            return;
+        }
+
+        // Формуємо об'єкт товару
+        const productData = {
+            id: parseInt(id),
+            brand: brand,
+            title: title,
+            price: price,
+            image: img,
+            description: desc,
+            notes: {
+                top: top,
+                heart: "Додайте ноти серця",
+                base: "Додайте базові ноти"
+            },
+            options: [
+                { volume: "2 мл", price: Math.round(price * 0.05) }, // Приблизна ціна за розпив
+                { volume: "5 мл", price: Math.round(price * 0.12) },
+                { volume: "10 мл", price: Math.round(price * 0.22) },
+                { volume: "Флакон", price: price, active: true }
+            ]
+        };
+
+        // ВІДПРАВКА В FIREBASE
+        // db.ref('products/' + id) — це шлях у базі, куди ми кладемо товар
+        db.ref('products/' + id).set(productData)
+            .then(() => {
+                alert("Успіх! Товар №" + id + " тепер у хмарі. Перевір сайт! 🚀");
+                document.getElementById('product-form').reset(); // Очищаємо форму
+            })
+            .catch((error) => {
+                alert("Помилка при збереженні: " + error.message);
+            });
+    }
+</script>
+
+    <script src="js/main.js"></script>
+
+    <script>
+        function generateCode() {
+            const id = document.getElementById('p-id').value;
+            const brand = document.getElementById('p-brand').value;
+            const title = document.getElementById('p-title').value;
+            const img = document.getElementById('p-img').value;
+            const desc = document.getElementById('p-desc').value;
+            const top = document.getElementById('p-top').value;
+            const price = document.getElementById('p-price-full').value;
+
+            const productCode = `
+    {
+        id: ${id},
+        brand: "${brand}",
+        title: "${title}",
+        price: ${price},
+        image: "${img}",
+        description: "${desc}",
+        notes: {
+            top: "${top}",
+            heart: "Додайте ноти",
+            base: "Додайте ноти"
+        },
+        options: [
+            { volume: "2 мл", price: 200 },
+            { volume: "5 мл", price: 500 },
+            { volume: "10 мл", price: 950 },
+            { volume: "Флакон", price: ${price}, active: true }
+        ]
+    },`;
+
+            document.getElementById('code-output').textContent = productCode;
+            document.getElementById('result-block').style.display = 'block';
+        }
+
+        function copyCode() {
+            const code = document.getElementById('code-output').textContent;
+            navigator.clipboard.writeText(code);
+            alert('Код скопійовано! Тепер встав його в js/products.js');
+        }
+    </script>
+</body>
+</html>
