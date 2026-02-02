@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1 MILLILITER | Niche Perfumery</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>MUSE | Women's Clothing</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
@@ -14,16 +17,11 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body>
-
-    <header>
-        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">1 MILLILITER</a></div>
+<body class="home"> <header class="transparent"> <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="catalog.html">Бренди</a></li> 
-                <li><a href="delivery.html">Доставка</a></li>
-                <li><a href="about.html">Про нас</a></li>
+                <li><a href="#">Новинки</a></li> <li><a href="#">Про нас</a></li>
             </ul>
         </nav>
         <div class="burger">
@@ -33,7 +31,7 @@
         </div>
         <div class="user-actions">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Пошук аромату..." autocomplete="off">
+                <input type="text" id="search-input" placeholder="Пошук..." autocomplete="off">
                 <div class="search-icon-small">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"/>
@@ -44,7 +42,8 @@
 
             <div class="cart-btn">
                 <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" 
+                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span class="cart-count">0</span>
             </div>
@@ -54,34 +53,33 @@
     <main>
         <section class="hero">
             <div class="hero-content">
-                <h1>Мистецтво аромату</h1>
-                <p>Оригінальна нішева парфумерія. Розпив від 1 мл. Знайди своє "Я" без зайвих витрат.</p>
-                <a href="catalog.html" class="btn">ПЕРЕЙТИ ДО КАТАЛОГУ</a>
+                <h1>Елегантність<br>в деталях</h1>
+                <p>Одяг, що надихає бути собою. Нова колекція весна-літо вже в наявності.</p>
+                <a href="catalog.html" class="btn">ПЕРЕГЛЯНУТИ КОЛЕКЦІЮ</a>
             </div>
         
             <div class="hero-carousel">
                 <div class="carousel-slides">
-                    <img src="https://images.unsplash.com/photo-1592914610354-fd354ea45e48?q=80&w=1200&auto=format&fit=crop" alt="Parfum 1" class="carousel-slide active">
-                    <img src="https://images.unsplash.com/photo-1615634260167-c8cdede054de?q=80&w=1200&auto=format&fit=crop" alt="Parfum 2" class="carousel-slide">
-                    <img src="https://images.unsplash.com/photo-1547887538-e3a2f32cb1cc?q=80&w=1200&auto=format&fit=crop" alt="Parfum 3" class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop" alt="Fashion 1" class="carousel-slide active">
+                    <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop" alt="Fashion 2" class="carousel-slide">
+                    <img src="https://images.unsplash.com/photo-1539008835657-9e8e9680c956?q=80&w=1200&auto=format&fit=crop" alt="Fashion 3" class="carousel-slide">
                 </div>
             </div>
         </section>
         
         <div class="brands-section">
-            <div class="brands-title">Тільки оригінальні бренди</div>
+            <div class="brands-title">Переваги MUSE</div>
             <div class="brands-row">
-                <span class="brand-logo">Tom Ford</span>
-                <span class="brand-logo">Kilian</span>
-                <span class="brand-logo">Creed</span>
-                <span class="brand-logo">Roja</span>
-                <span class="brand-logo">Ex Nihilo</span>
-                <span class="brand-logo">Dior</span>
+                <span class="brand-logo" style="font-family: var(--font-heading);">Premium Quality</span>
+                <span class="brand-logo" style="font-family: var(--font-heading);">Authentic Style</span>
+                <span class="brand-logo" style="font-family: var(--font-heading);">Fast Shipping</span>
+                <span class="brand-logo" style="font-family: var(--font-heading);">Customer Care</span>
+                <span class="brand-logo" style="font-family: var(--font-heading);">Easy Returns</span>
             </div>
         </div>
         
         <section class="products-section">
-          <h2 class="section-title">Бестселери</h2>
+          <h2 class="section-title">Тренди сезону</h2>
           <div class="products-grid" id="catalog-grid"></div>
         </section>
     </main>
@@ -89,29 +87,21 @@
     <footer class="site-footer">
         <div class="footer-container">
             
-            <div class="footer-col">
-                <div class="footer-logo">1 MILLILITER</div>
+            <div class="footer-col brand-col">
+                <div class="footer-logo">MUSE</div>
                 <p class="footer-desc">
-                    Твій провідник у світ нішевої парфумерії. 
-                    Оригінали. Розпив від 1 мл. 
-                    Ми робимо розкіш доступною.
+                    Твій стиль. Твоє натхнення.<br>
+                    Елегантний одяг для сучасних жінок.
                 </p>
                 <div class="social-links">
-                    <a href="#" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                    <a href="https://instagram.com/muse_women_clothes" target="_blank" aria-label="Instagram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
+                            <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
                         </svg>
                     </a>
-
-                    <a href="#" aria-label="Telegram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                            <path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/>
-                        </svg>
-                    </a>
-
-                    <a href="#" aria-label="TikTok">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/>
+                    <a href="#" target="_blank" aria-label="Telegram">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" fill="currentColor">
+                            <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/>
                         </svg>
                     </a>
                 </div>
@@ -121,40 +111,36 @@
                 <h4>Магазин</h4>
                 <ul>
                     <li><a href="catalog.html">Каталог</a></li>
-                    <li><a href="#">Новинки</a></li>
-                    <li><a href="#">Бренди</a></li>
-                    <li><a href="#">Подарункові сертифікати</a></li>
-                </ul>
+                    <li><a href="catalog.html">Новинки</a></li>
+                    </ul>
             </div>
 
             <div class="footer-col">
                 <h4>Клієнтам</h4>
                 <ul>
-                   <li><a href="about.html">Про нас</a></li>
+                    <li><a href="about.html">Про нас</a></li>
                     <li><a href="delivery.html">Доставка та оплата</a></li>
                     <li><a href="return.html">Повернення товару</a></li>
-                    <li><a href="faq.html">Питання (FAQ)</a></li>
-                    <li><a href="offer.html">Договір оферти</a></li> </ul>
+                    <li><a href="faq.html">Часті питання (FAQ)</a></li>
+                    <li><a href="offer.html">Публічна оферта</a></li>
                 </ul>
             </div>
 
-            <div class="footer-col">
+            <div class="footer-col contact-col">
                 <h4>Контакти</h4>
                 <ul>
-                    <li><a href="tel:+380990000000">+38 (099) 000-00-00</a></li>
-                    <li><a href="mailto:info@1milliliter.com">info@1milliliter.com</a></li>
+                    <li><a href="tel:+380990000000" class="contact-link">+38 (099) 000-00-00</a></li>
+                    <li><a href="mailto:info@muse-store.com" class="contact-link">info@muse-store.com</a></li>
                     <li class="work-hours">Пн-Нд: 10:00 - 20:00</li>
                 </ul>
-                <div class="payment-icons">
-                    <span>Visa</span> | <span>Mastercard</span> | <span>Mono</span>
+                <div class="payment-methods">
+                    <span>Visa</span> · <span>Mastercard</span>
                 </div>
             </div>
-
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2026 1 MILLILITER. Всі права захищено.</p>
-            <p>Created by Fenrir Dev</p>
+            <p>&copy; 2026 MUSE Clothes. Всі права захищено.</p>
         </div>
     </footer>
     
@@ -180,28 +166,54 @@
         </div>
     </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <div class="checkout-overlay">
+        <div class="checkout-modal">
+            <span class="close-checkout">&times;</span>
+            <h3>Оформлення замовлення</h3>
+            <p>Залиште контакти, і ми зв'яжемось для уточнення деталей доставки.</p>
+            
+            <form id="order-form">
+                <div class="form-group">
+                    <label>Ваше ім'я</label>
+                    <input type="text" id="client-name" placeholder="Ім'я" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Номер телефону</label>
+                    <input type="tel" id="client-phone" placeholder="+380..." required>
+                </div>
 
-<script>
-  // Твоя конфігурація
-  const firebaseConfig = {
-    apiKey: "AIzaSyCn8FeDaouYV-tXRn9RNG2os-2A89OXscY",
-    authDomain: "milliliter-shop.firebaseapp.com",
-    databaseURL: "https://milliliter-shop-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "milliliter-shop",
-    storageBucket: "milliliter-shop.firebasestorage.app",
-    messagingSenderId: "799244023149",
-    appId: "1:799244023149:web:cfbafca4f1c2c028205664"
-  };
+                <div class="form-group">
+                    <label>Коментар (необов'язково)</label>
+                    <textarea id="client-comment" placeholder="Номер відділення НП або питання..."></textarea>
+                </div>
 
-  // Ініціалізація
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
+                <button type="submit" class="btn submit-order-btn">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
+            </form>
+        </div>
+    </div>
 
-<script src="js/config.js"></script>
-<script src="js/main.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+    <script>
+      // Твоя конфігурація
+      const firebaseConfig = {
+        apiKey: "AIzaSyCn8FeDaouYV-tXRn9RNG2os-2A89OXscY",
+        authDomain: "milliliter-shop.firebaseapp.com",
+        databaseURL: "https://milliliter-shop-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "milliliter-shop",
+        storageBucket: "milliliter-shop.firebasestorage.app",
+        messagingSenderId: "799244023149",
+        appId: "1:799244023149:web:cfbafca4f1c2c028205664"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.database();
+    </script>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>

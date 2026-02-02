@@ -2,8 +2,13 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Гарантії та Повернення | 1 MILLILITER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Повернення та Обмін | MUSE</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
@@ -13,11 +18,11 @@
 <body>
 
     <header>
-        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">1 MILLILITER</a></div>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="catalog.html">Бренди</a></li> 
+                <li><a href="catalog.html">Новинки</a></li>
                 <li><a href="delivery.html">Доставка</a></li>
                 <li><a href="about.html">Про нас</a></li>
             </ul>
@@ -26,8 +31,19 @@
             <div class="line1"></div><div class="line2"></div><div class="line3"></div>
         </div>
         <div class="user-actions">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Пошук..." autocomplete="off">
+                <div class="search-icon-small">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"/>
+                    </svg>
+                </div>
+                <div id="search-dropdown" class="search-dropdown"></div>
+            </div>
             <div class="cart-btn">
-                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 <span class="cart-count">0</span>
             </div>
         </div>
@@ -35,136 +51,108 @@
 
     <main class="page-container">
         <div class="page-hero">
-            <h1 class="page-title">Гарантії Клубу</h1>
+            <h1 class="page-title">Повернення та Обмін</h1>
         </div>
 
         <div class="lead-text">
-            <p>Парфумерія — це інтимний продукт. Ми поважаємо ваше право на бездоганну якість, тому беремо на себе <strong>повну відповідальність</strong> за кожну краплю.</p>
+            <p>Ми ретельно перевіряємо кожну річ перед відправкою, щоб ви отримали ідеальну якість. Просимо вас ознайомитися з правилами отримання замовлень.</p>
         </div>
 
         <div class="page-content">
             
-            <h3>Законодавча база</h3>
-            <p>Згідно з Постановою Кабінету Міністрів України №172, парфумерно-косметичні вироби належної якості не підлягають обміну. Це світова практика, що гарантує: ви отримуєте абсолютно новий, "неторканий" продукт, який ніхто не відкривав до вас.</p>
+            <div class="quote-block">
+                ⚠️ <strong>Важливо:</strong> Огляд та примірка товару здійснюються виключно у відділенні Нової Пошти.
+            </div>
 
-            <h3>Коли ми робимо заміну?</h3>
-            <p>Ми завжди на стороні клієнта. Якщо сталася помилка з нашого боку або служби доставки, ми вирішимо це миттєво.</p>
-
+            <h3>Як це працює?</h3>
+            
             <div class="icon-grid">
                 <div class="icon-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                    <h4>Пошкодження в дорозі</h4>
-                    <p>Якщо флакон розбився або протік під час транспортування Новою Поштою.</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    <h4>Огляд на пошті</h4>
+                    <p>У вас є час, щоб розпакувати посилку, оглянути річ та приміряти її прямо у відділенні Нової Пошти.</p>
                 </div>
+
                 <div class="icon-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>
-                    <h4>Помилка комплектації</h4>
-                    <p>Якщо ви отримали не той аромат або не той об'єм, який замовляли.</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                    </svg>
+                    <h4>Якщо не підійшло</h4>
+                    <p>Якщо розмір або фасон не підійшов — просто <strong>відмовтеся від отримання</strong>. Передплата (якщо була) повертається за вирахуванням доставки.</p>
                 </div>
+
                 <div class="icon-box">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
-                    <h4>Брак спрею</h4>
-                    <p>Якщо механізм розпилення (атомайзер) не працює коректно.</p>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h4>Після отримання</h4>
+                    <p>Якщо ви забрали посилку додому, товар вважається прийнятим. З цього моменту <strong>повернення та обмін неможливі</strong>.</p>
                 </div>
             </div>
 
-            <div class="quote-block">
-                <strong>Важливо:</strong> Будь ласка, перевіряйте посилку безпосередньо у відділенні пошти. Якщо ви забрали посилку додому, нам буде важко підтвердити факт пошкодження при доставці.
-            </div>
+            <h3>Гарантія якості</h3>
+            <p>Єдиний виняток — виробничий брак. Якщо під час огляду на пошті ви виявили дефект (пляма, пошкодження тканини), ми:</p>
+            <ul>
+                <li>• Повернемо 100% коштів (включно з доставкою).</li>
+                <li>• Або безкоштовно обміняємо на нову річ.</li>
+            </ul>
+            <p>Будь ласка, повідомте менеджера про проблему прямо з відділення пошти, надіславши фото дефекту.</p>
 
         </div>
     </main>
 
     <footer class="site-footer">
         <div class="footer-container">
-            
             <div class="footer-col">
-                <div class="footer-logo">1 MILLILITER</div>
-                <p class="footer-desc">
-                    Твій провідник у світ нішевої парфумерії. 
-                    Оригінали. Розпив від 1 мл. 
-                    Ми робимо розкіш доступною.
-                </p>
+                <div class="footer-logo">MUSE</div>
+                <p class="footer-desc">Твій стиль. Твоє натхнення.<br>Елегантний одяг для сучасних жінок.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-                        </svg>
-                    </a>
-
-                    <a href="#" aria-label="Telegram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512">
-                            <path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/>
-                        </svg>
-                    </a>
-
-                    <a href="#" aria-label="TikTok">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                            <path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/>
-                        </svg>
-                    </a>
+                    <a href="https://instagram.com/muse_women_clothes" target="_blank"><svg viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
                 </div>
             </div>
-
             <div class="footer-col">
                 <h4>Магазин</h4>
                 <ul>
                     <li><a href="catalog.html">Каталог</a></li>
-                    <li><a href="#">Новинки</a></li>
-                    <li><a href="#">Бренди</a></li>
-                    <li><a href="#">Подарункові сертифікати</a></li>
+                    <li><a href="catalog.html">Новинки</a></li>
+                    <li><a href="delivery.html">Доставка</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Клієнтам</h4>
                 <ul>
-                   <li><a href="about.html">Про нас</a></li>
-                    <li><a href="delivery.html">Доставка та оплата</a></li>
-                    <li><a href="return.html">Повернення товару</a></li>
-                    <li><a href="faq.html">Питання (FAQ)</a></li>
-                    <li><a href="offer.html">Договір оферти</a></li> </ul>
+                    <li><a href="about.html">Про нас</a></li>
+                    <li><a href="return.html">Повернення</a></li>
+                    <li><a href="offer.html">Оферта</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Контакти</h4>
                 <ul>
-                    <li><a href="tel:+380990000000">+38 (099) 000-00-00</a></li>
-                    <li><a href="mailto:info@1milliliter.com">info@1milliliter.com</a></li>
-                    <li class="work-hours">Пн-Нд: 10:00 - 20:00</li>
+                    <li><a href="tel:+380990000000" class="contact-link">+38 (099) 000-00-00</a></li>
+                    <li><a href="mailto:info@muse-store.com" class="contact-link">info@muse-store.com</a></li>
                 </ul>
-                <div class="payment-icons">
-                    <span>Visa</span> | <span>Mastercard</span> | <span>Mono</span>
-                </div>
             </div>
-
         </div>
-
         <div class="footer-bottom">
-            <p>&copy; 2026 1 MILLILITER. Всі права захищено.</p>
-            <p>Created by Fenrir Dev</p>
+            <p>&copy; 2026 MUSE Clothes. Всі права захищено.</p>
         </div>
     </footer>
 
     <div class="cart-overlay">
         <div class="cart-modal">
-            <div class="cart-header">
-                <h3>Твій кошик</h3>
-                <span class="close-cart">&times;</span>
-            </div>
+            <div class="cart-header"><h3>Кошик</h3><span class="close-cart">&times;</span></div>
             <div class="cart-items"></div>
             <div class="cart-footer">
-                <div class="cart-total">
-                    <h3>Разом: 
-                        <span class="total-price">0 ₴</span>
-                    </h3>
-                </div>
-                <button class="btn checkout-btn">Оформити замовлення</button>
+                <div class="cart-total"><h3>Всього: <span class="total-price">0 ₴</span></h3></div>
+                <button class="btn checkout-btn">Оформити</button>
             </div>
         </div>
     </div>
-    
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="js/config.js"></script>

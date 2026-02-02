@@ -3,64 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tom Ford Lost Cherry | 1 MILLILITER</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Товар | MUSE</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="css/header.css">
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/responsive.css">
-    
-    <style>
-        .product-page { padding: 120px 5% 60px; max-width: 1200px; margin: 0 auto; display: flex; gap: 50px; }
+    <link rel="stylesheet" href="css/products.css"> <style>
+        /* Локальні стилі для сторінки товару (MUSE style) */
+        .product-page {
+            padding: 40px 5% 80px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 60px;
+            align-items: flex-start;
+        }
         
-        /* Ліва частина - Фото */
+        /* Ліва частина: Фото */
         .product-gallery { flex: 1; }
-        .product-main-img { width: 100%; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
-
-        /* Права частина - Інфо */
-        .product-info { flex: 1; }
-        .breadcrumb { font-size: 12px; color: #888; margin-bottom: 20px; }
-        .breadcrumb a { color: #888; text-decoration: none; }
-        
-        .p-brand { color: var(--accent-color); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .p-title { font-size: 32px; margin: 10px 0; font-family: 'Cormorant Garamond', serif; } /* Якщо є шрифт, або звичайний */
-        .p-price { font-size: 24px; font-weight: 700; color: #333; margin-bottom: 20px; }
-        
-        .p-description { font-size: 15px; line-height: 1.6; color: #555; margin-bottom: 30px; }
-        .notes-list { margin-bottom: 30px; background: #f9f9f9; padding: 20px; border-radius: 8px; }
-        .notes-list h4 { margin-bottom: 10px; font-size: 14px; text-transform: uppercase; }
-        .notes-list p { font-size: 13px; margin-bottom: 5px; color: #666; }
-
-        /* Вибір об'єму (копія стилів з карток, але більша) */
-        .p-volumes { display: flex; gap: 10px; margin-bottom: 30px; }
-        .p-vol-btn {
-            padding: 10px 20px; border: 1px solid #ddd; background: none; cursor: pointer;
-            font-family: 'Montserrat', sans-serif; transition: 0.3s;
+        .product-main-img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            aspect-ratio: 3/4; /* Вертикальний формат для одягу */
+            border-radius: 0; /* Гострі кути для строгості */
         }
-        .p-vol-btn.active, .p-vol-btn:hover { background: var(--primary-color); color: #fff; border-color: var(--primary-color); }
-
+        
+        /* Права частина: Інфо */
+        .product-info { flex: 1; padding-top: 10px; }
+        
+        .breadcrumb { 
+            font-size: 12px; 
+            color: #999; 
+            margin-bottom: 20px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+        .breadcrumb a { text-decoration: none; color: inherit; }
+        .breadcrumb a:hover { color: var(--accent-color); }
+        
+        .p-brand {
+            font-size: 14px;
+            color: var(--accent-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        
+        .p-title {
+            font-family: var(--font-heading, 'Playfair Display', serif);
+            font-size: 42px;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            font-weight: 400;
+        }
+        
+        .p-price {
+            font-size: 24px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 30px;
+            font-family: var(--font-main);
+        }
+        
+        .p-description {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 30px;
+        }
+        
+        /* Блок деталей (Склад, Колір) */
+        .details-list {
+            margin-bottom: 30px;
+        }
+        .details-item {
+            display: flex;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        .details-label {
+            width: 120px;
+            color: #888;
+            font-weight: 500;
+        }
+        .details-value {
+            color: #333;
+            font-weight: 400;
+        }
+        
+        /* Вибір розміру */
+        .size-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .p-sizes {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        /* Кнопка розміру */
+        .size-option-btn {
+            min-width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        
+        .size-option-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
+        .size-option-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+        
         .add-to-cart-big {
-            width: 100%; padding: 15px; background: var(--accent-color); color: #fff;
-            border: none; font-size: 16px; font-weight: 600; text-transform: uppercase;
-            cursor: pointer; transition: 0.3s;
+            width: 100%;
+            padding: 20px;
+            font-size: 14px;
+            letter-spacing: 2px;
         }
-        .add-to-cart-big:hover { background: #b38f00; }
-
-        /* Адаптивність для цієї сторінки */
-        @media (max-width: 768px) {
-            .product-page { flex-direction: column; padding-top: 100px; }
+        
+        /* Адаптив */
+        @media (max-width: 900px) {
+            .product-page { flex-direction: column; gap: 40px; }
+            .product-main-img { aspect-ratio: auto; }
+            .p-title { font-size: 32px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><a href="index.html">1 MILLILITER</a></div>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="catalog.html">Бренди</a></li> 
+                <li><a href="catalog.html">Новинки</a></li>
                 <li><a href="delivery.html">Доставка</a></li>
                 <li><a href="about.html">Про нас</a></li>
             </ul>
@@ -69,6 +170,15 @@
             <div class="line1"></div><div class="line2"></div><div class="line3"></div>
         </div>
         <div class="user-actions">
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Пошук..." autocomplete="off">
+                <div class="search-icon-small">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"/>
+                    </svg>
+                </div>
+                <div id="search-dropdown" class="search-dropdown"></div>
+            </div>
             <div class="cart-btn">
                 <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -78,131 +188,93 @@
         </div>
     </header>
 
-    <div class="product-page product-card"> 
-        
-        <div class="product-gallery">
-            <img id="p-img" src="" alt="Parfum" class="product-main-img product-img">
+    <div class="product-page product-card"> <div class="product-gallery">
+            <img id="p-img" src="" alt="Clothing Item" class="product-main-img product-img">
         </div>
 
         <div class="product-info">
             <div class="breadcrumb">
-                <a href="index.html">Головна</a> / 
-                <a href="catalog.html">Каталог</a> / 
-                <span id="p-breadcrumb-name">...</span>
+                <a href="index.html">Головна</a> / <a href="catalog.html">Каталог</a> / <span id="p-breadcrumb-name">...</span>
             </div>
             
-            <div class="brand-name p-brand" id="p-brand">Brand</div>
-            <h1 class="product-title p-title" id="p-title">Product Name</h1>
-            
+            <div class="brand-name p-brand" id="p-brand">MUSE Collection</div>
+            <h1 class="product-title p-title" id="p-title">Завантаження...</h1>
             <div class="price p-price" id="p-price">0 ₴</div>
-
+            
             <div class="p-description" id="p-desc">
-                Опис завантажується...
+                Опис товару завантажується...
             </div>
 
-            <div class="notes-list" id="p-notes">
+            <div class="details-list" id="p-details">
                 </div>
 
-            <div class="volume-selector p-volumes" id="p-volumes">
+            <span class="size-label">Оберіть розмір:</span>
+            <div class="volume-selector p-sizes" id="p-sizes">
                 </div>
 
-            <button class="add-to-cart-big add-btn">ДОДАТИ В КОШИК</button>
+            <button class="btn add-to-cart-big">ДОДАТИ В КОШИК</button>
+            
+            <p style="font-size: 12px; color: #888; margin-top: 20px; text-align: center;">
+                <svg style="width:12px; height:12px; vertical-align: middle;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                В наявності | Відправка 1-2 дні
+            </p>
         </div>
+
     </div>
 
     <footer class="site-footer">
         <div class="footer-container">
-            
             <div class="footer-col">
-                <div class="footer-logo">1 MILLILITER</div>
-                <p class="footer-desc">
-                    Твій провідник у світ нішевої парфумерії. 
-                    Оригінали. Розпив від 1 мл. 
-                </p>
+                <div class="footer-logo">MUSE</div>
+                <p class="footer-desc">Твій стиль. Твоє натхнення.<br>Елегантний одяг для сучасних жінок.</p>
                 <div class="social-links">
-                    <a href="#" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
-                    </a>
-                    <a href="#" aria-label="Telegram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/></svg>
-                    </a>
-                    <a href="#" aria-label="TikTok">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z"/></svg>
-                    </a>
+                    <a href="https://instagram.com/muse_women_clothes" target="_blank"><svg viewBox="0 0 448 512"><path fill="currentColor" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg></a>
                 </div>
             </div>
-
             <div class="footer-col">
                 <h4>Магазин</h4>
                 <ul>
                     <li><a href="catalog.html">Каталог</a></li>
-                    <li><a href="#">Новинки</a></li>
-                    <li><a href="#">Бренди</a></li>
+                    <li><a href="catalog.html">Новинки</a></li>
+                    <li><a href="delivery.html">Доставка</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Клієнтам</h4>
                 <ul>
-                    <ul>
                     <li><a href="about.html">Про нас</a></li>
-                    <li><a href="delivery.html">Доставка та оплата</a></li>
-                    <li><a href="return.html">Повернення товару</a></li>
-                    <li><a href="faq.html">Питання (FAQ)</a></li>
-                    <li><a href="offer.html">Договір оферти</a></li> </ul>
+                    <li><a href="return.html">Повернення</a></li>
+                    <li><a href="offer.html">Оферта</a></li>
                 </ul>
             </div>
-
             <div class="footer-col">
                 <h4>Контакти</h4>
                 <ul>
-                    <li><a href="tel:+380990000000">+38 (099) 000-00-00</a></li>
-                    <li class="work-hours">Пн-Нд: 10:00 - 20:00</li>
+                    <li><a href="tel:+380990000000" class="contact-link">+38 (099) 000-00-00</a></li>
+                    <li><a href="mailto:info@muse-store.com" class="contact-link">info@muse-store.com</a></li>
                 </ul>
             </div>
         </div>
-
         <div class="footer-bottom">
-            <p>&copy; 2026 1 MILLILITER. Всі права захищено.</p>
-            <p>Created by Fenrir Dev</p>
+            <p>&copy; 2026 MUSE Clothes. Всі права захищено.</p>
         </div>
     </footer>
 
     <div class="cart-overlay">
         <div class="cart-modal">
-            <div class="cart-header"><h3>Твій кошик</h3><span class="close-cart">&times;</span></div>
+            <div class="cart-header"><h3>Кошик</h3><span class="close-cart">&times;</span></div>
             <div class="cart-items"></div>
             <div class="cart-footer">
-                <div class="cart-total"><h3>Разом: <span class="total-price">0 ₴</span></h3></div>
-                <button class="btn checkout-btn">Оформити замовлення</button>
+                <div class="cart-total"><h3>Всього: <span class="total-price">0 ₴</span></h3></div>
+                <button class="btn checkout-btn">Оформити</button>
             </div>
         </div>
     </div>
 
-    
-
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-<script>
-  // Твоя конфігурація
-  const firebaseConfig = {
-    apiKey: "AIzaSyCn8FeDaouYV-tXRn9RNG2os-2A89OXscY",
-    authDomain: "milliliter-shop.firebaseapp.com",
-    databaseURL: "https://milliliter-shop-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "milliliter-shop",
-    storageBucket: "milliliter-shop.firebasestorage.app",
-    messagingSenderId: "799244023149",
-    appId: "1:799244023149:web:cfbafca4f1c2c028205664"
-  };
-
-  // Ініціалізація
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
-</script>
-
-<script src="js/config.js"></script>
-<script src="js/main.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>

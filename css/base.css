@@ -1,66 +1,71 @@
+/* =========================================
+   MUSE CLOTHES - BASE STYLES
+   ========================================= */
+
+/* Підключення шрифтів */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
 :root {
-    /* ПАЛІТРА (Темний верх/низ + Світла середина) */
-    --primary-color: #222222; 
-    --dark-blue: #050a14;     
-    --accent-color: #D4AF37;  
-    --bg-white: #ffffff;      
-    --bg-light: #f8f9fa;      
-    --text-gray: #666666;     
+    /* --- НОВА ПАЛІТРА (Бордо) --- */
+    --accent-color: #722F37; /* Марсала/Винний */
+    --dark-theme: #1a0f10;   /* Темний фон для хедера/футера */
+    
+    --primary-color: #1a1a1a;
+    --text-gray: #666666;
+    
+    --bg-white: #ffffff;
+    --bg-light: #fdfbfb;
+    
+    /* Шрифти */
+    --font-main: 'Montserrat', sans-serif;
+    --font-heading: 'Playfair Display', serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-main);
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    color: #333;
-    background-color: #fff;
-    
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh; /* Мінімальна висота = 100% висоти екрану */
+    color: var(--primary-color);
+    background-color: var(--bg-white);
+    display: flex; flex-direction: column; min-height: 100vh;
 }
 
-main {
-    flex: 1;
-    width: 100%; /* На всяк випадок */
-}
+/* Відступ для сторінок (щоб хедер не закривав текст) */
+main { flex: 1; width: 100%; padding-top: 85px; }
+
+/* Виняток для головної */
+body.home main { padding-top: 0; }
 
 a { text-decoration: none; color: inherit; transition: 0.3s; }
 ul { list-style: none; }
 
-/* ЗАГАЛЬНА КНОПКА (використовується всюди) */
+/* Типографія */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 400;
+}
+
+.section-title { 
+    text-align: center; margin-bottom: 50px; 
+    font-size: 38px; color: var(--primary-color); 
+}
+
+/* Кнопки (Строгий стиль) */
 .btn {
     display: inline-block; padding: 16px 40px;
-    background: var(--accent-color); color: #fff;
-    text-transform: uppercase; font-size: 13px; letter-spacing: 2px; font-weight: 600;
-    cursor: pointer; border: none; border-radius: 2px; transition: 0.3s;
-    margin-top: 10px;
-    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    background-color: var(--accent-color); color: #fff;
+    font-family: var(--font-main); text-transform: uppercase; 
+    font-size: 12px; letter-spacing: 2px; font-weight: 600;
+    cursor: pointer; border: 1px solid var(--accent-color); 
+    transition: all 0.4s ease; margin-top: 15px;
 }
+
 .btn:hover { 
-    background: var(--dark-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    background-color: transparent; color: var(--accent-color);
 }
 
-/* ЗАГОЛОВКИ СЕКЦІЙ */
-.section-title { 
-    text-align: center; margin-bottom: 40px; 
-    font-size: 30px; font-weight: 400; 
-    color: var(--primary-color); letter-spacing: -0.5px; 
-}
-
-/* Відступ для контенту, щоб не ховався під фіксований хедер */
-main {
-    padding-top: 100px; /* Висота хедера + відступ */
-}
-
-/* Виняток для головної сторінки (Hero), там картинка має бути під хедером */
-/* Якщо у Hero секції є свій клас, наприклад .hero-section */
-.hero {
-    margin-top: -100px; /* Підтягуємо назад вгору */
-    padding-top: 140px; /* Компенсуємо внутрішнім відступом */
+@media (max-width: 768px) {
+    .section-title { font-size: 28px; margin-bottom: 30px; }
 }

@@ -2,82 +2,203 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Fenrir Admin | Вхід</title>
+    <title>MUSE Admin | Вхід</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/base.css"> 
+    <link rel="stylesheet" href="css/header.css"> 
+
     <style>
-        body { background: #f4f4f4; display: flex; justify-content: center; align-items: center; min-height: 100vh; font-family: 'Montserrat', sans-serif; }
-        .admin-panel { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 600px; }
+        body { 
+            background: #fdfbfb; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            font-family: 'Montserrat', sans-serif; 
+        }
+        
+        .admin-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 20px 60px;
+        }
+
+        .admin-panel { 
+            background: #fff; 
+            padding: 40px; 
+            border: 1px solid #eee;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+            width: 100%; 
+            max-width: 600px; 
+        }
+        
         .hidden { display: none !important; }
-        h2 { text-align: center; margin-bottom: 20px; color: var(--primary-color); }
-        input, textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 4px; }
-        label { font-weight: 600; font-size: 12px; display: block; margin-bottom: 5px; text-transform: uppercase; }
-        .btn-admin { width: 100%; padding: 12px; background: var(--primary-color); color: #fff; border: none; cursor: pointer; text-transform: uppercase; font-weight: bold; }
-        .btn-admin:hover { background: var(--accent-color); }
-        .logout-btn { background: #ff4444; margin-top: 10px; }
+        
+        h2 { 
+            text-align: center; 
+            margin-bottom: 30px; 
+            color: var(--primary-color); 
+            font-family: 'Playfair Display', serif;
+            text-transform: uppercase;
+        }
+
+        input, textarea, select { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 20px; 
+            border: 1px solid #ddd; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        label { 
+            font-weight: 600; 
+            font-size: 11px; 
+            display: block; 
+            margin-bottom: 8px; 
+            text-transform: uppercase; 
+            color: #888;
+            letter-spacing: 1px;
+        }
+
+        /* Чекбокси для розмірів */
+        .sizes-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .size-checkbox-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            padding: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .size-checkbox-label:hover { border-color: var(--accent-color); }
+
+        /* Ховаємо стандартний чекбокс */
+        .size-checkbox-label input { display: none; }
+
+        /* Стиль коли вибрано (JS додасть клас checked) */
+        .size-checkbox-label.checked {
+            background-color: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+        }
+
+        .btn-admin { 
+            width: 100%; 
+            padding: 15px; 
+            background: var(--accent-color);
+            color: #fff; 
+            border: none; 
+            cursor: pointer; 
+            text-transform: uppercase; 
+            font-weight: 600; 
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        
+        .btn-admin:hover { background: #5a222a; }
+        
+        .logout-btn { background: #333; margin-top: 15px; }
+        .logout-btn:hover { background: #000; }
+
+        .helper-text { font-size: 11px; color: #999; margin-top: -15px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
     
     <header>
-        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">1 MILLILITER</a></div>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
         <nav>
             <ul class="nav-links">
-                <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="catalog.html">Бренди</a></li>
-                <li><a href="delivery.html">Доставка</a></li>
-                <li><a href="about.html">Про нас</a></li>
+                <li><a href="catalog.html" target="_blank">Перейти на сайт</a></li>
             </ul>
         </nav>
-        <div class="burger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
-        <div class="user-actions">
-            <div class="cart-btn">
-                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" 
-                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                <span class="cart-count">0</span>
-            </div>
-        </div>
     </header>
 
-    <div id="login-screen" class="admin-panel">
-        <h2>Вхід для адміністратора 🐺</h2>
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Пароль">
-        <button class="btn-admin" onclick="login()">Увійти</button>
-    </div>
+    <div class="admin-wrapper">
+        
+        <div id="login-screen" class="admin-panel">
+            <h2>Вхід в адмінку</h2>
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Пароль">
+            <button class="btn-admin" onclick="login()">Увійти</button>
+        </div>
 
-    <div id="admin-content" class="admin-panel hidden">
-        <h2>Додати новий товар</h2>
-        <form id="product-form">
-            <label>ID товару</label>
-            <input type="number" id="p-id" placeholder="Напр: 5" required>
-            
-            <label>Бренд</label>
-            <input type="text" id="p-brand" placeholder="Tom Ford" required>
-            
-            <label>Назва</label>
-            <input type="text" id="p-title" placeholder="Tobacco Vanille" required>
-            
-            <label>Фото (URL)</label>
-            <input type="text" id="p-img" placeholder="https://..." required>
-            
-            <label>Опис</label>
-            <textarea id="p-desc" rows="3"></textarea>
-            
-            <label>Верхні ноти</label>
-            <input type="text" id="p-top" placeholder="Вишня, Лікер...">
+        <div id="admin-content" class="admin-panel hidden">
+            <h2>Новий товар</h2>
+            <form id="product-form">
+                
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <label>ID товару (Число)</label>
+                        <input type="number" id="p-id" placeholder="Напр: 101" required>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Ціна (UAH)</label>
+                        <input type="number" id="p-price" placeholder="2800" required>
+                    </div>
+                </div>
 
-            <label>Ціна за флакон</label>
-            <input type="number" id="p-price-full" required>
+                <label>Бренд / Колекція</label>
+                <input type="text" id="p-brand" placeholder="MUSE Collection" value="MUSE Collection">
+                
+                <label>Назва товару</label>
+                <input type="text" id="p-title" placeholder="Шовкова сукня максі" required>
+                
+                <label>Фото (URL посилання)</label>
+                <input type="text" id="p-img" placeholder="https://..." required>
+                <p class="helper-text">Вставте посилання на картинку (jpg/png).</p>
+                
+                <label>Опис</label>
+                <textarea id="p-desc" rows="4" placeholder="Елегантна сукня для вечірніх виходів..."></textarea>
+                
+                <div style="display: flex; gap: 20px;">
+                    <div style="flex: 1;">
+                        <label>Склад тканини</label>
+                        <input type="text" id="p-composition" placeholder="100% Шовк">
+                    </div>
+                    <div style="flex: 1;">
+                        <label>Колір</label>
+                        <input type="text" id="p-color" placeholder="Чорний">
+                    </div>
+                </div>
+
+                <label>Доступні розміри</label>
+                <div class="sizes-grid">
+                    <label class="size-checkbox-label"><input type="checkbox" value="XS"><span>XS</span></label>
+                    <label class="size-checkbox-label"><input type="checkbox" value="S" checked><span>S</span></label>
+                    <label class="size-checkbox-label"><input type="checkbox" value="M" checked><span>M</span></label>
+                    <label class="size-checkbox-label"><input type="checkbox" value="L"><span>L</span></label>
+                    <label class="size-checkbox-label"><input type="checkbox" value="XL"><span>XL</span></label>
+                </div>
+                
+                <button type="button" class="btn-admin" onclick="saveProduct()">Опублікувати товар</button>
+            </form>
             
-            <button type="button" class="btn-admin" onclick="saveProduct()">Зберегти в базу</button>
-        </form>
-        <button class="btn-admin logout-btn" onclick="logout()">Вийти</button>
+            <button class="btn-admin logout-btn" onclick="logout()">Вийти</button>
+        </div>
+
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -87,12 +208,24 @@
     <script src="js/config.js"></script>
 
     <script>
-        // Ініціалізація з файлу конфігурації
+        // Ініціалізація
         firebase.initializeApp(CONFIG.firebase);
         const db = firebase.database();
         const auth = firebase.auth();
 
-        // Слухаємо стан входу
+        // Логіка підсвічування чекбоксів
+        document.querySelectorAll('.size-checkbox-label input').forEach(cb => {
+            // При завантаженні
+            if(cb.checked) cb.parentElement.classList.add('checked');
+            
+            // При кліку
+            cb.addEventListener('change', function() {
+                if(this.checked) this.parentElement.classList.add('checked');
+                else this.parentElement.classList.remove('checked');
+            });
+        });
+
+        // Перевірка входу
         auth.onAuthStateChanged(user => {
             if (user) {
                 document.getElementById('login-screen').classList.add('hidden');
@@ -116,10 +249,22 @@
 
         function saveProduct() {
             const id = document.getElementById('p-id').value;
-            if(!id) return alert("Вкажіть ID!");
+            if(!id) return alert("Вкажіть ID (число)!");
 
-            const price = parseInt(document.getElementById('p-price-full').value);
+            const price = parseInt(document.getElementById('p-price').value);
+            if(!price) return alert("Вкажіть ціну!");
+
+            // Збираємо вибрані розміри в масив ['S', 'M']
+            const selectedSizes = [];
+            document.querySelectorAll('.size-checkbox-label input:checked').forEach(cb => {
+                selectedSizes.push(cb.value);
+            });
+
+            if (selectedSizes.length === 0) {
+                if(!confirm("Не вибрано жодного розміру. Товар буде 'One Size'. Продовжити?")) return;
+            }
             
+            // Формуємо об'єкт для MUSE
             const productData = {
                 id: parseInt(id),
                 brand: document.getElementById('p-brand').value,
@@ -127,25 +272,28 @@
                 price: price,
                 image: document.getElementById('p-img').value,
                 description: document.getElementById('p-desc').value,
-                notes: {
-                    top: document.getElementById('p-top').value,
-                    heart: "Уточнюється...",
-                    base: "Уточнюється..."
-                },
-                options: [
-                    { volume: "2 мл", price: Math.round(price * 0.05) },
-                    { volume: "5 мл", price: Math.round(price * 0.12) },
-                    { volume: "10 мл", price: Math.round(price * 0.22) },
-                    { volume: "Флакон", price: price, active: true }
-                ]
+                
+                // Специфічні поля для одягу
+                composition: document.getElementById('p-composition').value,
+                color: document.getElementById('p-color').value,
+                sizes: selectedSizes, 
+                
+                timestamp: Date.now()
             };
 
+            // Збереження в Firebase
             db.ref('products/' + id).set(productData)
                 .then(() => {
-                    alert("Товар збережено! ✅");
+                    alert("Товар успішно додано! 👗");
+                    // Очистка форми (залишаємо бренд, бо часто додають одну колекцію)
+                    const brand = document.getElementById('p-brand').value;
                     document.getElementById('product-form').reset();
+                    document.getElementById('p-brand').value = brand;
+                    
+                    // Скидаємо візуальні чекбокси
+                    document.querySelectorAll('.size-checkbox-label').forEach(l => l.classList.remove('checked'));
                 })
-                .catch(err => alert("Помилка (немає прав?): " + err.message));
+                .catch(err => alert("Помилка запису: " + err.message));
         }
     </script>
 </body>

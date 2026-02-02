@@ -1,8 +1,89 @@
-/* Селектор розмірів */
-.size-selector { 
-    display: flex; 
-    gap: 8px; 
-    margin-bottom: 15px; 
+/* =========================================
+   MUSE CLOTHES - PRODUCTS GRID STYLES
+   ========================================= */
+
+/* СЕКЦІЯ */
+.products-section {
+    padding: 60px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* СІТКА (GRID) - Ось чого не вистачало! */
+.products-grid {
+    display: grid;
+    /* Автоматично розміщуємо 4 картки в ряд (мінімум 250px ширини) */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 40px 30px; /* Відступи: 40px між рядами, 30px між колонками */
+    width: 100%;
+}
+
+/* КАРТКА ТОВАРУ */
+.product-card {
+    background: transparent;
+    position: relative;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.product-card:hover {
+    transform: translateY(-5px); /* Легке підняття при наведенні */
+}
+
+/* ПОСИЛАННЯ НА КАРТКУ (обгортка) */
+.product-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    overflow: hidden; /* Щоб фото не вилазило при зумі */
+    margin-bottom: 15px;
+}
+
+/* ФОТО ТОВАРУ */
+.product-img {
+    width: 100%;
+    aspect-ratio: 3/4; /* Вертикальний формат для одягу (як в Zara/H&M) */
+    object-fit: cover;
+    object-position: top; /* Фокус на верхню частину (обличчя/плечі) */
+    border-radius: 0; /* Гострі кути (строгий стиль MUSE) */
+    transition: transform 0.5s ease;
+    background-color: #f4f4f4; /* Сірий фон, поки вантажиться фото */
+}
+
+.product-card:hover .product-img {
+    transform: scale(1.03); /* Легкий зум фото */
+}
+
+/* БРЕНД (MUSE COLLECTION) */
+.brand-name {
+    font-size: 11px;
+    color: var(--accent-color); /* Бордо */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+/* НАЗВА ТОВАРУ */
+.product-title {
+    font-family: var(--font-heading); /* Playfair Display */
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+    flex-grow: 1; /* Рівняє висоту карток */
+}
+
+.product-title a:hover {
+    color: var(--accent-color);
+}
+
+/* --- ВИБІР РОЗМІРУ (S, M, L) --- */
+.size-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
     flex-wrap: wrap;
 }
 
@@ -14,18 +95,79 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 12px;
+    font-size: 11px;
+    font-weight: 500;
     cursor: pointer;
     transition: 0.2s;
-    color: var(--primary-color);
+    color: #555;
     text-transform: uppercase;
 }
 
-.size-btn:hover { border-color: var(--primary-color); }
+.size-btn:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
 
-/* Активний розмір (чорний фон, білий текст) */
+/* Активний розмір */
 .size-btn.active {
-    background: var(--primary-color);
+    background: var(--accent-color);
     color: #fff;
-    border-color: var(--primary-color);
+    border-color: var(--accent-color);
+}
+
+/* ЦІНА ТА КНОПКА КУПИТИ */
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto; /* Притискає ціну до низу картки */
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.price {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.add-btn {
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-color);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 50%; /* Кругла кнопка */
+}
+
+.add-btn:hover {
+    background-color: var(--accent-color);
+    transform: rotate(90deg); /* Ефект повороту плюсика */
+}
+
+/* --- АДАПТИВНІСТЬ (Мобільні) --- */
+@media (max-width: 768px) {
+    .products-grid {
+        /* На телефонах: 2 колонки */
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px 10px;
+    }
+    
+    .products-section {
+        padding: 40px 15px;
+    }
+
+    .size-btn {
+        min-width: 30px;
+        height: 30px;
+        font-size: 10px;
+    }
+    
+    .product-title { font-size: 14px; }
+    .price { font-size: 14px; }
 }
