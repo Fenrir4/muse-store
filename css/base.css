@@ -1,22 +1,15 @@
 /* =========================================
    MUSE CLOTHES - BASE STYLES
    ========================================= */
-
-/* Підключення шрифтів */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    /* --- НОВА ПАЛІТРА (Бордо) --- */
-    --accent-color: #722F37; /* Марсала/Винний */
-    --dark-theme: #1a0f10;   /* Темний фон для хедера/футера */
-    
-    --primary-color: #1a1a1a;
-    --text-gray: #666666;
-    
+    --accent-color: #722F37; /* Бордо */
+    --primary-color: #1a1a1a; /* Чорний */
     --bg-white: #ffffff;
     --bg-light: #fdfbfb;
+    --text-gray: #666666;
     
-    /* Шрифти */
     --font-main: 'Montserrat', sans-serif;
     --font-heading: 'Playfair Display', serif;
 }
@@ -25,34 +18,33 @@
 
 body {
     font-family: var(--font-main);
-    margin: 0;
-    padding: 0;
     color: var(--primary-color);
     background-color: var(--bg-white);
     display: flex; flex-direction: column; min-height: 100vh;
 }
 
-/* Відступ для сторінок (щоб хедер не закривав текст) */
-main { flex: 1; width: 100%; padding-top: 85px; }
-
-/* Виняток для головної */
-body.home main { padding-top: 0; }
-
 a { text-decoration: none; color: inherit; transition: 0.3s; }
 ul { list-style: none; }
 
-/* Типографія */
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: 400;
+/* --- ГОЛОВНИЙ ВІДСТУП (ВИРІШЕННЯ ПРОБЛЕМИ НАЛІЗАННЯ) --- */
+main {
+    flex: 1;
+    width: 100%;
+    /* Додаємо відступ зверху, щоб контент не ховався під fixed header */
+    padding-top: 90px; 
 }
 
-.section-title { 
-    text-align: center; margin-bottom: 50px; 
-    font-size: 38px; color: var(--primary-color); 
+/* ВИКЛЮЧЕННЯ: Для головної сторінки (якщо ми хочемо банер під хедером) */
+/* Переконайся, що в index.html у body є клас <body class="home"> */
+body.home main {
+    padding-top: 0; 
 }
 
-/* Кнопки (Строгий стиль) */
+/* ТИПОГРАФІЯ */
+h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; }
+.section-title { text-align: center; margin-bottom: 50px; font-size: 38px; color: var(--primary-color); }
+
+/* КНОПКИ */
 .btn {
     display: inline-block; padding: 16px 40px;
     background-color: var(--accent-color); color: #fff;
@@ -61,11 +53,4 @@ h1, h2, h3, h4, h5, h6 {
     cursor: pointer; border: 1px solid var(--accent-color); 
     transition: all 0.4s ease; margin-top: 15px;
 }
-
-.btn:hover { 
-    background-color: transparent; color: var(--accent-color);
-}
-
-@media (max-width: 768px) {
-    .section-title { font-size: 28px; margin-bottom: 30px; }
-}
+.btn:hover { background-color: transparent; color: var(--accent-color); }
