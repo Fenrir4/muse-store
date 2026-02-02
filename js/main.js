@@ -1,19 +1,12 @@
-// --- 1. ГЛОБАЛЬНА ФУНКЦІЯ ОНОВЛЕННЯ ЦІНИ ---
-window.updatePrice = function(btn, price) {
-    const card = btn.closest('.product-card') || btn.closest('.product-page');
-    if (!card) return;
 
-    card.querySelectorAll('.vol-btn').forEach(b => b.classList.remove('active'));
+// Функція вибору розміру 
+window.selectSize = function(btn) {
+    // Шукаємо батьківський контейнер кнопок
+    const container = btn.parentElement;
+    // Прибираємо клас active з усіх сусідів
+    container.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+    // Додаємо active натиснутій
     btn.classList.add('active');
-    
-    const priceDisplay = card.querySelector('.price') || card.querySelector('#p-price');
-    if (priceDisplay) {
-        priceDisplay.style.opacity = 0;
-        setTimeout(() => {
-            priceDisplay.textContent = price.toLocaleString() + ' ₴';
-            priceDisplay.style.opacity = 1;
-        }, 150);
-    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -74,21 +67,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // ==============================================
     // 4. ФУНКЦІЇ МАЛЮВАННЯ
     // ==============================================
+    // --- 1. РЕНДЕР КАТАЛОГУ (ОДЯГ) ---
     function renderCatalog(list) {
         catalogGrid.innerHTML = '';
         list.forEach(product => {
+            // Генеруємо HTML для розмірів
+            // Якщо розмірів немає, пишемо "One Size"
+            const sizesHTML = product.sizes ? product.sizes.map(size => 
+                `<button class="size-btn" onclick="selectSize(this)">${size}</button>`
+            ).join('') : '<span style="font-size:12px;">One Size</span>';
+
             const cardHTML = `
                 <div class="product-card" data-id="${product.id}">
                     <a href="product.html?id=${product.id}">
-                        <img src="${product.image}" class="product-img" alt="${product.title}">
+                        <img src="${product.image}" class="product-img" alt="${product.title}" style="object-position: top;">
                     </a>
                     <div class="brand-name">${product.brand}</div>
                     <div class="product-title">
                         <a href="product.html?id=${product.id}" style="text-decoration:none; color:inherit;">${product.title}</a>
                     </div>
-                    <div class="volume-selector">
-                        ${product.options.map(opt => `<button class="vol-btn ${opt.active ? 'active' : ''}" onclick="updatePrice(this, ${opt.price})">${opt.volume}</button>`).join('')}
+                    
+                    <div class="size-selector">
+                        ${sizesHTML}
                     </div>
+
                     <div class="price-row">
                         <span class="price">${product.price.toLocaleString()} ₴</span>
                         <div class="add-btn">+</div>
@@ -99,29 +101,41 @@ document.addEventListener('DOMContentLoaded', () => {
         setupAddToCartButtons();
     }
 
+    // --- 2. РЕНДЕР СТОРІНКИ ТОВАРУ (ОДЯГ) ---
     function renderProductPage(list) {
         const params = new URLSearchParams(window.location.search);
-        const productId = parseInt(params.get('id'));
-        const product = list.find(p => p.id === productId);
+        const pid = parseInt(params.get('id'));
+        const product = list.find(p => p.id === pid);
 
         if (product) {
-            document.title = `${product.title} | 1 MILLILITER`;
+            document.title = `${product.title} | MUSE`;
+            
             document.getElementById('p-img').src = product.image;
             document.getElementById('p-brand').textContent = product.brand;
             document.getElementById('p-title').textContent = product.title;
             document.getElementById('p-desc').textContent = product.description;
-            document.getElementById('p-breadcrumb-name').textContent = product.title;
             document.getElementById('p-price').textContent = product.price.toLocaleString() + ' ₴';
             
-            document.getElementById('p-notes').innerHTML = `
-                <h4>Піраміда аромату:</h4>
-                <p>✨ <b>Верхні:</b> ${product.notes.top}</p>
-                <p>🌹 <b>Серце:</b> ${product.notes.heart}</p>
-                <p>🪵 <b>База:</b> ${product.notes.base}</p>`;
+            // Замість нот аромату показуємо склад і деталі
+            const notesEl = document.getElementById('p-notes');
+            if(notesEl) {
+                notesEl.innerHTML = `
+                    <div style="margin-top:20px;">
+                        <h4 style="text-transform: uppercase; font-size: 14px; margin-bottom:10px;">Деталі:</h4>
+                        <p>🧵 <b>Склад:</b> ${product.composition || 'Не вказано'}</p>
+                        <p>🎨 <b>Колір:</b> ${product.color || 'Як на фото'}</p>
+                        <p>👗 <b>Крій:</b> Regular Fit</p>
+                    </div>`;
+            }
 
-            document.getElementById('p-volumes').innerHTML = product.options.map(opt => 
-                `<button class="vol-btn p-vol-btn ${opt.active ? 'active' : ''}" onclick="updatePrice(this, ${opt.price})">${opt.volume}</button>`
-            ).join('');
+            // Кнопки розмірів
+            const volEl = document.getElementById('p-volumes'); // ID можна залишити старим, щоб не ламати HTML
+            if(volEl) {
+                volEl.innerHTML = product.sizes ? product.sizes.map(size => 
+                    `<button class="size-btn p-size-btn" onclick="selectSize(this)">${size}</button>`
+                ).join('') : 'One Size';
+            }
+            
             setupAddToCartButtons();
         }
     }
@@ -199,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     brand: card.querySelector('.brand-name, #p-brand').textContent,
                     title: card.querySelector('.product-title, #p-title').textContent,
                     image: card.querySelector('.product-img, #p-img').src,
-                    volume: card.querySelector('.vol-btn.active').textContent,
+                    vsize: selectedSize,
                     price: parseInt((card.querySelector('.price, #p-price')).textContent.replace(/\D/g, ''))
                 };
                 cart.push(newItem);
@@ -223,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div style="flex:1">
                         <div style="font-size:10px; color:#666;">${item.brand}</div>
                         <h4 style="font-size:14px; margin:2px 0;">${item.title}</h4>
-                        <div style="font-size:12px;">${item.volume} — <b>${item.price} ₴</b></div>
+                        <div style="font-size:12px;">Розмір: <b>${item.size}</b> — ${item.price} ₴</div>
                     </div>
                     <span class="remove-item" data-id="${item.id}" style="cursor:pointer; color:#ff4444; font-size:20px;">&times;</span>
                 </div>`);
