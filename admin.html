@@ -2,298 +2,566 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>MUSE Admin | Вхід</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUSE Admin | Pro</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/base.css"> 
-    <link rel="stylesheet" href="css/header.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
 
     <style>
-        body { 
-            background: #fdfbfb; 
-            display: flex; 
-            flex-direction: column; 
-            min-height: 100vh; 
-            font-family: 'Montserrat', sans-serif; 
-        }
-        
-        .admin-wrapper {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 120px 20px 60px;
+        :root {
+            --sidebar-bg: #111;
+            --sidebar-text: #888;
+            --sidebar-active: #fff;
+            --accent: #722F37;
+            --bg-body: #f0f2f5;
+            --white: #fff;
+            --border: #e4e6eb;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --danger: #e74c3c;
         }
 
-        .admin-panel { 
-            background: #fff; 
-            padding: 40px; 
-            border: 1px solid #eee;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
-            width: 100%; 
-            max-width: 600px; 
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            background: var(--bg-body); 
+            height: 100vh; /* Висота на весь екран */
+            overflow: hidden; /* Щоб не було подвійних скролів */
+            color: #333; 
         }
+
+        /* --- ГОЛОВНИЙ КОНТЕЙНЕР (ТЕ ЩО БУЛО ПРОПУЩЕНО) --- */
+        #admin-panel {
+            display: flex;       /* Робимо його гнучким */
+            width: 100%;         /* На всю ширину */
+            height: 100%;        /* На всю висоту */
+        }
+
+        /* SIDEBAR */
+        .sidebar { 
+            width: 260px; 
+            background: var(--sidebar-bg); 
+            display: flex; flex-direction: column; 
+            color: var(--sidebar-text); 
+            transition: 0.3s; 
+            flex-shrink: 0; /* Не стискати */
+        }
+        .brand { height: 70px; display: flex; align-items: center; padding-left: 25px; font-size: 22px; font-weight: 700; color: var(--white); letter-spacing: 2px; border-bottom: 1px solid #222; }
+        .menu { flex: 1; padding-top: 20px; }
+        .menu-item { display: flex; align-items: center; padding: 14px 25px; cursor: pointer; transition: 0.2s; font-size: 14px; color: var(--sidebar-text); border-left: 3px solid transparent; }
+        .menu-item i { font-size: 20px; margin-right: 15px; }
+        .menu-item:hover, .menu-item.active { background: #222; color: var(--sidebar-active); border-left-color: var(--accent); }
+        .logout-wrapper { padding: 20px; border-top: 1px solid #222; }
+
+        /* CONTENT */
+        .main-content { 
+            flex: 1; /* Займає всю вільну ширину */
+            display: flex; flex-direction: column; 
+            overflow: hidden; 
+            position: relative; 
+            background: var(--bg-body);
+        }
+        .top-bar { height: 70px; background: var(--white); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 30px; flex-shrink: 0; }
+        .page-title { font-size: 18px; font-weight: 600; }
+        .content-area { padding: 30px; overflow-y: auto; height: 100%; }
+
+        /* TABLE */
+        .data-table-container { background: var(--white); border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; width: 100%; }
+        .table-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .btn-main { background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .btn-main:hover { background: #5a222a; }
+
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 15px; background: #f8f9fa; font-size: 11px; text-transform: uppercase; color: #666; font-weight: 600; border-bottom: 2px solid var(--border); }
+        td { padding: 15px; border-bottom: 1px solid #eee; font-size: 13px; vertical-align: middle; }
+        
+        /* СТАТУСИ */
+        .row-disabled { opacity: 0.5; background: #fafafa; } 
+        .tag { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-right: 4px; display: inline-block; white-space: nowrap; }
+        .tag-new { background: #e3f2fd; color: #2196f3; }
+        .tag-hit { background: #fff3e0; color: #ff9800; }
+        .tag-sale { background: #ffebee; color: #f44336; }
+
+        /* КНОПКИ ДІЙ */
+        .actions { display: flex; gap: 5px; }
+        .act-btn { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 16px; transition: 0.2s; }
+        .btn-edit { background: #e3f2fd; color: #2196f3; }
+        .btn-edit:hover { background: #2196f3; color: #fff; }
+        .btn-copy { background: #e0f2f1; color: #009688; }
+        .btn-copy:hover { background: #009688; color: #fff; }
+        .btn-del { background: #ffebee; color: #f44336; }
+        .btn-del:hover { background: #f44336; color: #fff; }
+        
+        /* СОРТУВАННЯ */
+        .sort-col { display: flex; flex-direction: column; gap: 2px; }
+        .sort-btn { background: none; border: none; cursor: pointer; color: #ccc; font-size: 10px; padding: 2px; }
+        .sort-btn:hover { color: var(--accent); transform: scale(1.3); }
+
+        /* МОДАЛКА */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(2px); }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-box { background: #fff; width: 800px; max-width: 95%; max-height: 90vh; border-radius: 12px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.2); transform: scale(0.95); transition: 0.3s; }
+        .modal-overlay.active .modal-box { transform: scale(1); }
+        
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; }
+        .modal-body { padding: 30px; overflow-y: auto; flex: 1; }
+        .modal-footer { padding: 20px; border-top: 1px solid var(--border); background: #f9f9f9; text-align: right; }
+
+        /* ФОРМА */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: 0.2s; }
+        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(114, 47, 55, 0.1); }
+        textarea.form-control { resize: vertical; min-height: 80px; }
+
+        /* Фото */
+        .photo-input-group { display: flex; gap: 10px; margin-bottom: 10px; }
+        .btn-remove-photo { background: #ffebee; color: #f44336; border: none; padding: 0 15px; cursor: pointer; border-radius: 6px; }
+        .btn-add-photo { background: #f0f7ff; color: #007bff; border: 1px dashed #007bff; padding: 10px; width: 100%; cursor: pointer; border-radius: 6px; font-size: 13px; }
+
+        /* Чекбокси */
+        .checkbox-group { display: flex; gap: 15px; flex-wrap: wrap; }
+        .custom-check { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; user-select: none; }
+        .custom-check input { width: 16px; height: 16px; accent-color: var(--accent); }
+
+        /* РОЗМІРИ */
+        .sizes-wrapper { display: flex; gap: 10px; }
+        .size-box { position: relative; }
+        .size-box input { display: none; }
+        .size-box span { display: flex; width: 40px; height: 40px; border: 1px solid #ddd; justify-content: center; align-items: center; cursor: pointer; border-radius: 4px; font-weight: 600; font-size: 12px; transition: 0.2s; }
+        .size-box input:checked + span { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+        /* ЛОГІН */
+        #login-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 2000; display: flex; justify-content: center; align-items: center; }
+        .login-card { width: 360px; padding: 40px; text-align: center; }
+        .login-btn { width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none; cursor: pointer; border-radius: 6px; font-weight: 600; margin-bottom: 15px; }
         
         .hidden { display: none !important; }
-        
-        h2 { 
-            text-align: center; 
-            margin-bottom: 30px; 
-            color: var(--primary-color); 
-            font-family: 'Playfair Display', serif;
-            text-transform: uppercase;
-        }
-
-        input, textarea, select { 
-            width: 100%; 
-            padding: 12px; 
-            margin-bottom: 20px; 
-            border: 1px solid #ddd; 
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-        }
-        
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-color);
-        }
-
-        label { 
-            font-weight: 600; 
-            font-size: 11px; 
-            display: block; 
-            margin-bottom: 8px; 
-            text-transform: uppercase; 
-            color: #888;
-            letter-spacing: 1px;
-        }
-
-        /* Чекбокси для розмірів */
-        .sizes-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .size-checkbox-label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid #ddd;
-            padding: 10px;
-            cursor: pointer;
-            transition: 0.2s;
-            font-size: 12px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .size-checkbox-label:hover { border-color: var(--accent-color); }
-
-        /* Ховаємо стандартний чекбокс */
-        .size-checkbox-label input { display: none; }
-
-        /* Стиль коли вибрано (JS додасть клас checked) */
-        .size-checkbox-label.checked {
-            background-color: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
-
-        .btn-admin { 
-            width: 100%; 
-            padding: 15px; 
-            background: var(--accent-color);
-            color: #fff; 
-            border: none; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            font-weight: 600; 
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-        
-        .btn-admin:hover { background: #5a222a; }
-        
-        .logout-btn { background: #333; margin-top: 15px; }
-        .logout-btn:hover { background: #000; }
-
-        .helper-text { font-size: 11px; color: #999; margin-top: -15px; margin-bottom: 15px; }
     </style>
 </head>
 <body>
-    
-    <header>
-        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="catalog.html" target="_blank">Перейти на сайт</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <div class="admin-wrapper">
+    <div id="login-screen">
+        <div class="login-card">
+            <h2 style="margin-bottom: 30px; color: var(--accent); letter-spacing: 2px;">MUSE ADMIN</h2>
+            <input type="email" id="email" class="form-control" placeholder="Email" style="margin-bottom: 15px;">
+            <input type="password" id="password" class="form-control" placeholder="Пароль" style="margin-bottom: 20px;">
+            <button class="login-btn" onclick="login()">Увійти</button>
+            <label class="custom-check" style="justify-content: center;">
+                <input type="checkbox" id="remember-me"> <span>Запам'ятати мене</span>
+            </label>
+        </div>
+    </div>
+
+    <div id="admin-panel" class="hidden">
         
-        <div id="login-screen" class="admin-panel">
-            <h2>Вхід в адмінку</h2>
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Пароль">
-            <button class="btn-admin" onclick="login()">Увійти</button>
+        <nav class="sidebar">
+            <div class="brand">MUSE</div>
+            <div class="menu">
+                <div class="menu-item active" onclick="switchTab('products')"><i class="ph ph-t-shirt"></i> Товари</div>
+                <div class="menu-item" onclick="switchTab('orders')"><i class="ph ph-shopping-cart"></i> Замовлення</div>
+                <div class="menu-item" onclick="switchTab('clients')"><i class="ph ph-users"></i> Клієнти</div>
+            </div>
+            <div class="logout-wrapper">
+                <div class="menu-item" onclick="logout()"><i class="ph ph-sign-out"></i> Вийти</div>
+            </div>
+        </nav>
+
+        <div class="main-content">
+            <div class="top-bar">
+                <div class="page-title">Управління товарами</div>
+                <div style="font-weight: 600; font-size: 14px;">Admin</div>
+            </div>
+
+            <div class="content-area">
+                
+                <div id="tab-products">
+                    <div class="data-table-container">
+                        <div class="table-header">
+                            <h3>Каталог</h3>
+                            <button class="btn-main" onclick="openModal('add')"><i class="ph ph-plus"></i> Додати товар</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;"></th>
+                                    <th style="width: 60px;">Фото</th>
+                                    <th>Інформація</th>
+                                    <th>Категорія</th>
+                                    <th>Ціна</th>
+                                    <th>Теги</th>
+                                    <th>Дії</th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div id="tab-orders" class="hidden"><h3 style="color:#888; text-align:center; margin-top:50px;">Замовлення в розробці...</h3></div>
+                <div id="tab-clients" class="hidden"><h3 style="color:#888; text-align:center; margin-top:50px;">Клієнти в розробці...</h3></div>
+
+            </div>
         </div>
+    </div>
 
-        <div id="admin-content" class="admin-panel hidden">
-            <h2>Новий товар</h2>
-            <form id="product-form">
-                
-                <div style="display: flex; gap: 20px;">
-                    <div style="flex: 1;">
-                        <label>ID товару (Число)</label>
-                        <input type="number" id="p-id" placeholder="Напр: 101" required>
-                    </div>
-                    <div style="flex: 1;">
-                        <label>Ціна (UAH)</label>
-                        <input type="number" id="p-price" placeholder="2800" required>
-                    </div>
-                </div>
-
-                <label>Бренд / Колекція</label>
-                <input type="text" id="p-brand" placeholder="MUSE Collection" value="MUSE Collection">
-                
-                <label>Назва товару</label>
-                <input type="text" id="p-title" placeholder="Шовкова сукня максі" required>
-                
-                <label>Фото (URL посилання)</label>
-                <input type="text" id="p-img" placeholder="https://..." required>
-                <p class="helper-text">Вставте посилання на картинку (jpg/png).</p>
-                
-                <label>Опис</label>
-                <textarea id="p-desc" rows="4" placeholder="Елегантна сукня для вечірніх виходів..."></textarea>
-                
-                <div style="display: flex; gap: 20px;">
-                    <div style="flex: 1;">
-                        <label>Склад тканини</label>
-                        <input type="text" id="p-composition" placeholder="100% Шовк">
-                    </div>
-                    <div style="flex: 1;">
-                        <label>Колір</label>
-                        <input type="text" id="p-color" placeholder="Чорний">
-                    </div>
-                </div>
-
-                <label>Доступні розміри</label>
-                <div class="sizes-grid">
-                    <label class="size-checkbox-label"><input type="checkbox" value="XS"><span>XS</span></label>
-                    <label class="size-checkbox-label"><input type="checkbox" value="S" checked><span>S</span></label>
-                    <label class="size-checkbox-label"><input type="checkbox" value="M" checked><span>M</span></label>
-                    <label class="size-checkbox-label"><input type="checkbox" value="L"><span>L</span></label>
-                    <label class="size-checkbox-label"><input type="checkbox" value="XL"><span>XL</span></label>
-                </div>
-                
-                <button type="button" class="btn-admin" onclick="saveProduct()">Опублікувати товар</button>
-            </form>
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="modal-title">Товар</h3>
+                <i class="ph ph-x" style="font-size: 24px; cursor: pointer;" onclick="closeModal()"></i>
+            </div>
             
-            <button class="btn-admin logout-btn" onclick="logout()">Вийти</button>
-        </div>
+            <div class="modal-body">
+                <form id="product-form">
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>ID Товару (Унікальний)</label>
+                            <input type="number" id="p-id" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Статус</label>
+                            <label class="custom-check">
+                                <input type="checkbox" id="p-instock" checked> 
+                                <span style="font-weight:600; color:var(--success);">В наявності</span>
+                            </label>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label>Назва товару</label>
+                        <input type="text" id="p-title" class="form-control" required>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Категорія</label>
+                            <select id="p-category" class="form-control">
+                                <option value="dress">Сукні (Dress)</option>
+                                <option value="suit">Костюми (Suit)</option>
+                                <option value="top">Верх (Top)</option>
+                                <option value="bottom">Низ (Bottom)</option>
+                                <option value="outerwear">Верхній одяг</option>
+                                <option value="accessories">Аксесуари</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Бренд</label>
+                            <input type="text" id="p-brand" class="form-control" value="MUSE Collection">
+                        </div>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Поточна ціна (грн)</label>
+                            <input type="number" id="p-price" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Стара ціна (якщо знижка)</label>
+                            <input type="number" id="p-old-price" class="form-control" placeholder="Необов'язково">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Маркери (Теги)</label>
+                        <div class="checkbox-group">
+                            <label class="custom-check"><input type="checkbox" class="tag-check" value="new"> ✨ Новинка</label>
+                            <label class="custom-check"><input type="checkbox" class="tag-check" value="hit"> 🔥 Хіт</label>
+                            <label class="custom-check"><input type="checkbox" class="tag-check" value="sale"> 🏷️ Акція</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Фотографії (Перша - головна)</label>
+                        <div id="photos-container"></div>
+                        <button type="button" class="btn-add-photo" onclick="addPhotoField()">+ Додати ще фото</button>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Склад</label>
+                            <input type="text" id="p-composition" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Колір</label>
+                            <input type="text" id="p-color" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Опис</label>
+                        <textarea id="p-desc" class="form-control"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Розміри в наявності</label>
+                        <div class="sizes-wrapper">
+                            <label class="size-box"><input type="checkbox" class="size-check" value="XS"><span>XS</span></label>
+                            <label class="size-box"><input type="checkbox" class="size-check" value="S" checked><span>S</span></label>
+                            <label class="size-box"><input type="checkbox" class="size-check" value="M" checked><span>M</span></label>
+                            <label class="size-box"><input type="checkbox" class="size-check" value="L"><span>L</span></label>
+                            <label class="size-box"><input type="checkbox" class="size-check" value="XL"><span>XL</span></label>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn-main" onclick="saveProduct()" style="width: auto; display: inline-flex;">Зберегти зміни</button>
+            </div>
+        </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-    
     <script src="js/config.js"></script>
 
     <script>
-        // Ініціалізація
         firebase.initializeApp(CONFIG.firebase);
-        const db = firebase.database();
         const auth = firebase.auth();
+        const db = firebase.database();
 
-        // Логіка підсвічування чекбоксів
-        document.querySelectorAll('.size-checkbox-label input').forEach(cb => {
-            // При завантаженні
-            if(cb.checked) cb.parentElement.classList.add('checked');
-            
-            // При кліку
-            cb.addEventListener('change', function() {
-                if(this.checked) this.parentElement.classList.add('checked');
-                else this.parentElement.classList.remove('checked');
-            });
-        });
+        let globalProducts = [];
+        let isEditing = false;
 
-        // Перевірка входу
         auth.onAuthStateChanged(user => {
-            if (user) {
+            if(user) {
                 document.getElementById('login-screen').classList.add('hidden');
-                document.getElementById('admin-content').classList.remove('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                loadProducts();
             } else {
                 document.getElementById('login-screen').classList.remove('hidden');
-                document.getElementById('admin-content').classList.add('hidden');
+                document.getElementById('admin-panel').classList.add('hidden');
             }
         });
 
         function login() {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-            auth.signInWithEmailAndPassword(email, pass)
-                .catch(err => alert("Помилка входу: " + err.message));
+            const e = document.getElementById('email').value;
+            const p = document.getElementById('password').value;
+            const remember = document.getElementById('remember-me').checked;
+            const pers = remember ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION;
+
+            auth.setPersistence(pers)
+                .then(() => auth.signInWithEmailAndPassword(e, p))
+                .catch(err => alert("Помилка: " + err.message));
+        }
+        function logout() { auth.signOut(); }
+
+        function loadProducts() {
+            const tbody = document.getElementById('products-body');
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Завантаження...</td></tr>';
+
+            db.ref('products').on('value', snapshot => {
+                const data = snapshot.val();
+                tbody.innerHTML = '';
+                if(!data) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;">Пусто</td></tr>'; return; }
+
+                globalProducts = Object.values(data);
+                
+                globalProducts.sort((a, b) => {
+                    const stockA = a.inStock !== false ? 1 : 0;
+                    const stockB = b.inStock !== false ? 1 : 0;
+                    if (stockA !== stockB) return stockB - stockA;
+                    return (a.orderIndex || 0) - (b.orderIndex || 0);
+                });
+
+                globalProducts.forEach((p, idx) => {
+                    if (p.orderIndex === undefined) { db.ref('products/' + p.id).update({ orderIndex: idx }); }
+
+                    const inStock = p.inStock !== false;
+                    const rowClass = inStock ? '' : 'row-disabled';
+                    let imgSrc = Array.isArray(p.images) ? p.images[0] : (p.image || '');
+                    
+                    let tagsHtml = '';
+                    if (p.tags) p.tags.forEach(t => {
+                        const label = { 'new': 'Новинка', 'hit': 'Хіт', 'sale': 'Акція' }[t] || t;
+                        tagsHtml += `<span class="tag tag-${t}">${label}</span>`;
+                    });
+
+                    let arrows = '';
+                    if (inStock) {
+                        arrows = `
+                            <div class="sort-col">
+                                ${idx > 0 && globalProducts[idx-1].inStock !== false ? `<button class="sort-btn" onclick="moveProduct(${p.id}, -1)">▲</button>` : ''}
+                                ${idx < globalProducts.length - 1 && globalProducts[idx+1].inStock !== false ? `<button class="sort-btn" onclick="moveProduct(${p.id}, 1)">▼</button>` : ''}
+                            </div>`;
+                    }
+
+                    const html = `
+                        <tr class="${rowClass}">
+                            <td>${arrows}</td>
+                            <td><img src="${imgSrc}" style="width:40px; height:50px; object-fit:cover; border-radius:4px;"></td>
+                            <td>
+                                <strong>${p.title}</strong><br>
+                                <span style="font-size:11px; color:#888;">ID: ${p.id}</span>
+                                ${!inStock ? '<br><span style="color:red; font-size:10px;">Закінчився</span>' : ''}
+                            </td>
+                            <td>${p.category || '-'}</td>
+                            <td>
+                                ${p.oldPrice ? `<span style="text-decoration:line-through; color:#999; font-size:11px;">${p.oldPrice}</span> ` : ''}
+                                <b>${p.price} ₴</b>
+                            </td>
+                            <td>${tagsHtml}</td>
+                            <td>
+                                <div class="actions">
+                                    <button class="act-btn btn-edit" title="Редагувати" onclick="editProduct(${p.id})"><i class="ph ph-pencil-simple"></i></button>
+                                    <button class="act-btn btn-copy" title="Дублювати" onclick="copyProduct(${p.id})"><i class="ph ph-copy"></i></button>
+                                    <button class="act-btn btn-del" title="Видалити" onclick="deleteProduct(${p.id})"><i class="ph ph-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>`;
+                    tbody.insertAdjacentHTML('beforeend', html);
+                });
+            });
         }
 
-        function logout() {
-            auth.signOut();
+        function moveProduct(id, dir) {
+            const idx = globalProducts.findIndex(p => p.id === id);
+            if (idx === -1) return;
+            const neighborIdx = idx + dir;
+            if (neighborIdx < 0 || neighborIdx >= globalProducts.length) return;
+            const curr = globalProducts[idx];
+            const next = globalProducts[neighborIdx];
+            
+            const updates = {};
+            updates[`products/${curr.id}/orderIndex`] = next.orderIndex;
+            updates[`products/${next.id}/orderIndex`] = curr.orderIndex;
+            db.ref().update(updates);
+        }
+
+        function addPhotoField(value = '') {
+            const container = document.getElementById('photos-container');
+            const div = document.createElement('div');
+            div.className = 'photo-input-group';
+            div.innerHTML = `
+                <input type="text" class="form-control photo-url" placeholder="URL фото" value="${value}">
+                <button type="button" class="btn-remove-photo" onclick="this.parentElement.remove()"><i class="ph ph-trash"></i></button>
+            `;
+            container.appendChild(div);
+        }
+
+        function openModal(mode) {
+            document.getElementById('product-modal').classList.add('active');
+            if (mode === 'add') {
+                isEditing = false;
+                document.getElementById('modal-title').textContent = "Новий товар";
+                document.getElementById('product-form').reset();
+                document.getElementById('p-id').disabled = false;
+                document.getElementById('photos-container').innerHTML = '';
+                addPhotoField();
+            }
+        }
+
+        function closeModal() { document.getElementById('product-modal').classList.remove('active'); }
+
+        function editProduct(id) {
+            isEditing = true;
+            document.getElementById('modal-title').textContent = "Редагування";
+            openModal('edit');
+            
+            const p = globalProducts.find(x => x.id === id);
+            document.getElementById('p-id').value = p.id;
+            document.getElementById('p-id').disabled = true;
+            document.getElementById('p-title').value = p.title;
+            document.getElementById('p-brand').value = p.brand;
+            document.getElementById('p-price').value = p.price;
+            document.getElementById('p-old-price').value = p.oldPrice || '';
+            document.getElementById('p-category').value = p.category || 'dress';
+            document.getElementById('p-composition').value = p.composition || '';
+            document.getElementById('p-color').value = p.color || '';
+            document.getElementById('p-desc').value = p.description || '';
+            document.getElementById('p-instock').checked = p.inStock !== false;
+
+            const container = document.getElementById('photos-container');
+            container.innerHTML = '';
+            let imgs = Array.isArray(p.images) ? p.images : (p.image ? [p.image] : []);
+            if (imgs.length === 0) addPhotoField();
+            else imgs.forEach(url => addPhotoField(url));
+
+            document.querySelectorAll('.size-check').forEach(cb => cb.checked = false);
+            if(p.sizes) p.sizes.forEach(s => {
+                const cb = document.querySelector(`.size-check[value="${s}"]`);
+                if(cb) cb.checked = true;
+            });
+
+            document.querySelectorAll('.tag-check').forEach(cb => cb.checked = false);
+            if(p.tags) p.tags.forEach(t => {
+                const cb = document.querySelector(`.tag-check[value="${t}"]`);
+                if(cb) cb.checked = true;
+            });
+        }
+
+        function copyProduct(id) {
+            const p = globalProducts.find(x => x.id === id);
+            const newId = prompt("Новий ID:", Date.now().toString().slice(-6));
+            if(!newId) return;
+            const copy = { ...p };
+            copy.id = parseInt(newId);
+            copy.title = p.title + " (Копія)";
+            copy.timestamp = Date.now();
+            copy.orderIndex = globalProducts.length;
+            db.ref('products/' + newId).set(copy).then(() => alert("Скопійовано!"));
         }
 
         function saveProduct() {
             const id = document.getElementById('p-id').value;
-            if(!id) return alert("Вкажіть ID (число)!");
-
-            const price = parseInt(document.getElementById('p-price').value);
-            if(!price) return alert("Вкажіть ціну!");
-
-            // Збираємо вибрані розміри в масив ['S', 'M']
-            const selectedSizes = [];
-            document.querySelectorAll('.size-checkbox-label input:checked').forEach(cb => {
-                selectedSizes.push(cb.value);
-            });
-
-            if (selectedSizes.length === 0) {
-                if(!confirm("Не вибрано жодного розміру. Товар буде 'One Size'. Продовжити?")) return;
-            }
+            if(!id) return alert("Вкажіть ID!");
             
-            // Формуємо об'єкт для MUSE
-            const productData = {
+            const images = [];
+            document.querySelectorAll('.photo-url').forEach(inp => { if(inp.value.trim()) images.push(inp.value.trim()); });
+            if(images.length === 0) return alert("Треба хоча б 1 фото!");
+
+            const sizes = [];
+            document.querySelectorAll('.size-check:checked').forEach(cb => sizes.push(cb.value));
+            const tags = [];
+            document.querySelectorAll('.tag-check:checked').forEach(cb => tags.push(cb.value));
+
+            const oldPriceVal = document.getElementById('p-old-price').value;
+
+            const data = {
                 id: parseInt(id),
-                brand: document.getElementById('p-brand').value,
                 title: document.getElementById('p-title').value,
-                price: price,
-                image: document.getElementById('p-img').value,
-                description: document.getElementById('p-desc').value,
-                
-                // Специфічні поля для одягу
+                brand: document.getElementById('p-brand').value,
+                price: parseInt(document.getElementById('p-price').value),
+                oldPrice: oldPriceVal ? parseInt(oldPriceVal) : null,
+                category: document.getElementById('p-category').value,
                 composition: document.getElementById('p-composition').value,
                 color: document.getElementById('p-color').value,
-                sizes: selectedSizes, 
-                
+                description: document.getElementById('p-desc').value,
+                inStock: document.getElementById('p-instock').checked,
+                image: images[0],
+                images: images,
+                sizes: sizes,
+                tags: tags,
                 timestamp: Date.now()
             };
 
-            // Збереження в Firebase
-            db.ref('products/' + id).set(productData)
-                .then(() => {
-                    alert("Товар успішно додано! 👗");
-                    // Очистка форми (залишаємо бренд, бо часто додають одну колекцію)
-                    const brand = document.getElementById('p-brand').value;
-                    document.getElementById('product-form').reset();
-                    document.getElementById('p-brand').value = brand;
-                    
-                    // Скидаємо візуальні чекбокси
-                    document.querySelectorAll('.size-checkbox-label').forEach(l => l.classList.remove('checked'));
-                })
-                .catch(err => alert("Помилка запису: " + err.message));
+            if (!isEditing) {
+                data.orderIndex = globalProducts.length;
+            } else {
+                const old = globalProducts.find(x => x.id == id);
+                if(old) data.orderIndex = old.orderIndex;
+            }
+
+            db.ref('products/' + id).update(data)
+                .then(() => closeModal())
+                .catch(e => alert(e.message));
+        }
+
+        function deleteProduct(id) {
+            if(confirm("Видалити?")) db.ref('products/' + id).remove();
+        }
+
+        function switchTab(t) {
+            document.querySelectorAll('.menu-item').forEach(el => el.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            ['products', 'orders', 'clients'].forEach(x => document.getElementById('tab-'+x).classList.add('hidden'));
+            document.getElementById('tab-'+t).classList.remove('hidden');
         }
     </script>
 </body>
