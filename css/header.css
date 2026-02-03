@@ -1,5 +1,5 @@
 /* =========================================
-   MUSE HEADER STYLES
+   MUSE HEADER STYLES (Final Fixed)
    ========================================= */
 
 header {
@@ -18,7 +18,7 @@ header {
 .logo { 
     font-size: 24px; font-weight: 700; letter-spacing: 2px; 
     text-transform: uppercase; text-decoration: none;
-    color: var(--primary-color); /* Темний (MUSE) */
+    color: var(--primary-color);
     transition: 0.3s;
 }
 .logo a { color: inherit; text-decoration: none; }
@@ -26,7 +26,7 @@ header {
 /* --- МЕНЮ (Десктоп) --- */
 .nav-links { display: flex; gap: 30px; list-style: none; margin: 0; padding: 0; }
 .nav-links a { 
-    color: var(--primary-color); /* Темний текст */
+    color: var(--primary-color);
     font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
     text-decoration: none; transition: 0.3s;
 }
@@ -50,7 +50,7 @@ header {
 .search-icon-small { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 .search-icon-small svg { width: 14px; height: 14px; stroke: var(--primary-color); }
 
-/* Кошик */
+/* Кошик (кнопка) */
 .cart-btn { position: relative; cursor: pointer; display: flex; color: var(--primary-color); }
 .cart-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; transition: 0.3s; }
 .cart-btn:hover { color: var(--accent-color); }
@@ -81,42 +81,32 @@ header.scrolled .cart-btn { color: #fff; }
 .burger { display: none; cursor: pointer; z-index: 10001; }
 .burger div { width: 25px; height: 2px; background: var(--primary-color); margin: 5px; transition: 0.3s; }
 
-/* Якщо хедер темний - бургер білий */
 header.scrolled .burger div { background: #fff; }
 
-/* Анімація хрестика */
-.burger.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); background: #000; } /* Хрестик темний на білому меню */
+.burger.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); background: #000; }
 .burger.toggle .line2 { opacity: 0; }
 .burger.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); background: #000; }
 
 @media (max-width: 768px) {
-    /* Ховаємо поле пошуку на моб, щоб не заважало */
     #search-input { display: none; }
     .search-icon-small { display: none; }
-
     .burger { display: block; }
 
     .nav-links {
         position: fixed; right: 0; top: 0; 
         height: 100vh; width: 70%;
-        background: #fff; /* Біле меню */
+        background: #fff; 
         display: flex; flex-direction: column;
         align-items: center; justify-content: center;
-        transform: translateX(100%); /* Сховано */
-        transition: 0.4s ease;
+        transform: translateX(100%); transition: 0.4s ease;
         box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        z-index: 10000; /* Поверх всього */
+        z-index: 10000;
     }
-
     .nav-links.nav-active { transform: translateX(0%); }
-    
-    .nav-links a { 
-        color: #000 !important; /* Текст в меню завжди чорний */
-        font-size: 18px; margin: 20px 0; 
-    }
+    .nav-links a { color: #000 !important; font-size: 18px; margin: 20px 0; }
 }
 
-/* Випадайка пошуку */
+/* --- ВИПАДАЙКА ПОШУКУ --- */
 .search-dropdown {
     position: absolute; top: 100%; right: 0; width: 300px;
     background: #fff; margin-top: 10px;
@@ -128,3 +118,40 @@ header.scrolled .burger div { background: #fff; }
 .search-item img { width: 40px; height: 50px; object-fit: cover; margin-right: 15px; }
 .search-item-info h4 { font-size: 13px; color: #222; margin: 0; }
 .search-item-price { margin-left: auto; color: var(--primary-color); font-weight: 700; font-size: 12px; }
+
+/* --- !!! КОШИК (MODAL) - ОСЬ ЧОГО НЕ ВИСТАЧАЛО !!! --- */
+.cart-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5); z-index: 10002;
+    opacity: 0; visibility: hidden; transition: 0.3s;
+}
+.cart-overlay.active { opacity: 1; visibility: visible; }
+
+.cart-modal {
+    position: absolute; top: 0; right: 0; height: 100%; width: 400px;
+    background: #fff; padding: 30px;
+    display: flex; flex-direction: column;
+    transform: translateX(100%); transition: 0.3s;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+.cart-overlay.active .cart-modal { transform: translateX(0); }
+
+.cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+.cart-header h3 { font-family: var(--font-heading); font-size: 20px; }
+.close-cart { cursor: pointer; font-size: 24px; transition: 0.3s; }
+.close-cart:hover { color: var(--accent-color); transform: rotate(90deg); }
+
+.cart-items { flex: 1; overflow-y: auto; }
+.cart-footer { margin-top: 20px; border-top: 1px solid #eee; padding-top: 20px; }
+.cart-total { margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+.cart-total h3 { font-size: 18px; }
+
+.checkout-btn { 
+    width: 100%; padding: 15px; 
+    background: var(--accent-color); color: #fff; border: none; 
+    font-weight: 600; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; 
+}
+
+@media (max-width: 500px) {
+    .cart-modal { width: 100%; }
+}
