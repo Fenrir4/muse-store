@@ -17,18 +17,24 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/responsive.css">
 </head>
-<body class="home-page"> <header class="transparent"> <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
+<body class="home-page"> 
+    <header>
+        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="#">Новинки</a></li> <li><a href="#">Про нас</a></li>
+                <li><a href="catalog.html">Новинки</a></li>
+                <li><a href="delivery.html">Доставка</a></li>
+                <li><a href="about.html">Про нас</a></li>
             </ul>
         </nav>
+
         <div class="burger">
             <div class="line1"></div>
             <div class="line2"></div>
             <div class="line3"></div>
         </div>
+
         <div class="user-actions">
             <div class="search-container">
                 <input type="text" id="search-input" placeholder="Пошук..." autocomplete="off">
@@ -168,22 +174,6 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-    <script>
-      // Твоя конфігурація
-      const firebaseConfig = {
-        apiKey: "AIzaSyCn8FeDaouYV-tXRn9RNG2os-2A89OXscY",
-        authDomain: "milliliter-shop.firebaseapp.com",
-        databaseURL: "https://milliliter-shop-default-rtdb.europe-west1.firebasedatabase.app",
-        projectId: "milliliter-shop",
-        storageBucket: "milliliter-shop.firebasestorage.app",
-        messagingSenderId: "799244023149",
-        appId: "1:799244023149:web:cfbafca4f1c2c028205664"
-      };
-
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.database();
-    </script>
 
     <script src="js/config.js"></script>
     <script src="js/main.js"></script>
