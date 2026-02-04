@@ -1,6 +1,6 @@
 /* =========================================
    MUSE CLOTHES - CORE LOGIC
-   Version: 7.0 (Full Event Delegation)
+   Version: 10.0 (Final Polished & Secure)
    ========================================= */
 
 // 1. ІНІЦІАЛІЗАЦІЯ FIREBASE
@@ -38,7 +38,8 @@ window.selectSize = function(btn) {
 }
 
 window.changeMainImage = function(src, thumb) {
-    document.getElementById('p-img').src = src;
+    const mainImg = document.getElementById('p-img');
+    if (mainImg) mainImg.src = src;
     document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
     thumb.classList.add('active');
 }
@@ -64,40 +65,67 @@ document.addEventListener('DOMContentLoaded', () => {
     renderCart();
 
     // ==============================================
-    // А. ГЛОБАЛЬНА ОБРОБКА КЛІКІВ (DELEGATION)
+    // А. СИСТЕМА ПОВІДОМЛЕНЬ (TOASTS)
     // ==============================================
-    // Це найважливіша частина - ловить кліки по кнопках, навіть якщо вони створені динамічно
-    
+    function showNotification(message, type = 'info') {
+        let container = document.getElementById('notification-area');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-area';
+            document.body.appendChild(container);
+        }
+
+        const toast = document.createElement('div');
+        toast.className = `muse-toast ${type}`;
+        
+        let icon = 'info';
+        if (type === 'success') icon = 'check-circle';
+        else if (type === 'error') icon = 'warning-circle';
+
+        toast.innerHTML = `<span>${message}</span><i class="ph ph-${icon}" style="font-size:20px; margin-left:10px;"></i>`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.classList.add('hiding');
+            setTimeout(() => toast.remove(), 400);
+        }, 4000);
+    }
+
+    // ==============================================
+    // Б. ГЛОБАЛЬНА ОБРОБКА КЛІКІВ (DELEGATION)
+    // ==============================================
     document.body.addEventListener('click', function(e) {
         const target = e.target;
 
         // 1. КНОПКА "ОФОРМИТИ ЗАМОВЛЕННЯ"
         if (target.classList.contains('checkout-btn')) {
-            if (cart.length === 0) { alert("Кошик порожній"); return; }
+            if (cart.length === 0) { 
+                showNotification("Ваш кошик порожній", "error"); 
+                return; 
+            }
             closeCartFunc(); 
             window.location.href = 'checkout.html';
         }
 
-        // 2. КНОПКА "ДОДАТИ В КОШИК" (+ або велика кнопка)
+        // 2. КНОПКА "ДОДАТИ В КОШИК"
         if (target.closest('.add-btn') || target.closest('.add-to-cart-big')) {
             const btn = target.closest('.add-btn') || target.closest('.add-to-cart-big');
-            if (btn.disabled) return; // Якщо кнопка неактивна
+            if (btn.disabled) return; 
 
-            // Знаходимо картку товару
             const card = btn.closest('.product-card') || btn.closest('.product-page');
             if (!card) return;
 
-            // Визначаємо розмір
+            // Розмір
             const activeSizeBtn = card.querySelector('.size-btn.active') || card.querySelector('.size-option-btn.active');
             let selectedSize = activeSizeBtn ? activeSizeBtn.textContent : 'One Size';
             
-            // Якщо розмір не обрано, беремо перший доступний (для швидкої покупки)
+            // Якщо не обрано - беремо перший
             if (!activeSizeBtn) {
                 const firstSize = card.querySelector('.size-btn') || card.querySelector('.size-option-btn');
                 if(firstSize) selectedSize = firstSize.textContent;
             }
 
-            // Ціна
+            // Ціна (очищаємо від валюти)
             const priceText = card.querySelector('.price, #p-price').textContent;
             const price = parseInt(priceText.replace(/\D/g, ''));
 
@@ -110,30 +138,23 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             cart.push(newItem);
-            saveCart();
-            renderCart();
-            updateCartIcon();
-            openCart();
+            saveCart(); renderCart(); updateCartIcon(); openCart();
+            showNotification("Товар додано в кошик", "success");
         }
 
-        // 3. КНОПКА "ВИДАЛИТИ З КОШИКА" (Хрестик)
+        // 3. КНОПКА "ВИДАЛИТИ З КОШИКА"
         if (target.classList.contains('remove-item')) {
             const idToRemove = parseInt(target.dataset.id);
             cart = cart.filter(i => i.id !== idToRemove);
-            saveCart();
-            renderCart();
-            updateCartIcon();
-            // Якщо ми на сторінці чекауту - оновлюємо список там теж
+            saveCart(); renderCart(); updateCartIcon();
+            // Оновлюємо сторінку checkout, якщо ми там
             if(document.getElementById('checkout-items-list')) window.location.reload();
         }
 
-        // 4. КЛІК ПО ТЕМНОМУ ФОНУ КОШИКА (Закрити)
-        if (target.classList.contains('cart-overlay')) {
-            closeCartFunc();
-        }
+        // 4. ЗАКРИТИ КОШИК (фон)
+        if (target.classList.contains('cart-overlay')) { closeCartFunc(); }
     });
 
-    // Окремі лісенери для статичних кнопок відкриття/закриття
     if (cartBtn) cartBtn.addEventListener('click', openCart);
     if (closeCartBtn) closeCartBtn.addEventListener('click', closeCartFunc);
 
@@ -142,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==============================================
-    // Б. ЗАВАНТАЖЕННЯ ДАНИХ (КАТАЛОГ + ГОЛОВНА)
+    // В. ЗАВАНТАЖЕННЯ ДАНИХ (Realtime)
     // ==============================================
     if (catalogGrid || trendsGrid) {
         db.ref('products').on('value', (snapshot) => {
@@ -161,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==============================================
-    // В. ЛОГІКА КАТАЛОГУ
+    // Г. ЛОГІКА КАТАЛОГУ
     // ==============================================
     window.applyFiltersAndRender = function() {
         if (!allProductsGlobal || allProductsGlobal.length === 0) return;
@@ -188,33 +209,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 default: return orderA - orderB;
             }
         });
-
         renderCatalog(list);
     }
 
     function renderCatalog(list) {
         if(!catalogGrid) return;
         catalogGrid.innerHTML = '';
-        
-        if (list.length === 0) {
-            catalogGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 40px; color:#888;">Товарів немає.</p>';
-            return;
-        }
+        if (list.length === 0) { catalogGrid.innerHTML = '<p style="grid-column: 1/-1; text-align:center; padding: 40px; color:#888;">Товарів немає.</p>'; return; }
 
         list.forEach(p => {
             const mainImg = (p.images && p.images.length > 0) ? p.images[0] : p.image;
-            let sizesHTML = '';
-            if (p.sizes && p.sizes.length > 0) {
-                sizesHTML = p.sizes.map(s => `<button class="size-btn" onclick="selectSize(this)">${s}</button>`).join('');
-            } else { sizesHTML = '<span style="font-size:11px; color:#999;">One Size</span>'; }
-
+            let sizesHTML = (p.sizes && p.sizes.length > 0) ? p.sizes.map(s => `<button class="size-btn" onclick="selectSize(this)">${s}</button>`).join('') : '<span style="font-size:11px; color:#999;">One Size</span>';
+            
             let tagsHTML = '';
             if (p.tags && p.tags.length > 0) {
-                tagsHTML = `<div class="tags-container">` + 
-                    p.tags.map(t => {
-                        const labels = { 'new': 'New', 'hit': 'Hit', 'sale': 'Sale' };
-                        return `<span class="tag tag-${t}">${labels[t] || t}</span>`;
-                    }).join('') + `</div>`;
+                tagsHTML = `<div class="tags-container">` + p.tags.map(t => `<span class="tag tag-${t}">${t}</span>`).join('') + `</div>`;
             }
 
             let priceHTML = `<span class="price">${p.price} ₴</span>`;
@@ -229,51 +238,34 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardHTML = `
                 <div class="product-card ${stockClass}" data-id="${p.id}">
                     ${tagsHTML}
-                    <a href="product.html?id=${p.id}" style="position:relative;">
-                        ${stockOverlay}
-                        <img src="${mainImg}" class="product-img" alt="${p.title}" loading="lazy">
-                    </a>
+                    <a href="product.html?id=${p.id}" style="position:relative;">${stockOverlay}<img src="${mainImg}" class="product-img" loading="lazy"></a>
                     <div class="brand-name">${p.brand || 'MUSE'}</div>
                     <div class="product-title"><a href="product.html?id=${p.id}">${p.title}</a></div>
                     <div class="size-selector">${sizesHTML}</div>
-                    <div class="price-row">
-                        <div class="price-wrap">${priceHTML}</div>
-                        ${inStock ? '<div class="add-btn">+</div>' : ''}
-                    </div>
+                    <div class="price-row"><div class="price-wrap">${priceHTML}</div>${inStock ? '<div class="add-btn">+</div>' : ''}</div>
                 </div>`;
             catalogGrid.insertAdjacentHTML('beforeend', cardHTML);
         });
-        // Тут більше не треба setupAddToCartButtons(), бо у нас глобальний лісенер!
     }
 
     function renderTrends(list, container) {
         container.innerHTML = '';
-        if (list.length === 0) {
-            container.innerHTML = '<p style="text-align:center; width:100%;">Скоро тут з\'являться хіти!</p>';
-            return;
-        }
-
+        if (list.length === 0) { container.innerHTML = '<p style="text-align:center; width:100%;">Скоро тут з\'являться хіти!</p>'; return; }
         list.forEach(p => {
             const mainImg = (p.images && p.images.length > 0) ? p.images[0] : p.image;
             const html = `
                 <div class="product-card">
                     <div class="tags-container"><span class="tag tag-hit">ХІТ</span></div>
-                    <a href="product.html?id=${p.id}">
-                        <img src="${mainImg}" class="product-img" loading="lazy">
-                    </a>
-                    <div class="product-title" style="margin-top:10px;">
-                        <a href="product.html?id=${p.id}">${p.title}</a>
-                    </div>
+                    <a href="product.html?id=${p.id}"><img src="${mainImg}" class="product-img" loading="lazy"></a>
+                    <div class="product-title" style="margin-top:10px;"><a href="product.html?id=${p.id}">${p.title}</a></div>
                     <div class="price" style="font-weight:600;">${p.price} ₴</div>
-                </div>
-            `;
+                </div>`;
             container.insertAdjacentHTML('beforeend', html);
         });
     }
 
-
     // ==============================================
-    // Г. СТОРІНКА ТОВАРУ
+    // Д. СТОРІНКА ТОВАРУ
     // ==============================================
     const params = new URLSearchParams(window.location.search);
     const pid = params.get('id');
@@ -304,24 +296,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const imgEl = document.getElementById('p-img');
         const thumbsEl = document.getElementById('p-thumbnails');
         let imagesList = (p.images && Array.isArray(p.images)) ? p.images : [p.image];
-        
         if(imagesList.length > 0) imgEl.src = imagesList[0];
 
         if (thumbsEl) {
             if (imagesList.length > 1) {
-                thumbsEl.innerHTML = imagesList.map((src, idx) => `
-                    <img src="${src}" class="thumb-img ${idx===0?'active':''}" 
-                         onclick="changeMainImage('${src}', this)">
-                `).join('');
+                thumbsEl.innerHTML = imagesList.map((src, idx) => `<img src="${src}" class="thumb-img ${idx===0?'active':''}" onclick="changeMainImage('${src}', this)">`).join('');
             } else { thumbsEl.innerHTML = ''; }
         }
 
         const detailsEl = document.getElementById('p-details');
         if(detailsEl) {
-            detailsEl.innerHTML = `
-                <div class="spec-item"><span class="spec-label">Склад:</span> <span class="spec-val">${p.composition || '—'}</span></div>
-                <div class="spec-item"><span class="spec-label">Колір:</span> <span class="spec-val">${p.color || '—'}</span></div>
-            `;
+            detailsEl.innerHTML = `<div class="spec-item"><span class="spec-label">Склад:</span> <span class="spec-val">${p.composition || '—'}</span></div><div class="spec-item"><span class="spec-label">Колір:</span> <span class="spec-val">${p.color || '—'}</span></div>`;
         }
 
         const sizesContainer = document.getElementById('p-sizes');
@@ -334,20 +319,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const buyBtn = document.querySelector('.add-to-cart-big');
         if (buyBtn) {
             if (p.inStock === false) {
-                buyBtn.textContent = "НЕМАЄ В НАЯВНОСТІ";
-                buyBtn.disabled = true;
-                buyBtn.style.background = "#ccc";
+                buyBtn.textContent = "НЕМАЄ В НАЯВНОСТІ"; buyBtn.disabled = true; buyBtn.style.background = "#ccc";
             } else {
-                buyBtn.textContent = "ДОДАТИ В КОШИК";
-                buyBtn.disabled = false;
-                buyBtn.style.background = "";
+                buyBtn.textContent = "ДОДАТИ В КОШИК"; buyBtn.disabled = false; buyBtn.style.background = "";
             }
         }
     }
 
 
     // ==============================================
-    // Д. РЕНДЕР КОШИКА
+    // Е. РЕНДЕР КОШИКА
     // ==============================================
     function renderCart() {
         if (!cartItemsContainer) return;
@@ -379,18 +360,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==============================================
-    // Е. ОФОРМЛЕННЯ ЗАМОВЛЕННЯ (CHECKOUT PAGE)
+    // Ж. ОФОРМЛЕННЯ ЗАМОВЛЕННЯ (CHECKOUT)
     // ==============================================
     const checkoutList = document.getElementById('checkout-items-list');
+    
+    // --- 1. ЛОГІКА ПОКАЗУ ПОЛІВ ДОСТАВКИ ---
+    const deliveryMethodSelect = document.getElementById('delivery-method');
+    if (deliveryMethodSelect) {
+        const detailsBlock = document.getElementById('delivery-details-block');
+        
+        function toggleDeliveryFields() {
+            if (deliveryMethodSelect.value === 'pickup') {
+                detailsBlock.style.display = 'none';
+                document.getElementById('client-city').required = false;
+                document.getElementById('client-branch').required = false;
+            } else {
+                detailsBlock.style.display = 'block';
+                document.getElementById('client-city').required = true;
+                document.getElementById('client-branch').required = true;
+            }
+        }
+        
+        deliveryMethodSelect.addEventListener('change', toggleDeliveryFields);
+        toggleDeliveryFields();
+    }
+
+    // --- 2. РЕНДЕР ТОВАРІВ ---
     if (checkoutList) { 
-        let total = 0;
+        // Спочатку рендеримо візуально
+        let displayTotal = 0;
         if (cart.length === 0) {
             checkoutList.innerHTML = '<p>Ваш кошик порожній</p>';
             const submitBtn = document.querySelector('.submit-order-btn');
             if(submitBtn) { submitBtn.style.opacity = '0.5'; submitBtn.disabled = true; }
         } else {
             cart.forEach(item => {
-                total += item.price;
+                displayTotal += item.price;
                 checkoutList.insertAdjacentHTML('beforeend', `
                     <div class="summary-item">
                         <img src="${item.image}">
@@ -400,54 +405,96 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         const totalEl = document.getElementById('checkout-total');
-        if(totalEl) totalEl.textContent = total.toLocaleString() + ' ₴';
+        if(totalEl) totalEl.textContent = displayTotal.toLocaleString() + ' ₴';
         
+        // --- 3. ВІДПРАВКА ФОРМИ ---
         const checkoutForm = document.getElementById('checkout-form');
         if (checkoutForm) {
             checkoutForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const name = document.getElementById('client-name').value;
+                
+                // Збираємо дані
+                const lastName = document.getElementById('client-lastname').value.trim();
+                const firstName = document.getElementById('client-firstname').value.trim();
+                const fullName = `${lastName} ${firstName}`;
                 const phone = document.getElementById('client-phone').value;
-                const city = document.getElementById('client-city').value;
-                const delivery = document.getElementById('delivery-method').value;
+                const deliveryType = document.getElementById('delivery-method').value;
+                
+                let city = '';
+                let branch = '';
+                let deliveryText = '';
+
+                // Валідація і логіка
+                if (deliveryType === 'pickup') {
+                    city = 'Львів';
+                    branch = 'Самовивіз';
+                    deliveryText = 'Самовивіз (Львів)';
+                } else {
+                    city = document.getElementById('client-city').value.trim();
+                    branch = document.getElementById('client-branch').value.trim();
+                    if(!city || !branch) {
+                        showNotification("Будь ласка, вкажіть місто і відділення", "error");
+                        return;
+                    }
+                    const methodText = deliveryType === 'np_branch' ? 'Відділення' : 'Поштомат';
+                    deliveryText = `Нова Пошта (${methodText}): ${branch}`;
+                }
+
                 const comment = document.getElementById('client-comment').value;
 
-                if (typeof CONFIG === 'undefined' || !CONFIG.telegram) { alert("Помилка налаштувань."); return; }
+                if (typeof CONFIG === 'undefined' || !CONFIG.telegram) { 
+                    showNotification("Помилка налаштувань. Зверніться до адміністратора.", "error");
+                    return; 
+                }
+
+                // ВАЖЛИВО: Перераховуємо суму тут, щоб дані були точними на момент кліку
+                const finalTotal = cart.reduce((sum, item) => sum + item.price, 0);
 
                 const orderData = {
                     id: Date.now(),
                     date: new Date().toLocaleString(),
-                    client: { name, phone, city, delivery, comment },
+                    client: { name: fullName, phone: phone, city: city, delivery: deliveryText, comment: comment },
                     items: cart,
-                    total: total,
+                    total: finalTotal,
                     status: 'new'
                 };
 
+                // Відправка
                 db.ref('orders/' + orderData.id).set(orderData)
                 .then(() => {
+                    // TELEGRAM SEND
                     const BOT_TOKEN = CONFIG.telegram.botToken; 
                     const CHAT_ID = CONFIG.telegram.chatId;
                     let msg = `<b>✨ НОВЕ ЗАМОВЛЕННЯ #${orderData.id}</b>\n\n`;
-                    msg += `👤 <b>Клієнт:</b> ${name}\n📞 <b>Тел:</b> ${phone}\n📍 <b>Адреса:</b> ${city} (${delivery})\n`;
+                    msg += `👤 <b>Клієнт:</b> ${fullName}\n📞 <b>Тел:</b> ${phone}\n📍 <b>Адреса:</b> ${city}\n🚚 <b>Доставка:</b> ${deliveryText}\n`;
                     if(comment) msg += `💬 <b>Коментар:</b> ${comment}\n`;
                     msg += `\n<b>🛒 ТОВАРИ:</b>\n`;
                     cart.forEach((it, i) => { msg += `${i+1}. ${it.title} (${it.size}) - ${it.price} грн\n`; });
-                    msg += `\n💰 <b>СУМА: ${total} грн</b>`;
+                    msg += `\n💰 <b>СУМА: ${finalTotal} грн</b>`;
+                    
                     return fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                         method: 'POST', headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ chat_id: CHAT_ID, text: msg, parse_mode: 'HTML' })
                     });
                 })
                 .then(response => {
-                    if (response.ok) { alert("Дякуємо! Замовлення прийнято."); cart = []; saveCart(); window.location.href = 'index.html'; }
-                    else alert("Помилка відправки в Telegram, але замовлення збережено.");
+                    if (response.ok) {
+                        showNotification("Замовлення успішно створено! Дякуємо.", "success");
+                        cart = []; saveCart(); 
+                        setTimeout(() => { window.location.href = 'index.html'; }, 2000); 
+                    } else {
+                        showNotification("Замовлення в базі, але помилка Telegram.", "error");
+                    }
                 })
-                .catch(error => { console.error(error); alert("Помилка з'єднання."); });
+                .catch(error => { 
+                    console.error(error); 
+                    showNotification("Помилка з'єднання: " + error.message, "error"); 
+                });
             });
         }
     }
 
-    // ПОШУК І НАВІГАЦІЯ
+    // ПОШУК І ХЕДЕР
     const searchInput = document.getElementById('search-input');
     const searchDropdown = document.getElementById('search-dropdown');
     if (searchInput && searchDropdown) {
@@ -473,7 +520,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.nav-links');
     if (burger && nav) { burger.addEventListener('click', () => { nav.classList.toggle('nav-active'); burger.classList.toggle('toggle'); }); }
     
-    // ХЕДЕР СКРОЛЛ
     const header = document.querySelector('header');
     if (header) {
         window.addEventListener('scroll', () => {

@@ -4,228 +4,138 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Оформлення замовлення | MUSE</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/pages.css">
+    <link href="css/base.css" rel="stylesheet">
+    <link href="css/header.css" rel="stylesheet">
+    <link href="css/footer.css" rel="stylesheet">
     
     <style>
-        /* Локальні стилі для чекауту */
-        .checkout-container {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr; /* Ліва частина ширша, права вужча */
-            gap: 60px;
-            margin-top: 40px;
-        }
-        
-        /* Заголовки блоків */
-        .checkout-form-block h3, .order-summary h3 {
-            font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: 22px; 
-            text-transform: uppercase; 
-            margin-bottom: 25px;
-            border-bottom: 1px solid #eee; 
-            padding-bottom: 15px; 
-            color: var(--primary-color);
-            letter-spacing: 1px;
-        }
-        
-        /* Форма */
+        /* Стилі сторінки оформлення */
+        .checkout-container { max-width: 800px; margin: 50px auto; padding: 0 20px; }
+        .checkout-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 40px; }
+        .form-section h2 { margin-bottom: 20px; font-size: 20px; text-transform: uppercase; letter-spacing: 1px; }
         .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: #666; }
+        .form-control { width: 100%; padding: 14px; border: 1px solid #ddd; font-family: 'Montserrat', sans-serif; font-size: 14px; transition: 0.3s; outline: none; background: #fff; }
+        .form-control:focus { border-color: var(--accent-color); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        select.form-control { cursor: pointer; appearance: none; }
         
-        .form-group label { 
-            display: block; 
-            font-size: 11px; 
-            font-weight: 600; 
-            margin-bottom: 8px; 
-            text-transform: uppercase; 
-            color: #888; 
-            letter-spacing: 1px;
-        }
-        
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%; 
-            padding: 14px; 
-            border: 1px solid #ddd; 
-            border-radius: 0; /* Строгий стиль */
-            font-family: var(--font-main); 
-            font-size: 14px; 
-            transition: 0.3s;
-            background: #fff;
-        }
-        
-        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { 
-            border-color: var(--accent-color); 
-            outline: none; 
-        }
-        
-        /* Права колонка (Чек) */
-        .order-summary {
-            background: var(--bg-light); 
-            padding: 40px 30px; 
-            border: 1px solid #eee;
-            height: fit-content;
-            position: sticky;
-            top: 100px; /* Прилипає при скролі */
-        }
-        
-        /* Елемент товару в чеку (генерується JS) */
-        .summary-item {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: flex-start;
-            margin-bottom: 20px; 
-            padding-bottom: 20px; 
-            border-bottom: 1px solid #e0e0e0;
-            font-size: 14px;
-        }
-        
-        .summary-item img { 
-            width: 60px; 
-            height: 80px; 
-            object-fit: cover; 
-            margin-right: 15px; 
-        }
-        
+        .order-summary { background: #fafafa; padding: 30px; height: fit-content; position: sticky; top: 120px; }
+        .summary-item { display: flex; gap: 15px; margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .summary-item img { width: 60px; height: 80px; object-fit: cover; }
         .summary-info { flex: 1; }
-        
-        .summary-title { 
-            font-family: var(--font-heading);
-            font-size: 16px;
-            font-weight: 400; 
-            margin-bottom: 5px; 
-            color: var(--primary-color);
-        }
-        
-        .summary-vol { 
-            font-size: 12px; 
-            color: #777; 
-            text-transform: uppercase;
-        }
-        
-        .summary-price { 
-            font-weight: 600; 
-            font-size: 14px;
-            color: var(--primary-color);
-        }
-        
-        .total-row {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            margin-top: 30px; 
-            font-size: 24px; 
-            font-family: var(--font-heading);
-            color: var(--primary-color);
-        }
-        
-        .submit-order-btn { 
-            width: 100%; 
-            margin-top: 30px; 
-            padding: 18px; 
-            font-size: 13px; 
-        }
+        .summary-title { font-size: 13px; font-weight: 600; margin-bottom: 5px; }
+        .summary-vol { font-size: 12px; color: #666; }
+        .summary-price { font-weight: 600; font-size: 14px; }
+        .total-row { display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd; }
+        .submit-order-btn { width: 100%; padding: 18px; background: var(--accent-color); color: #fff; border: none; font-size: 14px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; margin-top: 30px; transition: 0.3s; }
+        .submit-order-btn:hover { background: #5a222a; }
 
-        /* Адаптив */
-        @media (max-width: 900px) {
-            .checkout-container { grid-template-columns: 1fr; gap: 40px; }
-            .order-summary { order: -1; position: static; } /* На мобільному чек зверху */
+        @media(max-width: 768px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+            .order-summary { order: -1; margin-bottom: 30px; }
         }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="catalog.html">Каталог</a></li>
-                <li><a href="catalog.html">Новинки</a></li>
-                <li><a href="delivery.html">Доставка</a></li>
-                <li><a href="about.html">Про нас</a></li>
-            </ul>
-        </nav>
-        <div class="burger">
-            <div class="line1"></div><div class="line2"></div><div class="line3"></div>
-        </div>
+        <a href="index.html" class="logo">MUSE</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Головна</a></li>
+            <li><a href="catalog.html">Каталог</a></li>
+            <li><a href="about.html">Про нас</a></li>
+            <li><a href="delivery.html">Доставка</a></li>
+            <li><a href="return.html">Повернення</a></li>
+        </ul>
         <div class="user-actions">
             <div class="search-container">
-                <input type="text" id="search-input" placeholder="Пошук..." autocomplete="off">
-                <div class="search-icon-small">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"/>
-                    </svg>
-                </div>
-                <div id="search-dropdown" class="search-dropdown"></div>
+                 <div class="search-icon-small">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                 </div>
+                 <input type="text" id="search-input" placeholder="Пошук...">
+                 <div class="search-dropdown" id="search-dropdown"></div>
             </div>
             <div class="cart-btn">
-                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-7-2h7a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2H5V3H3v4h2v11a2 2 0 0 0 2 2z"></path></svg>
                 <span class="cart-count">0</span>
+            </div>
+            <div class="burger">
+                <div class="line1" style="background: #1a1a1a;"></div>
+                <div class="line2" style="background: #1a1a1a;"></div>
+                <div class="line3" style="background: #1a1a1a;"></div>
             </div>
         </div>
     </header>
 
-    <main class="page-container">
-        <div class="page-hero">
-            <h1 class="page-title">Оформлення замовлення</h1>
-        </div>
-
-        <form id="checkout-form" class="checkout-container">
+    <main>
+        <div class="checkout-container">
+            <h1 class="section-title">Оформлення</h1>
             
-            <div class="checkout-form-block">
-                <h3>1. Контактні дані</h3>
-                <div class="form-group">
-                    <label>Ваше ім'я та прізвище</label>
-                    <input type="text" id="client-name" placeholder="Введіть ПІБ" required>
-                </div>
-                <div class="form-group">
-                    <label>Номер телефону</label>
-                    <input type="tel" id="client-phone" placeholder="+38 0XX XXX XX XX" required>
-                </div>
+            <form id="checkout-form" class="checkout-grid">
+                
+                <div class="form-section">
+                    <h2>Контактні дані</h2>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Прізвище *</label>
+                            <input type="text" id="client-lastname" class="form-control" placeholder="Ваше прізвище" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Ім'я *</label>
+                            <input type="text" id="client-firstname" class="form-control" placeholder="Ваше ім'я" required>
+                        </div>
+                    </div>
 
-                <h3 style="margin-top: 40px;">2. Доставка</h3>
-                <div class="form-group">
-                    <label>Спосіб доставки</label>
-                    <select id="delivery-method">
-                        <option value="nova_poshta">Нова Пошта (на відділення)</option>
+                    <div class="form-group">
+                        <label>Телефон *</label>
+                        <input type="tel" id="client-phone" class="form-control" placeholder="+38 0XX XXX XX XX" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Спосіб доставки *</label>
+                        <select id="delivery-method" class="form-control" required>
+                            <option value="np_branch">Нова Пошта (Відділення)</option>
+                            <option value="np_postomat">Нова Пошта (Поштомат)</option>
+                            <option value="pickup">Самовивіз (м. Львів)</option>
                         </select>
-                </div>
-                <div class="form-group">
-                    <label>Місто та Відділення НП</label>
-                    <input type="text" id="client-city" placeholder="Київ, відділення №15" required>
-                </div>
-                <div class="form-group">
-                    <label>Коментар до замовлення</label>
-                    <textarea id="client-comment" rows="3" placeholder="Додаткові побажання..."></textarea>
-                </div>
-            </div>
+                    </div>
 
-            <div class="order-summary">
-                <h3>Ваше замовлення</h3>
-                
-                <div id="checkout-items-list"></div>
+                    <div id="delivery-details-block">
+                        <div class="form-group">
+                            <label>Місто / Населений пункт *</label>
+                            <input type="text" id="client-city" class="form-control" placeholder="Почніть вводити назву..." list="cities-list" autocomplete="off">
+                            
+                            <datalist id="cities-list"></datalist>
+                        </div>
 
-                <div class="total-row">
-                    <span>Разом:</span>
-                    <span id="checkout-total">0 ₴</span>
+                        <div class="form-group">
+                            <label>Відділення / Поштомат *</label>
+                            <input type="text" id="client-branch" class="form-control" placeholder="Наприклад: Відділення №1">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Коментар до замовлення</label>
+                        <textarea id="client-comment" class="form-control" rows="3" placeholder="Додаткові побажання..."></textarea>
+                    </div>
                 </div>
 
-                <button type="submit" class="btn submit-order-btn">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
-                
-                <p style="font-size: 11px; color: #888; margin-top: 20px; text-align: center; line-height: 1.5;">
-                    Натискаючи кнопку, ви погоджуєтесь з умовами <a href="offer.html" style="text-decoration: underline; color: inherit;">публічної оферти</a>.
-                </p>
-            </div>
+                <div class="order-summary">
+                    <h2>Ваше замовлення</h2>
+                    <div id="checkout-items-list">
+                        </div>
+                    <div class="total-row">
+                        <span>Разом:</span>
+                        <span id="checkout-total">0 ₴</span>
+                    </div>
+                    <button type="submit" class="submit-order-btn">ПІДТВЕРДИТИ ЗАМОВЛЕННЯ</button>
+                </div>
 
-        </form>
+            </form>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -287,29 +197,47 @@
             <p>&copy; 2026 MUSE Clothes. Всі права захищено.</p>
         </div>
     </footer>
-
+    
     <div class="cart-overlay">
         <div class="cart-modal">
-            <div class="cart-header">
-                <h3>Твій кошик</h3>
-                <span class="close-cart">&times;</span>
-            </div>
-            <div class="cart-items">
-                </div>
+            <div class="cart-header"><h3>Твій кошик</h3><span class="close-cart">&times;</span></div>
+            <div class="cart-items"></div>
             <div class="cart-footer">
-                <div class="cart-total">
-                    <span>Разом:</span>
-                    <span class="total-price">0 ₴</span>
-                </div>
+                <div class="cart-total"><span>Разом:</span><span class="total-price">0 ₴</span></div>
                 <button class="checkout-btn">Оформити замовлення</button>
             </div>
         </div>
     </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Величезний масив міст та СМТ України
+            const cities = [
+                "Київ", "Харків", "Одеса", "Дніпро", "Донецьк", "Запоріжжя", "Львів", "Кривий Ріг", "Миколаїв", "Севастополь", "Маріуполь", "Луганськ", "Вінниця", "Макіївка", "Сімферополь", "Херсон", "Чернігів", "Полтава", "Черкаси", "Хмельницький", "Чернівці", "Житомир", "Суми", "Рівне", "Горлівка", "Івано-Франківськ", "Кам'янське", "Кропивницький", "Тернопіль", "Кременчук", "Луцьк", "Біла Церква", "Краматорськ", "Мелітополь", "Керч", "Ужгород", "Бердянськ", "Нікополь", "Слов'янськ", "Євпаторія", "Бровари", "Алчевськ", "Павлоград", "Сєвєродонецьк", "Кам'янець-Подільський", "Лисичанськ", "Мукачево", "Конотоп", "Умань", "Хрустальний", "Ялта", "Олександрія", "Єнакієве", "Дрогобич", "Бердичів", "Шостка", "Кадіївка", "Бахмут", "Ізмаїл", "Новомосковськ", "Костянтинівка", "Ковель", "Феодосія", "Ніжин", "Сміла", "Калуш", "Червоноград", "Бориспіль", "Первомайськ", "Довжанськ", "Ірпінь", "Коростень", "Покровськ", "Коломия", "Стрий", "Чорноморськ", "Харцизьк", "Рубіжне", "Дружківка", "Прилуки", "Лозова", "Чистякове", "Звягель", "Енергодар", "Антрацит", "Нововолинськ", "Горішні Плавні", "Ізюм", "Шахтарськ", "Білгород-Дністровський", "Мирноград", "Охтирка", "Марганець", "Фастів", "Сніжне", "Нова Каховка", "Лубни", "Ровеньки", "Жовті Води", "Брянка", "Світловодськ", "Сорокине", "Шепетівка", "Подільськ", "Вишневе", "Васильків", "Южноукраїнськ", "Вараш", "Миргород", "Ромни", "Покров", "Володимир", "Джанкой", "Боярка", "Дубно", "Каховка", "Нетешин", "Вознесенськ", "Славута", "Буча", "Ясинувата", "Самбір", "Старокостянтинів", "Жмеринка", "Авдіївка", "Борислав", "Глухів", "Обухів", "Токмак", "Чугуїв", "Могилів-Подільський", "Южне", "Костопіль", "Синельникове", "Алушта", "Первомайський", "Добропілля", "Новояворівськ", "Бучач", "Чортків", "Балаклія", "Трускавець", "Куп'янськ", "Першотравенськ", "Новий Розділ", "Тернівка", "Сарни", "Хуст", "Золотоноша", "Малин", "Хмільник", "Лиман", "Переяслав", "Бахчисарай", "Гайсин", "Виноградів", "Козятин", "Здолбунів", "Коростишів", "Олешки", "Дебальцеве", "Саки", "Лебедин", "Канів", "Золочів", "Селидове", "Берегове", "Кіреєвськ", "Вільногірськ", "Гадяч", "Броди", "Красноград", "Докучаєвськ", "Кролевець", "Волноваха", "Знам'янка", "Яготин", "Судак", "Кременець", "Армянськ", "Курахове", "Люботин", "Мерефа", "Полонне", "Суходільськ", "Долина", "Вільнянськ", "Надвірна", "Славутич", "П'ятихатки", "Сокаль", "Красилів", "Дніпрорудне", "Волочиськ", "Попасна", "Стебник", "Кілія", "Винники", "Ладижин", "Амвросіївка", "Лиман", "Зугрес", "Красногорівка", "Рені", "Долинська", "Яворів", "Вовчанськ", "Зміїв", "Балаклава", "Білогорськ", "Жовква", "Сторожинець", "Генічеськ", "Калинівка", "Сватове", "Звенигородка", "Дергачі", "Балта", "Карлівка", "Баштанка", "Богодухів", "Скадовськ", "Городок", "Ківерці", "Білопілля", "Суми", "Тульчин", "Бережани", "Новомиргород", "Іловайськ", "Свалява", "Шпола", "Богуслав", "Любомль", "Гайворон", "Верхньодніпровськ", "Сквира", "Кам'янка-Дніпровська", "Городок", "Очаків", "Апостолове", "Красний Луч", "Овруч", "Оріхів", "Білозерське", "Зимогір'я", "Тальне", "Новоукраїнка", "Путивль", "Болград", "Миколаївка", "Бар", "Дунаївці", "Вугледар", "Рахів", "Березань", "Розище", "Новий Буг", "Бурштин", "Українка", "Радомишль", "Гуляйполе", "П'ятихатки", "Вільнянськ", "Тетіїв", "Кам'янка", "Ходорів", "Мостиська", "Арциз", "Ямпіль", "Ватутіне", "Гола Пристань", "Узин", "Світлодарськ", "Соледар", "Збараж", "Жашків", "Городня", "Носівка", "Ічня", "Бобровиця", "Варва", "Козелець", "Десна", "Ріпки", "Сосниця", "Ладан", "Лосинівка", "Короп", "Понорниця", "Батурин", "Дмитрівка", "Срібне", "Мала Дівиця", "Олишівка", "Куликівка", "Березна", "Михайло-Коцюбинське", "Седнів", "Добрянкою", "Любеч", "Радуль", "Холми", "Семенівка", "Макошине", "Мена", "Сновськ", "Корюківка", "Борзна", "Гребінка", "Заводське", "Лохвиця", "Глобине", "Кобеляки", "Зіньків", "Решетилівка", "Пирятин", "Хорол", "Котельва", "Нові Санжари", "Диканька", "Градизьк", "Семенівка", "Чутове", "Опішня", "Білики", "Машівка", "Ромодан", "Комишня", "Велика Багачка", "Гоголеве", "Козельщина", "Оржиця", "Шишаки", "Чорнухи", "Скороходове", "Недригайлів", "Степанівка", "Липова Долина", "Велика Писарівка", "Краснопілля", "Вороніж", "Свеса", "Зноб-Новгородське", "Ямпіль", "Дружба", "Середина-Буда", "Есмань", "Шалигине", "Хотін", "Угроїди", "Миколаївка", "Терни", "Недра", "Кириківка", "Чупахівка", "Дубов'язівка", "Тростянець", "Буринь", "Білопілля", "Лебедин", "Охтирка", "Глухів", "Шостка", "Конотоп", "Ромни", "Суми", "Сміла", "Умань", "Черкаси", "Золотоноша", "Канів", "Ватутіне", "Жашків", "Звенигородка", "Кам'янка", "Корсунь-Шевченківський", "Городище", "Тальне", "Монастирище", "Христинівка", "Шпола", "Чигирин", "Золотників", "Драбів", "Чорнобай", "Маньківка", "Лисянка", "Катеринопіль", "Вільшана", "Єрки", "Бабанка", "Верхнячка", "Цибулів", "Цвіткове", "Стеблів", "Лисянка", "Ірдинь", "Холоднянське", "Мирне", "Прип'ять", "Чорнобиль", "Поліське", "Вільча", "Іванків", "Бородянка", "Немішаєве", "Клавдієво-Тарасове", "Бабинці", "Пісківка", "Макарів", "Кодра", "Бишів", "Велика Димерка", "Калита", "Зазим'я", "Димер", "Вишгород", "Славутич", "Боярка", "Вишневе", "Буча", "Ірпінь", "Гостомель", "Коцюбинське", "Ворзель", "Фастів", "Борова", "Кожанка", "Глеваха", "Калинівка", "Чабани", "Васильків", "Гребінки", "Дослідницьке", "Обухів", "Українка", "Козин", "Кагарлик", "Ржищів", "Миронівка", "Богуслав", "Тараща", "Рокитне", "Ставище", "Володарка", "Тетіїв", "Сквира", "Узин", "Біла Церква", "Терезине", "Володарка", "Ставище", "Жашків", "Монастирище", "Христинівка", "Умань", "Тальне", "Звенигородка", "Шпола", "Сміла", "Чигирин", "Кам'янка", "Корсунь-Шевченківський", "Городище", "Золотоноша", "Канів", "Черкаси", "Переяслав", "Яготин", "Згурівка", "Березань", "Баришівка", "Бровари", "Бориспіль", "Велика Олександрівка", "Щасливе", "Гора", "Чубинське", "Проліски", "Вишеньки", "Гнідин", "Хотів", "Лісники", "Ходосівка", "Підгірці", "Романків", "Нові Безрадичі", "Старі Безрадичі", "Козин", "Плюти", "Українка", "Трипілля", "Халеп'я", "Витачів", "Стайки", "Гребені", "Ржищів", "Балико-Щучинка", "Уляники", "Пиї", "Грушів", "Ходорів", "Малий Букрин", "Великий Букрин", "Трахтемирів", "Зарубинці", "Григорівка", "Бучак", "Студенець", "Бобриця", "Канів", "Пекарі", "Кононча", "Хмільна", "Михайлівка", "Прохорівка", "Сушки", "Бубнівська Слобідка", "Шабельники", "Дмитрівка", "Домантове", "Коробівка", "Кропивна", "Деньги", "Чапаєвка", "Благодатне", "Чехівка", "Мельники", "Іркліїв", "Скородистик", "Лящівка", "Вереміївка", "Жовнине", "Кліщинці", "Мозоліївка", "Пронозівка", "Градизьк", "Максимівка", "Недогарки", "Власівка", "Світловодськ", "Білецьківка", "Кам'яні Потоки", "Кременчук", "Горішні Плавні", "Келеберда", "Салівка", "Дмитрівка", "Потоки", "Щербаки", "Омельник", "Манжелія", "Піски", "Козельщина", "Нова Галещина", "Білики", "Кобеляки", "Царичанка", "Китайгород", "Могилів", "Петриківка", "Курилівка", "Миколаївка", "Обухівка", "Дніпро", "Підгородне", "Новомосковськ", "Гвардійське", "Черкаське", "Губиниха", "Перещепине", "Зачепилівка", "Кегичівка", "Сахновщина", "Красноград", "Наталине", "Піщанка", "Карлівка", "Машівка", "Чутове", "Валки", "Люботин", "Пісочин", "Харків", "Дергачі", "Слатине", "Козача Лопань", "Прудянка", "Золочів", "Богодухів", "Гути", "Шарівка", "Краснокутськ", "Котельва", "Охтирка", "Тростянець", "Боромля", "Суми", "Степанівка", "Хотін", "Юнаківка", "Миропілля", "Краснопілля", "Угроїди", "Велика Писарівка", "Кириківка", "Охтирка", "Зіньків", "Опішня", "Диканька", "Полтава", "Розсошенці", "Щербані", "Копили", "Терешки", "Мачухи", "Нові Санжари", "Білики", "Кобеляки", "Царичанка", "Магдалинівка", "Підгородне", "Дніпро", "Сурсько-Литовське", "Новоолександрівка", "Волоське", "Солоне", "Іларіонове", "Синельникове", "Раївка", "Вільнянськ", "Запоріжжя", "Балабине", "Кушугум", "Малокатеринівка", "Степногірськ", "Василівка", "Дніпрорудне", "Енергодар", "Кам'янка-Дніпровська", "Велика Білозерка", "Веселе", "Мелітополь", "Якимівка", "Кирилівка", "Приазовське", "Приморськ", "Бердянськ", "Токмак", "Молочанськ", "Михайлівка", "Пологи", "Гуляйполе", "Більмак", "Розівка", "Нікольське", "Мангуш", "Маріуполь", "Сартана", "Бойківське", "Новоазовськ", "Сєдове", "Донецьк", "Макіївка", "Харцизьк", "Іловайськ", "Зугрес", "Шахтарськ", "Торез", "Сніжне", "Амвросіївка", "Старобешеве", "Новий Світ", "Оленівка", "Докучаєвськ", "Волноваха", "Вугледар", "Мар'їнка", "Красногорівка", "Курахове", "Селидове", "Новогродівка", "Мирноград", "Покровськ", "Родинське", "Білицьке", "Добропілля", "Білозерське", "Олександрівка", "Краматорськ", "Дружківка", "Костянтинівка", "Торецьк", "Залізне", "Світлодарськ", "Бахмут", "Соледар", "Часів Яр", "Сіверськ", "Лиман", "Слов'янськ", "Миколаївка", "Святогірськ", "Ізюм", "Барвінкове", "Близнюки", "Лозова", "Первомайський", "Зміїв", "Чугуїв", "Печеніги", "Вовчанськ", "Великий Бурлук", "Дворічна", "Куп'янськ", "Ківшарівка", "Борова", "Сватове", "Старобільськ", "Біловодськ", "Марківка", "Мілове", "Новопсков", "Білокуракине", "Троїцьке", "Кремінна", "Рубіжне", "Сєвєродонецьк", "Лисичанськ", "Гірське", "Золоте", "Попасна", "Первомайськ", "Стаханов", "Брянка", "Алчевськ", "Перевальськ", "Лутугине", "Луганськ", "Щастя", "Станиця Луганська", "Молодогвардійськ", "Краснодон", "Суходільськ", "Свердловськ", "Червонопартизанськ", "Ровеньки", "Антрацит", "Красний Луч", "Міусинськ", "Петрово-Красносілля"
+            ];
+
+            // Сортуємо алфавітно
+            cities.sort((a, b) => a.localeCompare(b, 'uk'));
+
+            const dataList = document.getElementById('cities-list');
+            
+            // Щоб не вішати браузер, додаємо частинами (DocumentFragment)
+            const fragment = document.createDocumentFragment();
+            
+            cities.forEach(city => {
+                const option = document.createElement('option');
+                option.value = city;
+                fragment.appendChild(option);
+            });
+            
+            dataList.appendChild(fragment);
+        });
+    </script>
+
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    
-    <script src="js/config.js"></script> <script src="js/main.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 </html>

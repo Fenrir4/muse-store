@@ -48,3 +48,53 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 400; }
     transition: all 0.4s ease; margin-top: 15px;
 }
 .btn:hover { background-color: transparent; color: var(--accent-color); }
+
+/* --- СИСТЕМА ПОВІДОМЛЕНЬ (NOTIFICATIONS) --- */
+#notification-area {
+    position: fixed;
+    top: 110px; /* Трохи нижче хедера */
+    right: 20px;
+    z-index: 20000; /* Поверх усього */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Щоб пропускало кліки крізь пусте місце */
+}
+
+.muse-toast {
+    background: #ffffff;
+    color: #1a1a1a;
+    padding: 16px 25px;
+    min-width: 280px;
+    max-width: 350px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    border-left: 4px solid #333; /* Дефолтний колір */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateX(50px);
+    animation: slideInToast 0.4s forwards;
+    pointer-events: auto; /* Сама картка клікабельна */
+    border-radius: 2px;
+}
+
+/* Анімація появи */
+@keyframes slideInToast {
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Анімація зникнення */
+.muse-toast.hiding {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: 0.4s ease;
+}
+
+/* Типи повідомлень */
+.muse-toast.success { border-left-color: #27ae60; } /* Зелений */
+.muse-toast.error { border-left-color: #c0392b; }   /* Червоний */
+.muse-toast.info { border-left-color: #722F37; }    /* Бордо */
