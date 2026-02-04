@@ -87,6 +87,63 @@
             <p>Вишуканість у кожній лінії</p>
         </div>
         
+        <div class="catalog-toolbar">
+        
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="setCategory('all', this)">Всі</button>
+            <button class="filter-btn" onclick="setCategory('dress', this)">Сукні</button>
+            <button class="filter-btn" onclick="setCategory('suit', this)">Костюми</button>
+            <button class="filter-btn" onclick="setCategory('top', this)">Верх</button>
+            <button class="filter-btn" onclick="setCategory('bottom', this)">Низ</button>
+            <button class="filter-btn" onclick="setCategory('outerwear', this)">Верхній одяг</button>
+            <button class="filter-btn" onclick="setCategory('accessories', this)">Аксесуари</button>
+        </div>
+
+        <div class="sort-wrapper">
+            <span style="font-size: 12px; color: #666; margin-right: 10px;">Сортувати:</span>
+            <select id="sort-select" onchange="setSort(this.value)">
+                <option value="default">Замовчуванням</option>
+                <option value="price_asc">Спочатку дешеві</option>
+                <option value="price_desc">Спочатку дорогі</option>
+                <option value="newest">Новинки</option>
+            </select>
+        </div>
+
+    </div>
+
+    <style>
+        .catalog-toolbar {
+            max-width: 1200px; margin: 0 auto 30px auto; padding: 0 20px;
+            display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+        }
+
+        /* Кнопки фільтрів */
+        .filter-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn {
+            border: 1px solid #ddd; background: #fff; padding: 8px 16px;
+            border-radius: 20px; font-size: 13px; cursor: pointer; transition: 0.2s;
+            color: #333; font-family: 'Montserrat', sans-serif;
+        }
+        .filter-btn:hover { border-color: #999; }
+        .filter-btn.active { 
+            background: var(--accent-color); color: #fff; border-color: var(--accent-color); 
+        }
+
+        /* Сортування */
+        .sort-wrapper select {
+            padding: 8px; border: 1px solid #ddd; border-radius: 4px;
+            font-family: 'Montserrat', sans-serif; font-size: 13px; color: #333; cursor: pointer;
+        }
+        .sort-wrapper select:focus { outline: none; border-color: var(--accent-color); }
+
+        /* Мобільна адаптація */
+        @media (max-width: 768px) {
+            .catalog-toolbar { flex-direction: column; align-items: flex-start; }
+            .filter-buttons { overflow-x: auto; padding-bottom: 5px; width: 100%; }
+            .filter-btn { white-space: nowrap; }
+        }
+    </style>
+
         <section class="products-section">
             <div class="products-grid" id="catalog-grid"></div>
         </section> 

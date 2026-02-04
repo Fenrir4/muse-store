@@ -64,7 +64,7 @@ header {
 
 /* --- СТАН 2: ПРИ СКРОЛІ (Темний фон, Білий текст) --- */
 header.scrolled {
-    background: #1a0f10; /* Темний винний */
+    background: #722F37; /* БОРДО (замість чорного #1a0f10) */
     padding: 15px 5%;
     box-shadow: 0 5px 20px rgba(0,0,0,0.1);
 }
@@ -154,4 +154,32 @@ header.scrolled .burger div { background: #fff; }
 
 @media (max-width: 500px) {
     .cart-modal { width: 100%; }
+}
+
+/* --- HEADER SCROLL FIX --- */
+
+/* Базовий стан (прозорий або білий) */
+header {
+    background-color: transparent; /* На головній спочатку прозорий */
+    transition: background-color 0.3s ease, padding 0.3s ease;
+}
+
+/* СТАН ПРИ СКРОЛІ (Завжди БОРДО) */
+header.scrolled {
+    background-color: #722F37 !important; /* Наш фірмовий колір */
+    padding: 10px 5%; /* Трохи вужчий */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Колір тексту в хедері */
+header.scrolled .nav-links a,
+header.scrolled .logo a,
+header.scrolled .cart-btn {
+    color: #ffffff !important; /* Білий текст на бордовому фоні */
+}
+
+/* Виправлення для інших сторінок (де немає великого банера) */
+/* Якщо body має клас .product-body або .catalog-body - хедер зразу бордовий або чорний */
+body:not(.home-page) header:not(.scrolled) {
+    background-color: #1a1a1a; /* Темний фон за замовчуванням на інших сторінках */
 }

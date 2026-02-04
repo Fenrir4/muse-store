@@ -14,150 +14,153 @@
     <link rel="stylesheet" href="css/footer.css">
     <link rel="stylesheet" href="css/responsive.css">
     <link rel="stylesheet" href="css/products.css"> <style>
-        /* Локальні стилі для сторінки товару (MUSE style) */
-        .product-page {
-            padding: 40px 5% 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            gap: 60px;
-            align-items: flex-start;
-        }
+        /* --- НОВИЙ ДИЗАЙН СТОРІНКИ ТОВАРУ (2.0) --- */
         
-        /* Ліва частина: Фото */
-        .product-gallery { flex: 1; }
+        /* 1. Сітка: Ліва колонка (Фото) і Права (Інфо) */
+        .product-wrapper {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr; /* Фото ширше, текст вужчий */
+            gap: 60px;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 5%;
+            align-items: start; /* Важливо для sticky ефекту */
+        }
+
+        /* 2. Галерея (Зліва) */
+        .product-visuals {
+            position: sticky; /* Фото "прилипає", поки скролиш текст */
+            top: 110px;       /* Відступ від хедера */
+        }
+
+        /* Головне фото - ЖОРСТКІ РОЗМІРИ */
+        .main-image-container {
+            width: 100%;
+            aspect-ratio: 3/4; /* Стандарт фешн-фото (вертикальне) */
+            overflow: hidden;
+            background-color: #f4f4f4;
+            margin-bottom: 20px;
+        }
+
         .product-main-img {
             width: 100%;
-            height: auto;
-            object-fit: cover;
-            aspect-ratio: 3/4; /* Вертикальний формат для одягу */
-            border-radius: 0; /* Гострі кути для строгості */
-        }
-        
-        /* Права частина: Інфо */
-        .product-info { flex: 1; padding-top: 10px; }
-        
-        .breadcrumb { 
-            font-size: 12px; 
-            color: #999; 
-            margin-bottom: 20px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-        }
-        .breadcrumb a { text-decoration: none; color: inherit; }
-        .breadcrumb a:hover { color: var(--accent-color); }
-        
-        .p-brand {
-            font-size: 14px;
-            color: var(--accent-color);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-        
-        .p-title {
-            font-family: var(--font-heading, 'Playfair Display', serif);
-            font-size: 42px;
-            line-height: 1.2;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-weight: 400;
-        }
-        
-        .p-price {
-            font-size: 24px;
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 30px;
-            font-family: var(--font-main);
-        }
-        
-        .p-description {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #555;
-            margin-bottom: 40px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 30px;
-        }
-        
-        /* Блок деталей (Склад, Колір) */
-        .details-list {
-            margin-bottom: 30px;
-        }
-        .details-item {
-            display: flex;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        .details-label {
-            width: 120px;
-            color: #888;
-            font-weight: 500;
-        }
-        .details-value {
-            color: #333;
-            font-weight: 400;
-        }
-        
-        /* Вибір розміру */
-        .size-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            margin-bottom: 15px;
+            height: 100%;
+            object-fit: cover; /* Обрізає зайве, заповнюючи блок */
+            object-position: top center; /* Фокус на верхню частину */
             display: block;
         }
-        
-        .p-sizes {
-            display: flex;
+
+        /* Мініатюри під фото */
+        .product-thumbnails {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
             gap: 10px;
-            margin-bottom: 40px;
         }
-        
-        /* Кнопка розміру */
-        .size-option-btn {
-            min-width: 50px;
-            height: 50px;
-            border: 1px solid #ddd;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-        
-        .size-option-btn:hover { border-color: var(--accent-color); color: var(--accent-color); }
-        .size-option-btn.active {
-            background: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
-        
-        .add-to-cart-big {
+
+        .thumb-img {
             width: 100%;
-            padding: 20px;
-            font-size: 14px;
-            letter-spacing: 2px;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .thumb-img:hover, .thumb-img.active {
+            opacity: 1;
+            border-color: var(--primary-color);
+        }
+
+        /* 3. Інформація (Справа) */
+        .product-info {
+            padding-top: 10px;
+        }
+
+        .breadcrumb {
+            font-size: 11px; text-transform: uppercase; color: #999; 
+            letter-spacing: 1px; margin-bottom: 25px;
+        }
+        .breadcrumb a { text-decoration: none; color: inherit; }
+
+        .brand-label {
+            color: var(--accent-color); font-size: 13px; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+        }
+
+        .p-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px; line-height: 1.1; margin-bottom: 20px;
+            color: #111; font-weight: 400;
+        }
+
+        .p-price-wrap {
+            font-size: 24px; font-weight: 500; color: #111;
+            margin-bottom: 30px; display: flex; align-items: center; gap: 15px;
         }
         
-        /* Адаптив */
+        .old-price { text-decoration: line-through; color: #999; font-size: 18px; }
+
+        .divider { height: 1px; background: #eee; margin: 30px 0; }
+
+        /* Опис та Характеристики */
+        .p-description {
+            font-size: 15px; line-height: 1.8; color: #555;
+        }
+
+        .specs-list { margin-top: 20px; }
+        .spec-item { display: flex; font-size: 14px; margin-bottom: 8px; }
+        .spec-label { width: 100px; color: #888; font-weight: 500; }
+        .spec-val { color: #111; }
+
+        /* Вибір розміру */
+        .size-section { margin-top: 30px; }
+        .size-header { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 13px; font-weight: 600; text-transform: uppercase; }
+        
+        .size-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        
+        .size-option-btn {
+            width: 50px; height: 50px;
+            border: 1px solid #ddd; background: #fff;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; transition: 0.2s; font-size: 14px; font-weight: 500;
+        }
+        .size-option-btn:hover { border-color: #000; }
+        .size-option-btn.active { background: #111; color: #fff; border-color: #111; }
+
+        /* Кнопка купити */
+        .action-area { margin-top: 40px; }
+        .add-to-cart-big {
+            width: 100%; padding: 20px;
+            background: var(--accent-color); color: #fff;
+            border: none; text-transform: uppercase; font-weight: 600; letter-spacing: 2px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .add-to-cart-big:hover { background: #5a222a; }
+
+        /* Гарантії */
+        .trust-badges {
+            display: flex; gap: 20px; margin-top: 30px; justify-content: center;
+        }
+        .trust-item {
+            display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666;
+        }
+
+        /* --- АДАПТИВ ДЛЯ МОБІЛЬНИХ --- */
         @media (max-width: 900px) {
-            .product-page { flex-direction: column; gap: 40px; }
-            .product-main-img { aspect-ratio: auto; }
+            .product-wrapper { 
+                grid-template-columns: 1fr; /* Одна колонка */
+                gap: 40px; 
+            }
+            .product-visuals { position: static; } /* Відключаємо липкість */
             .p-title { font-size: 32px; }
         }
     </style>
 </head>
-<body>
+<body class="product-body">
 
     <header>
-        <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">MUSE</a></div>
+        <div class="logo"><a href="index.html">MUSE</a></div>
         <nav>
             <ul class="nav-links">
                 <li><a href="catalog.html">Каталог</a></li>
@@ -166,121 +169,107 @@
                 <li><a href="about.html">Про нас</a></li>
             </ul>
         </nav>
-        <div class="burger">
-            <div class="line1"></div><div class="line2"></div><div class="line3"></div>
-        </div>
+        <div class="burger"><div class="line1"></div><div class="line2"></div><div class="line3"></div></div>
         <div class="user-actions">
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Пошук..." autocomplete="off">
-                <div class="search-icon-small">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"/>
-                    </svg>
-                </div>
-                <div id="search-dropdown" class="search-dropdown"></div>
-            </div>
             <div class="cart-btn">
-                <svg class="icon-bag" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24">
+                    <path d="M16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11M5 9H19L20 21H4L5 9Z" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
                 <span class="cart-count">0</span>
             </div>
         </div>
     </header>
 
-    <div class="product-page product-card"> <div class="product-gallery">
-            <img id="p-img" src="" alt="Clothing Item" class="product-main-img product-img">
-        </div>
-
-        <div class="product-info">
-            <div class="breadcrumb">
-                <a href="index.html">Головна</a> / <a href="catalog.html">Каталог</a> / <span id="p-breadcrumb-name">...</span>
-            </div>
-            
-            <div class="brand-name p-brand" id="p-brand">MUSE Collection</div>
-            <h1 class="product-title p-title" id="p-title">Завантаження...</h1>
-            <div class="price p-price" id="p-price">0 ₴</div>
-            
-            <div class="p-description" id="p-desc">
-                Опис товару завантажується...
+    <main style="padding-top: 120px; padding-bottom: 80px;">
+        
+        <div class="product-wrapper product-page"> <div class="product-visuals">
+                <div class="main-image-container">
+                    <img id="p-img" src="" alt="Loading..." class="product-main-img">
+                </div>
+                <div class="product-thumbnails" id="p-thumbnails"></div>
             </div>
 
-            <div class="details-list" id="p-details">
+            <div class="product-info">
+                <div class="breadcrumb">
+                    <a href="index.html">Головна</a> / <a href="catalog.html">Каталог</a> / <span id="p-breadcrumb-name">...</span>
                 </div>
 
-            <span class="size-label">Оберіть розмір:</span>
-            <div class="volume-selector p-sizes" id="p-sizes">
+                <div class="brand-label" id="p-brand">MUSE COLLECTION</div>
+                <h1 class="p-title" id="p-title">Завантаження...</h1>
+                
+                <div class="p-price-wrap" id="p-price">
+                    0 ₴
                 </div>
 
-            <button class="btn add-to-cart-big">ДОДАТИ В КОШИК</button>
-            
-            <p style="font-size: 12px; color: #888; margin-top: 20px; text-align: center;">
-                <svg style="width:12px; height:12px; vertical-align: middle;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                В наявності | Відправка 1-2 дні
-            </p>
+                <div class="p-description" id="p-desc">
+                    Опис завантажується...
+                </div>
+
+                <div class="specs-list" id="p-details">
+                    </div>
+
+                <div class="divider"></div>
+
+                <div class="size-section">
+                    <div class="size-header">
+                        <span>Розмір</span>
+                        <a href="#" style="text-decoration: underline; color: #888; font-weight: 400;">Таблиця розмірів</a>
+                    </div>
+                    <div class="size-grid" id="p-sizes">
+                        </div>
+                </div>
+
+                <div class="action-area">
+                    <button class="btn add-to-cart-big">ДОДАТИ В КОШИК</button>
+                </div>
+
+                <div class="trust-badges">
+                    <div class="trust-item">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-width="2"></path></svg>
+                        В наявності
+                    </div>
+                    <div class="trust-item">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-width="2"></path></svg>
+                        Відправка 1-2 дні
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-    </div>
+    </main>
 
     <footer class="site-footer">
         <div class="footer-container">
-            
             <div class="footer-col brand-col">
                 <div class="footer-logo">MUSE</div>
-                <p class="footer-desc">
-                    Твій стиль. Твоє натхнення.<br>
-                    Елегантний одяг для сучасних жінок.
-                </p>
-                <div class="social-links">
-                    <a href="https://instagram.com/muse_women_clothes" target="_blank" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor">
-                            <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8 0-14.9 12-26.8 26.8-26.8 14.9 0 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-                        </svg>
-                    </a>
-                    <a href="#" target="_blank" aria-label="Telegram">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512" fill="currentColor">
-                            <path d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm121.8 169.9l-40.7 191.8c-3 13.6-11.1 16.9-22.4 10.5l-62-45.7-29.9 28.8c-3.3 3.3-6.1 6.1-12.5 6.1l4.4-63.1 114.9-103.8c5-4.4-1.1-6.9-7.7-2.5l-142 89.4-61.2-19.1c-13.3-4.2-13.6-13.3 2.8-19.7l239.1-92.2c11.1-4 20.8 2.7 17.2 19.5z"/>
-                        </svg>
-                    </a>
-                </div>
+                <p class="footer-desc">Елегантний одяг для сучасних жінок.</p>
             </div>
-
-            <div class="footer-col">
-                <h4>Магазин</h4>
-                <ul>
-                    <li><a href="catalog.html">Каталог</a></li>
-                    <li><a href="catalog.html">Новинки</a></li>
-                    </ul>
-            </div>
-
             <div class="footer-col">
                 <h4>Клієнтам</h4>
-                <ul>
-                    <li><a href="about.html">Про нас</a></li>
-                    <li><a href="delivery.html">Доставка та оплата</a></li>
-                    <li><a href="return.html">Повернення товару</a></li>
-                    <li><a href="faq.html">Часті питання (FAQ)</a></li>
-                    <li><a href="offer.html">Публічна оферта</a></li>
-                </ul>
+                <ul><li><a href="delivery.html">Доставка</a></li><li><a href="return.html">Повернення</a></li></ul>
             </div>
-
             <div class="footer-col contact-col">
                 <h4>Контакти</h4>
                 <ul>
-                    <li><a href="tel:+380990000000" class="contact-link">+38 (099) 000-00-00</a></li>
-                    <li><a href="mailto:info@muse-store.com" class="contact-link">info@muse-store.com</a></li>
-                    <li class="work-hours">Пн-Нд: 10:00 - 20:00</li>
+                    <li><a href="tel:+380990000000">+38 (099) 000-00-00</a></li>
+                    <li>info@muse-store.com</li>
                 </ul>
-                <div class="payment-methods">
-                    <span>Visa</span> · <span>Mastercard</span>
-                </div>
             </div>
         </div>
-
-        <div class="footer-bottom">
-            <p>&copy; 2026 MUSE Clothes. Всі права захищено.</p>
-        </div>
+        <div class="footer-bottom"><p>&copy; 2026 MUSE Clothes.</p></div>
     </footer>
+
+    <div class="cart-overlay">
+        <div class="cart-modal">
+            <div class="cart-header"><h3>Кошик</h3><span class="close-cart">&times;</span></div>
+            <div class="cart-items"></div>
+            <div class="cart-footer">
+                <div class="cart-total"><h3>Всього: <span class="total-price">0 ₴</span></h3></div>
+                <button class="btn checkout-btn">Оформити</button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
