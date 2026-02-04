@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUSE Admin | Pro</title>
+    <title>MUSE Admin | CRM</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -17,9 +17,10 @@
             --bg-body: #f0f2f5;
             --white: #fff;
             --border: #e4e6eb;
-            --success: #2ecc71;
-            --warning: #f1c40f;
-            --danger: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --danger: #c0392b;
+            --info: #2980b9;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
@@ -57,13 +58,8 @@
         
         .btn-main { background: var(--accent); color: #fff; padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
         .btn-main:hover { background: #5a222a; }
-        
-        .btn-import { background: #2c3e50; }
-        .btn-import:hover { background: #1a252f; }
-
-        /* НОВИЙ СТИЛЬ ДЛЯ КНОПКИ ВИДАЛЕННЯ ВСЬОГО */
-        .btn-del-all { background: #c0392b; }
-        .btn-del-all:hover { background: #a93226; }
+        .btn-import { background: #2c3e50; } .btn-import:hover { background: #1a252f; }
+        .btn-del-all { background: #c0392b; } .btn-del-all:hover { background: #a93226; }
 
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 15px; background: #f8f9fa; font-size: 11px; text-transform: uppercase; color: #666; font-weight: 600; border-bottom: 2px solid var(--border); }
@@ -75,12 +71,25 @@
         .tag-hit { background: #fff3e0; color: #ff9800; }
         .tag-sale { background: #ffebee; color: #f44336; }
 
+        /* ACTIONS & STATUS */
         .actions { display: flex; gap: 5px; }
         .act-btn { width: 32px; height: 32px; border-radius: 6px; border: none; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 16px; transition: 0.2s; }
         .btn-edit { background: #e3f2fd; color: #2196f3; }
-        .btn-copy { background: #e0f2f1; color: #009688; }
+        .btn-view { background: #e8f8f5; color: #1abc9c; } /* Зелена кнопка для перегляду */
         .btn-del { background: #ffebee; color: #f44336; }
         
+        /* Select Status Style */
+        .status-select {
+            padding: 5px 10px; border-radius: 20px; border: none; 
+            font-size: 11px; font-weight: 600; cursor: pointer; outline: none; appearance: none;
+            text-align: center; width: 120px;
+        }
+        .st-new { background: #e3f2fd; color: #2196f3; }
+        .st-process { background: #fff3e0; color: #f39c12; }
+        .st-shipped { background: #f4ecf7; color: #9b59b6; }
+        .st-done { background: #e8f8f5; color: #27ae60; }
+        .st-canceled { background: #ffebee; color: #c0392b; }
+
         /* MODAL */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; display: flex; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(2px); }
         .modal-overlay.active { opacity: 1; visibility: visible; }
@@ -91,27 +100,39 @@
         .modal-body { padding: 30px; overflow-y: auto; flex: 1; }
         .modal-footer { padding: 20px; border-top: 1px solid var(--border); background: #f9f9f9; text-align: right; }
 
-        /* FORM */
+        /* DETAILS IN ORDER MODAL */
+        .order-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .detail-group h4 { font-size: 12px; text-transform: uppercase; color: #888; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        .detail-row span:first-child { color: #555; }
+        .detail-row span:last-child { font-weight: 600; text-align: right; max-width: 60%; }
+
+        .order-items-list { border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+        .order-item { display: flex; align-items: center; padding: 10px; border-bottom: 1px solid #eee; gap: 15px; }
+        .order-item:last-child { border-bottom: none; }
+        .order-item img { width: 50px; height: 60px; object-fit: cover; border-radius: 4px; }
+        .o-info { flex: 1; }
+        .o-title { font-weight: 600; font-size: 13px; }
+        .o-meta { font-size: 12px; color: #888; }
+        .o-price { font-weight: 600; color: var(--accent); }
+
+        /* FORM STYLES (Product) */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 8px; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
         .form-control { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: 0.2s; }
-        textarea.form-control { resize: vertical; min-height: 80px; }
-
         .photo-input-group { display: flex; gap: 10px; margin-bottom: 10px; }
         .btn-remove-photo { background: #ffebee; color: #f44336; border: none; padding: 0 15px; cursor: pointer; border-radius: 6px; }
         .btn-add-photo { background: #f0f7ff; color: #007bff; border: 1px dashed #007bff; padding: 10px; width: 100%; cursor: pointer; border-radius: 6px; font-size: 13px; }
-
         .checkbox-group { display: flex; gap: 15px; flex-wrap: wrap; }
         .custom-check { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 13px; user-select: none; }
         .custom-check input { width: 16px; height: 16px; accent-color: var(--accent); }
-
         .sizes-wrapper { display: flex; gap: 10px; }
         .size-box input { display: none; }
         .size-box span { display: flex; width: 40px; height: 40px; border: 1px solid #ddd; justify-content: center; align-items: center; cursor: pointer; border-radius: 4px; font-weight: 600; font-size: 12px; transition: 0.2s; }
         .size-box input:checked + span { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-        /* PROGRESS BAR FOR IMPORT */
+        /* IMPORT PROGRESS */
         #import-progress-container { margin-top: 20px; display: none; }
         .progress-bar { width: 100%; height: 10px; background: #eee; border-radius: 5px; overflow: hidden; }
         .progress-fill { height: 100%; background: var(--success); width: 0%; transition: 0.3s; }
@@ -154,7 +175,7 @@
 
         <div class="main-content">
             <div class="top-bar">
-                <div class="page-title">Управління товарами</div>
+                <div class="page-title">Управління</div>
                 <div style="font-weight: 600; font-size: 14px;">Admin</div>
             </div>
 
@@ -166,7 +187,6 @@
                             <h3>Каталог</h3>
                             <div style="display:flex; gap:10px;">
                                 <button class="btn-main btn-del-all" onclick="deleteAllProducts()"><i class="ph ph-trash"></i> Видалити все</button>
-                                
                                 <button class="btn-main btn-import" onclick="openImportModal()"><i class="ph ph-download-simple"></i> Імпорт XML</button>
                                 <button class="btn-main" onclick="openModal('add')"><i class="ph ph-plus"></i> Додати товар</button>
                             </div>
@@ -189,10 +209,15 @@
 
                 <div id="tab-orders" class="hidden">
                     <div class="data-table-container">
-                        <div class="table-header"><h3>Замовлення</h3></div>
+                        <div class="table-header">
+                            <h3>Замовлення</h3>
+                            <div style="font-size:12px; color:#888;">Статус змінюється автоматично при виборі</div>
+                        </div>
                         <table>
-                            <thead><tr><th>ID</th><th>Дата</th><th>Клієнт</th><th>Сума</th><th>Статус</th></tr></thead>
-                            <tbody id="orders-body"><tr><td colspan="5" style="text-align:center;">Завантаження...</td></tr></tbody>
+                            <thead><tr><th>ID</th><th>Дата</th><th>Клієнт</th><th>Сума</th><th>Статус</th><th>Дії</th></tr></thead>
+                            <tbody id="orders-body">
+                                <tr><td colspan="6" style="text-align:center;">Завантаження...</td></tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -256,6 +281,20 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="order-details-modal">
+        <div class="modal-box">
+            <div class="modal-header">
+                <h3 id="order-modal-title">Замовлення #...</h3>
+                <i class="ph ph-x" style="font-size: 24px; cursor: pointer;" onclick="closeOrderModal()"></i>
+            </div>
+            <div class="modal-body" id="order-modal-content">
+                </div>
+            <div class="modal-footer">
+                <button class="btn-main" onclick="closeOrderModal()">Закрити</button>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="import-modal">
         <div class="modal-box" style="width: 600px;">
             <div class="modal-header">
@@ -298,6 +337,7 @@
         const db = firebase.database();
 
         let globalProducts = [];
+        let globalOrders = [];
 
         // AUTH
         auth.onAuthStateChanged(user => {
@@ -321,7 +361,133 @@
         }
         function logout() { auth.signOut(); }
 
-        // PRODUCTS
+        // ==========================
+        // 1. ORDERS LOGIC (CRM)
+        // ==========================
+        function loadOrders() {
+            const tbody = document.getElementById('orders-body');
+            db.ref('orders').on('value', snapshot => {
+                const data = snapshot.val();
+                tbody.innerHTML = '';
+                if(!data) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:30px;">Замовлень поки немає.</td></tr>'; return; }
+                
+                globalOrders = Object.values(data);
+                // Сортуємо: найновіші зверху
+                globalOrders.sort((a,b) => b.id - a.id);
+
+                globalOrders.forEach(o => {
+                    // Колір селекта в залежності від статусу
+                    let statusClass = 'st-new';
+                    if(o.status === 'processing') statusClass = 'st-process';
+                    else if(o.status === 'shipped') statusClass = 'st-shipped';
+                    else if(o.status === 'done') statusClass = 'st-done';
+                    else if(o.status === 'canceled') statusClass = 'st-canceled';
+
+                    const html = `
+                        <tr>
+                            <td>#${o.id}</td>
+                            <td>${o.date}</td>
+                            <td>
+                                <strong>${o.client.name}</strong><br>
+                                <span style="font-size:11px; color:#888;">${o.client.phone}</span><br>
+                                <span style="font-size:10px; color:#888;">${o.client.city}</span>
+                            </td>
+                            <td style="font-weight:600;">${o.total} ₴</td>
+                            <td>
+                                <select class="status-select ${statusClass}" onchange="updateOrderStatus(${o.id}, this)">
+                                    <option value="new" ${o.status === 'new' ? 'selected' : ''}>Новий</option>
+                                    <option value="processing" ${o.status === 'processing' ? 'selected' : ''}>В роботі</option>
+                                    <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>Відправлено</option>
+                                    <option value="done" ${o.status === 'done' ? 'selected' : ''}>Виконано</option>
+                                    <option value="canceled" ${o.status === 'canceled' ? 'selected' : ''}>Скасовано</option>
+                                </select>
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    <button class="act-btn btn-view" onclick="viewOrder(${o.id})" title="Деталі"><i class="ph ph-eye"></i></button>
+                                    <button class="act-btn btn-del" onclick="deleteOrder(${o.id})" title="Видалити"><i class="ph ph-trash"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                    tbody.insertAdjacentHTML('beforeend', html);
+                });
+            });
+        }
+
+        function updateOrderStatus(id, select) {
+            const newStatus = select.value;
+            // Оновлюємо колір селекта відразу
+            select.className = 'status-select';
+            if(newStatus === 'new') select.classList.add('st-new');
+            else if(newStatus === 'processing') select.classList.add('st-process');
+            else if(newStatus === 'shipped') select.classList.add('st-shipped');
+            else if(newStatus === 'done') select.classList.add('st-done');
+            else if(newStatus === 'canceled') select.classList.add('st-canceled');
+
+            db.ref('orders/' + id).update({ status: newStatus });
+        }
+
+        function deleteOrder(id) {
+            if(confirm('Точно видалити це замовлення?')) {
+                db.ref('orders/' + id).remove();
+            }
+        }
+
+        // МОДАЛКА ДЕТАЛЕЙ ЗАМОВЛЕННЯ
+        function viewOrder(id) {
+            const o = globalOrders.find(x => x.id === id);
+            if(!o) return;
+
+            document.getElementById('order-modal-title').textContent = `Замовлення #${o.id}`;
+            
+            let itemsHtml = '';
+            if(o.items && o.items.length > 0) {
+                o.items.forEach(item => {
+                    itemsHtml += `
+                        <div class="order-item">
+                            <img src="${item.image || 'https://placehold.co/50'}" alt="Img">
+                            <div class="o-info">
+                                <div class="o-title">${item.title}</div>
+                                <div class="o-meta">Розмір: ${item.size}</div>
+                            </div>
+                            <div class="o-price">${item.price} ₴</div>
+                        </div>
+                    `;
+                });
+            } else { itemsHtml = '<p style="padding:10px; color:#999;">Список товарів порожній (стара версія)</p>'; }
+
+            const content = `
+                <div class="order-details-grid">
+                    <div class="detail-group">
+                        <h4>Клієнт</h4>
+                        <div class="detail-row"><span>Ім'я:</span> <span>${o.client.name}</span></div>
+                        <div class="detail-row"><span>Телефон:</span> <span>${o.client.phone}</span></div>
+                        <div class="detail-row"><span>Місто:</span> <span>${o.client.city}</span></div>
+                        <div class="detail-row"><span>Доставка:</span> <span>${o.client.delivery}</span></div>
+                    </div>
+                    <div class="detail-group">
+                        <h4>Інфо</h4>
+                        <div class="detail-row"><span>Дата:</span> <span>${o.date}</span></div>
+                        <div class="detail-row"><span>Статус:</span> <span>${o.status}</span></div>
+                        <div class="detail-row"><span>Коментар:</span> <span>${o.client.comment || '-'}</span></div>
+                        <div class="detail-row" style="font-size:16px; margin-top:10px;"><span>Разом:</span> <span style="color:#c0392b;">${o.total} ₴</span></div>
+                    </div>
+                </div>
+                <h4>Товари (${o.items ? o.items.length : 0})</h4>
+                <div class="order-items-list">${itemsHtml}</div>
+            `;
+            
+            document.getElementById('order-modal-content').innerHTML = content;
+            document.getElementById('order-details-modal').classList.add('active');
+        }
+
+        function closeOrderModal() { document.getElementById('order-details-modal').classList.remove('active'); }
+
+
+        // ==========================
+        // 2. PRODUCTS LOGIC
+        // ==========================
         function loadProducts() {
             const tbody = document.getElementById('products-body');
             db.ref('products').on('value', snapshot => {
@@ -359,39 +525,15 @@
             });
         }
 
-        // ORDERS
-        function loadOrders() {
-            const tbody = document.getElementById('orders-body');
-            db.ref('orders').on('value', snapshot => {
-                const data = snapshot.val();
-                tbody.innerHTML = '';
-                if(!data) { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Замовлень немає</td></tr>'; return; }
-                Object.values(data).sort((a,b) => b.id - a.id).forEach(o => {
-                    tbody.insertAdjacentHTML('beforeend', `
-                        <tr>
-                            <td>#${o.id}</td>
-                            <td>${o.date}</td>
-                            <td>${o.client.name}<br><small>${o.client.phone}</small></td>
-                            <td><b>${o.total} ₴</b></td>
-                            <td><span class="tag tag-new">${o.status}</span></td>
-                        </tr>
-                    `);
-                });
-            });
-        }
-
-        // --- ФУНКЦІЯ ВИДАЛЕННЯ ВСІХ ТОВАРІВ ---
         function deleteAllProducts() {
-            if(confirm("⚠️ ВИДАЛИТИ ВСІ ТОВАРИ?\n\nЦю дію неможливо скасувати! Всі товари з бази даних будуть знищені.")) {
-                if(confirm("Ви точно впевнені? Це останнє попередження.")) {
-                    db.ref('products').remove()
-                        .then(() => alert("Всі товари успішно видалено."))
-                        .catch(e => alert("Помилка: " + e.message));
+            if(confirm("⚠️ ВИДАЛИТИ ВСІ ТОВАРИ?")) {
+                if(confirm("Це остаточне рішення. Всі товари зникнуть.")) {
+                    db.ref('products').remove().then(() => alert("Очищено!"));
                 }
             }
         }
 
-        // --- ІМПОРТ З XML (Smart Grouping) ---
+        // --- ІМПОРТ З XML ---
         function openImportModal() { document.getElementById('import-modal').classList.add('active'); }
 
         async function startImport() {
@@ -407,7 +549,6 @@
             logEl.innerHTML = "<div>⏳ Завантаження XML...</div>";
             
             try {
-                // Proxy
                 const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
                 const response = await fetch(proxyUrl);
                 if(!response.ok) throw new Error("Помилка завантаження файлу");
@@ -420,16 +561,13 @@
                 
                 logEl.innerHTML += `<div>✅ Знайдено записів: ${total}. Групування товарів...</div>`;
                 
-                // --- ГРУПУВАННЯ ---
                 const groupedProducts = {}; 
 
                 for(let i=0; i<total; i++) {
                     const offer = offers[i];
                     const name = getVal(offer, "name");
                     const groupId = offer.getAttribute("group_id") || name.trim(); 
-                    
-                    // Розмір
-                    let size = "S"; // Default fallback
+                    let size = "S"; 
                     const params = offer.getElementsByTagName("param");
                     for(let k=0; k<params.length; k++) {
                         if(params[k].getAttribute("name") === "Розмір" || params[k].getAttribute("name") === "Размер") {
@@ -437,7 +575,6 @@
                         }
                     }
 
-                    // Додаємо розмір, якщо товар вже є
                     if (groupedProducts[groupId]) {
                         if (!groupedProducts[groupId].sizes.includes(size)) {
                             groupedProducts[groupId].sizes.push(size);
@@ -445,12 +582,10 @@
                         continue;
                     }
 
-                    // Створюємо новий
                     const price = parseFloat(getVal(offer, "price"));
                     const oldPrice = parseFloat(getVal(offer, "oldprice")) || null;
                     const desc = getVal(offer, "description");
                     const vendor = getVal(offer, "vendor") || "MUSE Import";
-                    
                     const pics = [];
                     const picNodes = offer.getElementsByTagName("picture");
                     for(let j=0; j<picNodes.length; j++) pics.push(picNodes[j].textContent);
@@ -465,25 +600,15 @@
 
                     groupedProducts[groupId] = {
                         id: parseInt(offer.getAttribute("id") || Date.now() + i),
-                        title: name,
-                        price: price,
-                        oldPrice: oldPrice,
-                        description: desc,
-                        category: category,
-                        images: pics,
-                        image: pics[0] || '',
-                        sizes: [size],
-                        brand: vendor,
-                        inStock: true,
-                        tags: [],
-                        timestamp: Date.now()
+                        title: name, price: price, oldPrice: oldPrice, description: desc,
+                        category: category, images: pics, image: pics[0] || '',
+                        sizes: [size], brand: vendor, inStock: true, tags: [], timestamp: Date.now()
                     };
                 }
 
-                // --- ЗБЕРЕЖЕННЯ ---
                 const finalProducts = Object.values(groupedProducts);
                 const finalCount = finalProducts.length;
-                logEl.innerHTML += `<div>📦 Після об'єднання: ${finalCount} унікальних товарів. Збереження...</div>`;
+                logEl.innerHTML += `<div>📦 Після об'єднання: ${finalCount} унікальних. Збереження...</div>`;
 
                 let savedCount = 0;
                 for (const p of finalProducts) {
@@ -494,9 +619,8 @@
                     progressText.textContent = percent + "%";
                 }
                 
-                alert(`🎉 Імпорт завершено! Завантажено ${finalCount} товарів.`);
+                alert(`🎉 Імпорт завершено!`);
                 document.getElementById('import-modal').classList.remove('active');
-                
             } catch(e) {
                 console.error(e);
                 logEl.innerHTML += `<div style="color:red">❌ Помилка: ${e.message}</div>`;
@@ -509,7 +633,7 @@
             return node ? node.textContent : "";
         }
 
-        // --- MODAL & CRUD ---
+        // --- CRUD PRODUCTS ---
         function openModal(mode) {
             document.getElementById('product-modal').classList.add('active');
             if (mode === 'add') {
@@ -551,11 +675,7 @@
                 color: document.getElementById('p-color').value,
                 description: document.getElementById('p-desc').value,
                 inStock: document.getElementById('p-instock').checked,
-                image: images[0] || '',
-                images: images,
-                sizes: sizes,
-                tags: tags,
-                timestamp: Date.now()
+                image: images[0] || '', images: images, sizes: sizes, tags: tags, timestamp: Date.now()
             };
 
             db.ref('products/' + id).update(data).then(() => closeModal());
@@ -582,7 +702,6 @@
                 const cb = document.querySelector(`.size-check[value="${s}"]`);
                 if(cb) cb.checked = true; 
             });
-
             document.querySelectorAll('.tag-check').forEach(c => c.checked = (p.tags || []).includes(c.value));
         }
 

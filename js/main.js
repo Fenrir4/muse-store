@@ -1,6 +1,6 @@
 /* =========================================
    MUSE CLOTHES - CORE LOGIC
-   Version: 4.0 (Trends + Catalog + Fixed Syntax)
+   Version: 7.0 (Full Event Delegation)
    ========================================= */
 
 // 1. ІНІЦІАЛІЗАЦІЯ FIREBASE
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Елементи сторінок
     const catalogGrid = document.getElementById('catalog-grid');
-    const trendsGrid = document.getElementById('trends-grid'); // Для головної
+    const trendsGrid = document.getElementById('trends-grid'); 
     const productPageInfo = document.querySelector('.product-page');
     
     // Елементи інтерфейсу
@@ -58,33 +58,102 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartCountElement = document.querySelector('.cart-count');
     const cartBtn = document.querySelector('.cart-btn');
     const closeCartBtn = document.querySelector('.close-cart');
-    const checkoutBtn = document.querySelector('.checkout-btn');
 
-    // Старт кошика
+    // Старт
     updateCartIcon();
     renderCart();
 
     // ==============================================
-    // А. ЗАВАНТАЖЕННЯ ДАНИХ (КАТАЛОГ + ГОЛОВНА)
+    // А. ГЛОБАЛЬНА ОБРОБКА КЛІКІВ (DELEGATION)
     // ==============================================
+    // Це найважливіша частина - ловить кліки по кнопках, навіть якщо вони створені динамічно
     
-    // Якщо ми на сторінці Каталогу або Головній
+    document.body.addEventListener('click', function(e) {
+        const target = e.target;
+
+        // 1. КНОПКА "ОФОРМИТИ ЗАМОВЛЕННЯ"
+        if (target.classList.contains('checkout-btn')) {
+            if (cart.length === 0) { alert("Кошик порожній"); return; }
+            closeCartFunc(); 
+            window.location.href = 'checkout.html';
+        }
+
+        // 2. КНОПКА "ДОДАТИ В КОШИК" (+ або велика кнопка)
+        if (target.closest('.add-btn') || target.closest('.add-to-cart-big')) {
+            const btn = target.closest('.add-btn') || target.closest('.add-to-cart-big');
+            if (btn.disabled) return; // Якщо кнопка неактивна
+
+            // Знаходимо картку товару
+            const card = btn.closest('.product-card') || btn.closest('.product-page');
+            if (!card) return;
+
+            // Визначаємо розмір
+            const activeSizeBtn = card.querySelector('.size-btn.active') || card.querySelector('.size-option-btn.active');
+            let selectedSize = activeSizeBtn ? activeSizeBtn.textContent : 'One Size';
+            
+            // Якщо розмір не обрано, беремо перший доступний (для швидкої покупки)
+            if (!activeSizeBtn) {
+                const firstSize = card.querySelector('.size-btn') || card.querySelector('.size-option-btn');
+                if(firstSize) selectedSize = firstSize.textContent;
+            }
+
+            // Ціна
+            const priceText = card.querySelector('.price, #p-price').textContent;
+            const price = parseInt(priceText.replace(/\D/g, ''));
+
+            const newItem = {
+                id: Date.now(),
+                title: card.querySelector('.product-title, #p-title').textContent.trim(),
+                image: card.querySelector('.product-img, #p-img').src,
+                price: price,
+                size: selectedSize
+            };
+
+            cart.push(newItem);
+            saveCart();
+            renderCart();
+            updateCartIcon();
+            openCart();
+        }
+
+        // 3. КНОПКА "ВИДАЛИТИ З КОШИКА" (Хрестик)
+        if (target.classList.contains('remove-item')) {
+            const idToRemove = parseInt(target.dataset.id);
+            cart = cart.filter(i => i.id !== idToRemove);
+            saveCart();
+            renderCart();
+            updateCartIcon();
+            // Якщо ми на сторінці чекауту - оновлюємо список там теж
+            if(document.getElementById('checkout-items-list')) window.location.reload();
+        }
+
+        // 4. КЛІК ПО ТЕМНОМУ ФОНУ КОШИКА (Закрити)
+        if (target.classList.contains('cart-overlay')) {
+            closeCartFunc();
+        }
+    });
+
+    // Окремі лісенери для статичних кнопок відкриття/закриття
+    if (cartBtn) cartBtn.addEventListener('click', openCart);
+    if (closeCartBtn) closeCartBtn.addEventListener('click', closeCartFunc);
+
+    function openCart() { if (cartOverlay) cartOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function closeCartFunc() { if (cartOverlay) cartOverlay.classList.remove('active'); document.body.style.overflow = ''; }
+
+
+    // ==============================================
+    // Б. ЗАВАНТАЖЕННЯ ДАНИХ (КАТАЛОГ + ГОЛОВНА)
+    // ==============================================
     if (catalogGrid || trendsGrid) {
         db.ref('products').on('value', (snapshot) => {
             const data = snapshot.val();
             const list = data ? Object.values(data) : [];
             allProductsGlobal = list;
 
-            // 1. Якщо це КАТАЛОГ -> Запускаємо фільтрацію
-            if (catalogGrid) {
-                applyFiltersAndRender();
-            }
+            if (catalogGrid) applyFiltersAndRender();
 
-            // 2. Якщо це ГОЛОВНА (Тренди) -> Показуємо хіти
             if (trendsGrid) {
-                // Шукаємо товари з тегом 'hit'
                 const hits = list.filter(p => p.tags && p.tags.includes('hit'));
-                // Якщо хітів немає, беремо просто перші 4 товари
                 const productsToShow = hits.length > 0 ? hits : list.slice(0, 4);
                 renderTrends(productsToShow.slice(0, 4), trendsGrid);
             }
@@ -92,18 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==============================================
-    // Б. ЛОГІКА КАТАЛОГУ
+    // В. ЛОГІКА КАТАЛОГУ
     // ==============================================
     window.applyFiltersAndRender = function() {
         if (!allProductsGlobal || allProductsGlobal.length === 0) return;
         let list = [...allProductsGlobal];
 
-        // Фільтр
-        if (currentCategory !== 'all') {
-            list = list.filter(p => p.category === currentCategory);
-        }
+        if (currentCategory !== 'all') list = list.filter(p => p.category === currentCategory);
 
-        // Сортування
         list.sort((a, b) => {
             const stockA = a.inStock !== false ? 1 : 0;
             const stockB = b.inStock !== false ? 1 : 0;
@@ -138,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         list.forEach(p => {
             const mainImg = (p.images && p.images.length > 0) ? p.images[0] : p.image;
-            
             let sizesHTML = '';
             if (p.sizes && p.sizes.length > 0) {
                 sizesHTML = p.sizes.map(s => `<button class="size-btn" onclick="selectSize(this)">${s}</button>`).join('');
@@ -179,10 +243,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>`;
             catalogGrid.insertAdjacentHTML('beforeend', cardHTML);
         });
-        setupAddToCartButtons();
+        // Тут більше не треба setupAddToCartButtons(), бо у нас глобальний лісенер!
     }
 
-    // --- Функція для малювання Трендів (Головна) ---
     function renderTrends(list, container) {
         container.innerHTML = '';
         if (list.length === 0) {
@@ -192,7 +255,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         list.forEach(p => {
             const mainImg = (p.images && p.images.length > 0) ? p.images[0] : p.image;
-            // Простіша картка для головної
             const html = `
                 <div class="product-card">
                     <div class="tags-container"><span class="tag tag-hit">ХІТ</span></div>
@@ -202,15 +264,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="product-title" style="margin-top:10px;">
                         <a href="product.html?id=${p.id}">${p.title}</a>
                     </div>
-                    <div class="price">${p.price} ₴</div>
+                    <div class="price" style="font-weight:600;">${p.price} ₴</div>
                 </div>
             `;
             container.insertAdjacentHTML('beforeend', html);
         });
     }
 
+
     // ==============================================
-    // В. ЛОГІКА СТОРІНКИ ТОВАРУ
+    // Г. СТОРІНКА ТОВАРУ
     // ==============================================
     const params = new URLSearchParams(window.location.search);
     const pid = params.get('id');
@@ -221,7 +284,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (product) renderProductPage(product);
             else document.getElementById('p-title').textContent = "Товар не знайдено";
         });
-        // Фонове завантаження для пошуку
         db.ref('products').get().then(snap => { if(snap.val()) allProductsGlobal = Object.values(snap.val()); });
     }
 
@@ -279,42 +341,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 buyBtn.textContent = "ДОДАТИ В КОШИК";
                 buyBtn.disabled = false;
                 buyBtn.style.background = "";
-                setupAddToCartButtons();
             }
         }
     }
 
-    // ==============================================
-    // Г. КОШИК ТА ЗАМОВЛЕННЯ
-    // ==============================================
-    function setupAddToCartButtons() {
-        const buttons = document.querySelectorAll('.add-btn, .add-to-cart-big');
-        buttons.forEach(btn => {
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            newBtn.addEventListener('click', function() {
-                const card = this.closest('.product-card') || this.closest('.product-page');
-                const activeSizeBtn = card.querySelector('.size-btn.active') || card.querySelector('.size-option-btn.active');
-                let selectedSize = activeSizeBtn ? activeSizeBtn.textContent : 'One Size';
-                if (!activeSizeBtn) {
-                    const firstSize = card.querySelector('.size-btn') || card.querySelector('.size-option-btn');
-                    if(firstSize) selectedSize = firstSize.textContent;
-                }
-                const priceText = card.querySelector('.price, #p-price').textContent;
-                const price = parseInt(priceText.replace(/\D/g, ''));
-                const newItem = {
-                    id: Date.now(),
-                    title: card.querySelector('.product-title, #p-title').textContent.trim(),
-                    image: card.querySelector('.product-img, #p-img').src,
-                    price: price,
-                    size: selectedSize
-                };
-                cart.push(newItem);
-                saveCart(); renderCart(); updateCartIcon(); openCart();
-            });
-        });
-    }
 
+    // ==============================================
+    // Д. РЕНДЕР КОШИКА
+    // ==============================================
     function renderCart() {
         if (!cartItemsContainer) return;
         if (cart.length === 0) {
@@ -338,26 +372,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             if(cartTotalElement) cartTotalElement.textContent = total.toLocaleString() + ' ₴';
         }
-        document.querySelectorAll('.remove-item').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idToRemove = parseInt(e.target.dataset.id);
-                cart = cart.filter(i => i.id !== idToRemove);
-                saveCart(); renderCart(); updateCartIcon();
-                if(document.getElementById('checkout-items-list')) window.location.reload();
-            });
-        });
     }
 
     function saveCart() { localStorage.setItem('MUSE_CART', JSON.stringify(cart)); }
     function updateCartIcon() { if (cartCountElement) cartCountElement.textContent = cart.length; }
-    function openCart() { if (cartOverlay) cartOverlay.classList.add('active'); document.body.style.overflow = 'hidden'; }
-    function closeCartFunc() { if (cartOverlay) cartOverlay.classList.remove('active'); document.body.style.overflow = ''; }
 
-    if (cartBtn) cartBtn.addEventListener('click', openCart);
-    if (closeCartBtn) closeCartBtn.addEventListener('click', closeCartFunc);
-    if (cartOverlay) cartOverlay.addEventListener('click', (e) => { if (e.target === cartOverlay) closeCartFunc(); });
 
-    // ОФОРМЛЕННЯ (CHECKOUT)
+    // ==============================================
+    // Е. ОФОРМЛЕННЯ ЗАМОВЛЕННЯ (CHECKOUT PAGE)
+    // ==============================================
     const checkoutList = document.getElementById('checkout-items-list');
     if (checkoutList) { 
         let total = 0;
@@ -450,11 +473,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const nav = document.querySelector('.nav-links');
     if (burger && nav) { burger.addEventListener('click', () => { nav.classList.toggle('nav-active'); burger.classList.toggle('toggle'); }); }
     
+    // ХЕДЕР СКРОЛЛ
     const header = document.querySelector('header');
     if (header) {
         window.addEventListener('scroll', () => {
-            if(window.scrollY > 50) header.classList.add('scrolled'); 
-            else header.classList.remove('scrolled');
+            if(window.scrollY > 50) header.classList.add('scrolled'); else header.classList.remove('scrolled');
         });
     }
 });
