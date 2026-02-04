@@ -1,31 +1,36 @@
 /* =========================================
-   MUSE HEADER - UNIFIED (NO TRANSPARENCY)
+   MUSE HEADER - FIXED MOBILE MENU
    ========================================= */
 
-/* 1. БАЗОВИЙ СТАН (Для ВСІХ сторінок) */
+/* 1. БАЗОВИЙ СТАН (БІЛИЙ ДЛЯ ВСІХ СТОРІНОК) */
 header {
     display: flex; 
     justify-content: space-between; 
     align-items: center;
     padding: 0 5%;
     
-    background-color: #ffffff !important; /* ЗАВЖДИ БІЛИЙ */
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05); /* Легка тінь */
+    background-color: #ffffff !important; 
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
     
     position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
     height: 90px;
     transition: all 0.4s ease;
 }
 
-/* Елементи на білому фоні (Чорні) */
+/* Логотип */
 header .logo { 
     color: #1a1a1a; 
     font-size: 24px; font-weight: 700; letter-spacing: 2px; 
     text-transform: uppercase; text-decoration: none; 
 }
 
+/* Меню (Десктоп - РЯДОК) */
 header .nav-links {
-    display: flex; flex-direction: row; gap: 30px; list-style: none; margin: 0; padding: 0;
+    display: flex; 
+    flex-direction: row; /* Рядок */
+    gap: 30px; 
+    list-style: none; 
+    margin: 0; padding: 0;
 }
 
 header .nav-links a { 
@@ -34,10 +39,12 @@ header .nav-links a {
 }
 header .nav-links a:hover { color: var(--accent-color); }
 
+/* Іконки */
 header .cart-btn { color: #1a1a1a; position: relative; cursor: pointer; }
 header .search-icon-small svg { stroke: #1a1a1a; width: 16px; height: 16px; }
 header .burger div { background: #1a1a1a; width: 25px; height: 2px; margin: 5px; transition: 0.3s; }
 
+/* Пошук */
 header #search-input { 
     background: transparent; border: 1px solid #ddd; color: #1a1a1a; 
     border-radius: 20px; padding: 8px 15px 8px 35px; width: 180px; 
@@ -46,14 +53,13 @@ header #search-input {
 header #search-input::placeholder { color: #999; }
 
 
-/* 2. СТАН ПРИ СКРОЛІ (Бордовий для всіх) */
+/* 2. СТАН ПРИ СКРОЛІ (Бордовий) */
 body header.scrolled {
-    background-color: #722F37 !important; /* БОРДО */
-    height: 70px; /* Трохи менший */
+    background-color: #722F37 !important; 
+    height: 70px;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* При скролі елементи стають БІЛИМИ */
 body header.scrolled .logo { color: #ffffff !important; }
 body header.scrolled .nav-links a { color: #ffffff !important; }
 body header.scrolled .cart-btn { color: #ffffff !important; }
@@ -62,21 +68,19 @@ body header.scrolled .burger div { background: #ffffff !important; }
 body header.scrolled #search-input { border-color: rgba(255,255,255,0.3) !important; color: #ffffff !important; }
 
 
-/* --- ІНШІ ЕЛЕМЕНТИ (Search, Cart, Burger) --- */
+/* --- ІНШІ ЕЛЕМЕНТИ --- */
 .user-actions { display: flex; align-items: center; gap: 20px; }
 .search-container { position: relative; }
 .search-icon-small { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
 .cart-btn svg { width: 24px; height: 24px; stroke: currentColor; fill: none; }
 .cart-count { position: absolute; top: -5px; right: -8px; background: var(--accent-color); color: #fff; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; justify-content: center; align-items: center; }
 
-/* Випадаюче меню пошуку */
 .search-dropdown { position: absolute; top: 100%; right: 0; width: 300px; background: #fff; margin-top: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s; }
 .search-dropdown.active { opacity: 1; visibility: visible; transform: translateY(0); }
 .search-item { display: flex; align-items: center; padding: 15px; border-bottom: 1px solid #eee; text-decoration: none; }
 .search-item img { width: 40px; height: 50px; object-fit: cover; margin-right: 15px; }
 .search-item-info h4 { font-size: 13px; color: #222; margin: 0; }
 
-/* Кошик */
 .cart-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 2000; opacity: 0; visibility: hidden; transition: 0.3s; }
 .cart-overlay.active { opacity: 1; visibility: visible; }
 .cart-modal { position: absolute; top: 0; right: 0; height: 100%; width: 400px; background: #fff; padding: 30px; display: flex; flex-direction: column; transform: translateX(100%); transition: 0.3s; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
@@ -87,14 +91,39 @@ body header.scrolled #search-input { border-color: rgba(255,255,255,0.3) !import
 .cart-total { margin-bottom: 15px; display: flex; justify-content: space-between; color: #000; font-weight: 700; }
 .checkout-btn { width: 100%; padding: 15px; background: var(--accent-color); color: #fff; border: none; font-weight: 600; cursor: pointer; text-transform: uppercase; }
 
-/* Мобільна адаптація */
+/* МОБІЛЬНА ВЕРСІЯ */
 .burger { display: none; cursor: pointer; }
+
 @media (max-width: 768px) {
     #search-input, .search-icon-small { display: none; }
     .burger { display: block; }
-    .nav-links { position: fixed; right: 0; top: 0; height: 100vh; width: 70%; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: translateX(100%); transition: 0.4s ease; box-shadow: -5px 0 15px rgba(0,0,0,0.1); }
+    
+    /* ВИПРАВЛЕННЯ ТУТ: Додано 'header' для підняття пріоритету */
+    header .nav-links {
+        position: fixed; 
+        right: 0; top: 0; 
+        height: 100vh; width: 70%;
+        background: #fff; 
+        
+        display: flex; 
+        flex-direction: column !important; /* Примусова колонка */
+        gap: 0; /* Прибираємо gap, бо будуть марджини */
+        
+        align-items: center; 
+        justify-content: center;
+        transform: translateX(100%); 
+        transition: 0.4s ease; 
+        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+    }
+    
     .nav-links.nav-active { transform: translateX(0%); }
-    .nav-links a { font-size: 18px; margin: 20px 0; }
+    
+    header .nav-links a { 
+        color: #1a1a1a !important; /* Завжди чорний текст в меню */
+        font-size: 18px; 
+        margin: 20px 0; 
+    }
+    
     .burger.toggle .line1 { transform: rotate(-45deg) translate(-5px, 6px); }
     .burger.toggle .line2 { opacity: 0; }
     .burger.toggle .line3 { transform: rotate(45deg) translate(-5px, -6px); }

@@ -285,7 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         setText('p-brand', p.brand || 'MUSE Collection');
         setText('p-title', p.title);
-        setText('p-desc', p.description);
+        const descEl = document.getElementById('p-desc');
+        if (descEl) descEl.innerHTML = p.description;
         setText('p-breadcrumb-name', p.title);
         
         const priceEl = document.getElementById('p-price');
